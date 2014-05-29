@@ -2,6 +2,10 @@
 \usepackage[utf8]{vietnam}
 \setlength{\parskip}{10pt}
 %\usepackage[pdftex]{graphicx}
+%\usepackage[font=footnotesize]{caption}
+
+\usepackage{mwe}    % loads »blindtext« and »graphicx«
+\usepackage{subfig}
 
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
@@ -80,6 +84,28 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 \paragraph{Proposal, Idea and Steps}Trong bài báo này, chúng tôi sử dụng một feature representation dựa trên dense trajectories của [Heng Wang], do bởi hiệu quả của cách tiếp cận này trong nhiều bài toán, including activity recognition and multimedia event detection. Các trajectories thu được bằng cách tracking các sampled points densely sử dụng optical flow fields. Sau khi extract trajectories, các trajectory-aligned descriptors sẽ được adopted. Sau đó, features tính toán được từ các descriptors này sẽ được sử dụng cho việc biểu diễn motion information trong video.
 
 Tuy nhiên, việc thiếu sót depth information trong feature representation có thể gây ra các trường hợp bị confused, như được chỉ ra trong Figure XYZ (Sẽ bổ sung sau - Ý tưởng dựa trên similar trajectory shape of discriminative actions). Do đó, để đảm bảo việc không bỏ sót thông tin depth, ý tưởng cơ bản là combine thông tin chuyển động từ nhiều góc nhìn khác nhau. Các biểu diễn từ nhiều góc nhìn có thể đạt được bằng cách chiếu depth maps lên trên các mặt phẳng tương ứng. Việc chiếu này dễ dàng thực hiện được bởi những thuận lợi mà depth data mang lại.
+
+\begin{figure}[ht]
+	\begin{center}
+		\subfloat[From front view\label{subfig-1:FrontView}]{ %
+			\includegraphics[scale=0.5]{ForwardPunch_FRONT.png}
+			\includegraphics[scale=0.5]{Hammer_FRONT.png}
+		}
+	\end{center}
+	\begin{center}
+		\subfloat[From side view\label{subfig-2:SideView}]{ %
+			\includegraphics[scale=0.5]{ForwardPunch_SIDE.png}
+			\includegraphics[scale=0.5]{Hammer_SIDE.png}
+		}
+	\end{center}
+	\begin{center}
+		\subfloat[From top view\label{subfig-3:TopView}]{ %
+			\includegraphics[scale=0.5]{ForwardPunch_TOP.png}
+			\includegraphics[scale=0.5]{Hammer_TOP.png}
+		}
+	\end{center}
+	\caption{\label{fig:Illustration}Minh họa sự tương tự giữa phần lớn các Trajectories của 2 actions: Forward Punch \& Hammer.}
+\end{figure}
 
 \paragraph{Experiments and Results}Chúng tôi tiến hành các experiments trên challenging benchmark datasets, các kết quả thí nghiệm chỉ ra rằng phương pháp của chúng tôi đánh bại the SoA methods trên depth data. Các kết quả này đã cho thấy những contributions của our method: (1) We propose an adaptive method for 3D video representation by using 2D features. (2) We thực hiện comprehensive experiments on the state-of-the-art MSR Action 3D dataset and show that our method is the best when compared with the state-of-the-art 3D methods.
 
