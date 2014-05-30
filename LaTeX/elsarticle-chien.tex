@@ -6,6 +6,7 @@
 
 \usepackage{mwe}    % loads »blindtext« and »graphicx«
 \usepackage{subfig}
+\usepackage{float}
 
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
@@ -85,7 +86,7 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 
 Tuy nhiên, việc thiếu sót depth information trong feature representation có thể gây ra các trường hợp bị confused, như được chỉ ra trong Figure \ref{subfig-1:FrontView}. Do đó, để đảm bảo việc không bỏ sót thông tin depth, ý tưởng cơ bản là combine thông tin chuyển động từ nhiều góc nhìn khác nhau. Các biểu diễn từ nhiều góc nhìn có thể đạt được bằng cách chiếu depth maps lên trên các mặt phẳng tương ứng. Việc chiếu này dễ dàng thực hiện được bởi những thuận lợi mà depth data mang lại.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 	\begin{center}
 		\subfloat[From front view\label{subfig-1:FrontView}]{ %
 			\includegraphics[scale=0.5]{ForwardPunch_FRONT.png}
