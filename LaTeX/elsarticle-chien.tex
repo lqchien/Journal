@@ -8,6 +8,8 @@
 \usepackage{subfig}
 \usepackage{float}
 
+\usepackage{mathtools}
+
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
 
@@ -129,17 +131,43 @@ Feature representation là 1 trong số các thành phần thu hút được s�
 - Our method sử dụng late fusion sheme.
 
 \section{Proposed Method}
+This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, chúng tôi sẽ cung cấp một brief review of the dense trajectories-based feature proposed by Heng Wang et al. [DenseTraj2011]. Những phần liên quan như: dense sampling, tracking and feature descriptors is referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
 
 \subsection{Dense trajectories}
-- Giới thiệu khái quát về dense trajectories
-- Giới thiệu sơ lược về các descriptors: HOG, HOF, MBH
+% - Giới thiệu khái quát về dense trajectories
+Để obtain trajectories, có 2 bước cơ bản cần thực hiện: sampling and tracking. [DenseTraj2011] đề xuất việc lấy mẫu dựa trên một dense grid với a step size of 5 pixels. Sampling is performed at multiple scales with a factor of $1/\sqrt{2}$. Then, tracking là bước kế tiếp để hình thành nên các trajectories. Ở mỗi scale, at frame \textit{t} mỗi point \textit{$P_t = (x_t, y_t)$} sẽ được tracked to point \textit{$P_{t+1} = (x_{t+1}, y_{t+1})$} in the next frame \textit{t+1} by:
+\begin{equation}
+	\textit{$P_{t+1} = (x_{t+1}, y_{t+1}) = (x_t, y_t) + (M*\omega)|_{(\bar{x}_t,\bar{y}_t)} $},
+\end{equation}
+where \textit{$\omega = (u_t, v_t)$} denotes the dense optical flow field, \textit{M} is the kernel of median filtering, and \textit{$(\bar{x}_t,\bar{y}_t)$} is the rounded position of \textit{$P_t$}. The algorithm of [Farneback, G - Two-Frame Estimation...] is adopted to compute the dense optical flow. And to avoid a drifting problem, a suitable value of trajectory length is set to 15 frames. Beside, trajectories with sudden changes are removed.
 
-\subsection{Pseudo-3D trajectory-based approach for motion feature}
-- Hình - Illustration of proposed method
-- Hình - Framework overview for our system
-- Step 1 - Project depth maps onto orthogonal planes
-- Step 2 - Extract dense trajectories from scaled videos
-- Step 3 - Fuse motion information from different views
+After extracting trajectories, two kinds of descriptors: a trajectory shape descriptor and a trajectory-aligned descriptor can be adopted.
+
+\paragraph{Trajectory Shape Descriptor}This descriptor describes the shape of a trajectory in the simplest way. Given a trajectory of length L, its shape is concatenated by a sequence of displacement vectors \textit{$S = (\Delta P_t, ..., \Delta P_{t+L-1})$}, where \textit{$\Delta P_t = P_{t+1} - P_t = (x_{t+1} - x_t, y_{t+1} - y_t)$}. In order to make the descriptor invariant to scale changes, the final result is then achieved by normalizing the shape vector by the overall magnitude of the displacement vectors:
+
+\begin{equation}
+	\textit{$\bar{S} = \frac{(\Delta P_t, ..., \Delta P_{t+L-1})}{\sum_{k=t}^{t+L-1}\|\Delta P_k\|}$},
+\end{equation}
+
+\paragraph{Trajectory-aligned Descriptor}The descriptors are much more complex than the trajectory shape descriptor. They are computed within a space-time volume ($N \times N$ spatial pixels and $L$ temporal frames) around the trajectory. This volume is divided into a 3D grid (spatially $n_\sigma \times n_\sigma$ grid and temporally $n_\tau$ segments). The default settings of these parameters are $N$ = 32 pixels, $L$ = 15 frames, $n_\sigma$ = 2, and $n_\tau$ = 3.
+
+In order to capture the local motion and appearance around a trajectory, three kinds of descriptors have been employed: the Histogram of Oriented Gradient (HOG) [Dalal et al. Histogram of Oriented Gradients], the Histogram of Optical Flow (HOF) [Laptev et al. Learning Realistic 2008], and the Motion Boundary Histogram (MBH) [Dalal et al. Human detection using oriented histograms of flow 2006]. For HOG, orientation information is quantized into 8-bin histogram. HOF is 9-bin histogram. Since the feature of a trajectory is calculated and concatenated from sub-volumes of a 3D volume, the final representation has 96 dimensions for HOG and 108 dimensions for HOF. MBH descriptor computes derivatives on both horizontal and vertical components of optical flow $I_\omega = (I_x. I_y)$. Similar to HOG descriptor, the orientation information is quantized into 8-bin histogram. Since the motion information is combined along two directions, the final representation is $96 \times 2 = 192$-bin histogram. By presenting gradient of optical flow, MBH descriptor is able to suppress global motion information and only keep local relative changes in pixels.
+
+According to the authors [Laptev et al. 2008 Learning Realistic human ...], [Wang.H et al. 2008 Evaluation of local Spatio-temporal features...], [Liu.J et al. 2009 Recognizing realistic actions from video...], [Wang.H et al. 2011 Action Recognition by dense trajectories...], all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in [Wang.H et al. 2011 Action Recognition by dense trajectories...]. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
+
+\subsection{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}
+
+Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in Figure 2. In particular, we choose number of the representations of 3. Number 3 represents 3 view directions: front, side, and top in 3D space. Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories are extracted from the intensity representations. And the feature descriptors are also computed in this step. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by apply a "bag-of-words" model. A "late fusion" scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. 3).
+
+- Hình 2 - Illustration of proposed method - Depth maps -> 3 projections -> dense trajectories
+
+- Hình 3 - Framework overview for our system - Depth data -> 3 feature extraction -> 3 BoW model -> 3 histogramintersection-SVM -> concatenated-score features -> cai-kernel SVM classifier
+
+In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in [Bag of 3D points]. This technique is also used in [DMM-HOG]. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in [DenseTraj-2011, Heng Wang]. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
+
+Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as [LOP], [3D-EigenJoints]. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as: cluttered background, hardware quality, camera motion, ... Figure 4 illustrates an example case when extract skeleton information.
+
+- Hình 4 - An example for skeleton extraction error.
 
 \section{Experimental Settings}
 
