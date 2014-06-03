@@ -7,8 +7,8 @@
 \BOOKMARK [2][-]{subsection.4.1}{Dataset}{section.4}% 7
 \BOOKMARK [2][-]{subsection.4.2}{Evaluation Method}{section.4}% 8
 \BOOKMARK [1][-]{section.5}{Experimental Results}{}% 9
-\BOOKMARK [2][-]{subsection.5.1}{Recognize actions from single-view}{section.5}% 10
-\BOOKMARK [2][-]{subsection.5.2}{Fuse motion information from all views}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.1}{Recognize Actions from An Intensity Representation}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.2}{Fuse Motion Information from All Representations}{section.5}% 11
 \BOOKMARK [2][-]{subsection.5.3}{Evaluate the Role of Intensity Representations}{section.5}% 12
-\BOOKMARK [2][-]{subsection.5.4}{The impact of our method on descriptors}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.4}{The Impact of Our Method on Descriptors}{section.5}% 13
 \BOOKMARK [1][-]{section.6}{Conclusions}{}% 14
