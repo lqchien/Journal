@@ -228,20 +228,24 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 \end{table}
 
 \subsection{Evaluation Method}
-- Sử dụng thư viện online để extract DT
-- Mô tả các settings trong framework: Number of codewords, assignment method, BoW model, SVM ở 2 pha phân lớp
-- Thư viện libsvm
-- Đánh giá dựa trên accuracy
+
+Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-features. To quantize a large number of features obtained by densely sampling, the "bag-of-words" (BoW) model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each. After that, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations.
+
+Once all the BoW histograms are generated, we adopt the late-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection measurement for the first classification step and apply $\chi^2$ kernel for the next step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the scores of each intensity representation at the first classification step are concatenated to generate the final feature representation as the input of the final prediction. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
 
 \section{Experimental Results}
 
+This section presents the experimental results from applying our proposed approach on MSR Action 3D dataset. We also report the results on the main intensity representation (i.e. from front view). Beside, an evaluation related to selecting compensation information from other representations will be also mentioned. All the results are compared in terms of the accuracy. The best performance is highlighted in bold.
+
 \subsection{Recognize actions from single-view}
+
 - Mô tả thí nghiệm trên 1 view
 - Table - Kết quả trên front view
 - Nhận xét các trường hợp bị confused, lý giải dựa trên trajectory shape
 - Figure - Ví dụ về các trường hợp bị confused
 
 \subsection{Fuse motion information from all views}
+ 
  Our method beats all the state-of-the-art methods based on silhouette features [Bag of 3D points, DMM-HOG], skeletal joint features [EigenJoints, LOP], local occupancy patterns[STOP, ROP], normal orientation features [HON4D] and cuboid similarity features [DSTIP\&DCSF].
  
 - Mô tả thí nghiệm trên 3 view
@@ -249,7 +253,11 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 - Đánh giá lại các trường hợp bị confused
 - Figure - Ví dụ về trajectories trên các views khác
 
+\subsection{Evaluate the Role of Intensity Representations}
+
+
 \subsection{The impact of our method on descriptors}
+
 - Mô tả thí nghiệm trên 3 descriptors: HOG, HOF, MBH
 - Nhận xét trước khi fusion
 - Nhận xét sau khi khi fusion:
