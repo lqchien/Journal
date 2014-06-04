@@ -1,3 +1,13 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: elsarticle-chien.aux
 The style file: elsarticle-num.bst
-Database file #1: mybibfile.bib
+Illegal, another \bibstyle command---line 94 of file elsarticle-chien.aux
+ : \bibstyle
+ :          {splncs}
+I'm skipping whatever remains of this command
+Database file #1: JournalPaper_Ref.bib
+Repeated entry---line 302 of file JournalPaper_Ref.bib
+ : @inproceedings{dalal2005histograms
+ :                                   ,
+I'm skipping whatever remains of this entry
+Warning--empty pages in wang2009evaluation
+(There were 2 error messages)

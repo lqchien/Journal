@@ -1,20 +1,86 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 \expandafter\ifx\csname href\endcsname\relax
   \def\href#1#2{#2} \def\path#1{#1}\fi
 
-\bibitem{Feynman1963118}
-R.~Feynman, F.~{Vernon Jr.}, The theory of a general quantum system interacting
-  with a linear dissipative system, Annals of Physics 24 (1963) 118--173.
-\newblock \href {http://dx.doi.org/10.1016/0003-4916(63)90068-X}
-  {\path{doi:10.1016/0003-4916(63)90068-X}}.
+\bibitem{yang2012recognizing}
+X.~Yang, C.~Zhang, Y.~Tian, Recognizing actions using depth motion maps-based
+  histograms of oriented gradients, in: Proceedings of the 20th ACM
+  international conference on Multimedia, ACM, 2012, pp. 1057--1060.
 
-\bibitem{Dirac1953888}
-P.~Dirac, The lorentz transformation and absolute time, Physica 19~(1-–12)
-  (1953) 888--896.
-\newblock \href {http://dx.doi.org/10.1016/S0031-8914(53)80099-6}
-  {\path{doi:10.1016/S0031-8914(53)80099-6}}.
+\bibitem{xia2013spatio}
+L.~Xia, J.~Aggarwal, Spatio-temporal depth cuboid similarity feature for
+  activity recognition using depth camera, in: Computer Vision and Pattern
+  Recognition (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 2834--2841.
+
+\bibitem{wang2012mining}
+J.~Wang, Z.~Liu, Y.~Wu, J.~Yuan, Mining actionlet ensemble for action
+  recognition with depth cameras, in: Computer Vision and Pattern Recognition
+  (CVPR), 2012 IEEE Conference on, IEEE, 2012, pp. 1290--1297.
+
+\bibitem{oreifej2013hon4d}
+O.~Oreifej, Z.~Liu, Hon4d: Histogram of oriented 4d normals for activity
+  recognition from depth sequences, in: Computer Vision and Pattern Recognition
+  (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 716--723.
+
+\bibitem{wang2011densetraj}
+H.~Wang, A.~Kl{\"a}ser, C.~Schmid, C.-L. Liu,
+  \href{http://hal.inria.fr/inria-00583818/en}{{Action Recognition by Dense
+  Trajectories}}, in: IEEE Conference on Computer Vision \& Pattern
+  Recognition, Colorado Springs, United States, 2011, pp. 3169--3176.
+\newline\urlprefix\url{http://hal.inria.fr/inria-00583818/en}
+
+\bibitem{farneback2003two}
+G.~Farneb{\"a}ck, Two-frame motion estimation based on polynomial expansion,
+  in: Image Analysis, Springer, 2003, pp. 363--370.
+
+\bibitem{dalal2005histograms}
+N.~Dalal, B.~Triggs, Histograms of oriented gradients for human detection, in:
+  Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer
+  Society Conference on, Vol.~1, IEEE, 2005, pp. 886--893.
+
+\bibitem{laptev2008learning}
+I.~Laptev, M.~Marszalek, C.~Schmid, B.~Rozenfeld, Learning realistic human
+  actions from movies, in: Computer Vision and Pattern Recognition, 2008. CVPR
+  2008. IEEE Conference on, IEEE, 2008, pp. 1--8.
+
+\bibitem{dalal2006human}
+N.~Dalal, B.~Triggs, C.~Schmid, Human detection using oriented histograms of
+  flow and appearance, in: Computer Vision--ECCV 2006, Springer, 2006, pp.
+  428--441.
+
+\bibitem{wang2009evaluation}
+H.~Wang, M.~M. Ullah, A.~Klaser, I.~Laptev, C.~Schmid, et~al., Evaluation of
+  local spatio-temporal features for action recognition, in: BMVC 2009-British
+  Machine Vision Conference, 2009.
+
+\bibitem{liu2009recognizing}
+J.~Liu, J.~Luo, M.~Shah, Recognizing realistic actions from videos “in the
+  wild”, in: Computer Vision and Pattern Recognition, 2009. CVPR 2009. IEEE
+  Conference on, IEEE, 2009, pp. 1996--2003.
+
+\bibitem{li2010action}
+W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
+  Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
+  Society Conference on, IEEE, 2010, pp. 9--14.
+
+\bibitem{yang2012eigenjoints}
+X.~Yang, Y.~Tian, Eigenjoints-based action recognition using
+  naive-bayes-nearest-neighbor, in: Computer Vision and Pattern Recognition
+  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
+  14--19.
+
+\bibitem{wang2012robust}
+J.~Wang, Z.~Liu, J.~Chorowski, Z.~Chen, Y.~Wu, Robust 3d action recognition
+  with random occupancy patterns, in: Computer Vision--ECCV 2012, Springer,
+  2012, pp. 872--885.
+
+\bibitem{vieira2012stop}
+A.~W. Vieira, E.~R. Nascimento, G.~L. Oliveira, Z.~Liu, M.~F. Campos, Stop:
+  Space-time occupancy patterns for 3d action recognition from depth map
+  sequences, in: Progress in Pattern Recognition, Image Analysis, Computer
+  Vision, and Applications, Springer, 2012, pp. 252--259.
 
 \end{thebibliography}

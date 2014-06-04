@@ -9,6 +9,9 @@
 \usepackage{array}
 \usepackage{float}
 \usepackage{subfloat}
+\usepackage{sidecap}
+
+\usepackage{epstopdf}
 
 \usepackage{mathtools}
 
@@ -84,9 +87,9 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 
 \paragraph{Background and Challenges} Gần đây, với sự phát triển của RGB-D camera như Kinect, depth data đã mở ra nhiều hướng nghiên cứu tiềm năng cho bài toán Human Action Recognition. So sánh với intensity images thông thường, depth maps hỗ trợ nhiều advantages hơn. Ví dụ, depth maps cung cấp các thông tin về shape rõ ràng hơn so với intensity images. Hơn thế nữa, depth data ít bị ảnh hưởng bởi những thay đổi của ánh sáng. Tuy nhiên, các phương pháp dựa trên intensity liệu có hiệu quả trên depth data hay không vẫn chưa được quan tâm nhiều.
 
-\paragraph{Existing approaches and drawbacks} Trong bài toán action recognition, để adapt các phương pháp dựa trên intensity cho depth data có 2 yếu tố chính. Thứ nhất, để capture motion information hiệu quả việc chọn lựa a robust feature representation là rất quan trọng. Thứ hai, để đảm bảo motion là đầy đủ thông tin trong depth video, việc bổ sung thông tin depth vào feature representation là yêu cầu không thể thiếu. Tuy nhiên, các phương pháp được đề xuất gần đây vẫn chưa hội tụ đủ 2 yếu tố này. Một số phương pháp như [DMM-HOG, DSTIP-DCSF] xem xét depth value như là intensity value và adapt các intensity-based techniques. Mặc dù, chúng có thể đạt được những kết quả hợp lý, nhưng tất cả chúng đều phải đối mặt với nhiều hạn chế. [DMM-HOG] có thể tận dụng thông tin depth từ các phép chiếu của depth maps. Nhưng its feature representation dựa trên global motion như HOG sẽ dễ gây nhầm lẫn bởi những similar postures. [DSTIP-DCSF] có thể đảm bảo depth information trong việc tính toán features. Nhưng cách tiếp cận này không đảm bảo được sự tin cậy khi extract các local points, do bởi textureless data and depth noise. Ngoài hướng tiếp cận trên, các phương pháp như [LOP, HON4D] chỉ tập trung khai thác depth information nên không tận dụng được sức mạnh của các intensity-based features. Do đó, hướng nghiên cứu của chúng tôi là propose một phương pháp có thể đáp ứng đầy đủ cả 2 yếu tố nêu trên.
+\paragraph{Existing approaches and drawbacks} Trong bài toán action recognition, để adapt các phương pháp dựa trên intensity cho depth data có 2 yếu tố chính. Thứ nhất, để capture motion information hiệu quả việc chọn lựa a robust feature representation là rất quan trọng. Thứ hai, để đảm bảo motion là đầy đủ thông tin trong depth video, việc bổ sung thông tin depth vào feature representation là yêu cầu không thể thiếu. Tuy nhiên, các phương pháp được đề xuất gần đây vẫn chưa hội tụ đủ 2 yếu tố này. Một số phương pháp như \cite{yang2012recognizing, xia2013spatio} xem xét depth value như là intensity value và adapt các intensity-based techniques. Mặc dù, chúng có thể đạt được những kết quả hợp lý, nhưng tất cả chúng đều phải đối mặt với nhiều hạn chế. [DMM-HOG] có thể tận dụng thông tin depth từ các phép chiếu của depth maps. Nhưng its feature representation dựa trên global motion như HOG sẽ dễ gây nhầm lẫn bởi những similar postures. \cite{xia2013spatio} có thể đảm bảo depth information trong việc tính toán features. Nhưng cách tiếp cận này không đảm bảo được sự tin cậy khi extract các local points, do bởi textureless data and depth noise. Ngoài hướng tiếp cận trên, các phương pháp như \cite{wang2012mining, oreifej2013hon4d} chỉ tập trung khai thác depth information nên không tận dụng được sức mạnh của các intensity-based features. Do đó, hướng nghiên cứu của chúng tôi là propose một phương pháp có thể đáp ứng đầy đủ cả 2 yếu tố nêu trên.
 
-\paragraph{Proposal, Idea and Steps}Trong bài báo này, chúng tôi sử dụng một feature representation dựa trên dense trajectories của [Heng Wang], do bởi hiệu quả của cách tiếp cận này trong nhiều bài toán, including activity recognition and multimedia event detection. Các trajectories thu được bằng cách tracking các sampled points densely sử dụng optical flow fields. Sau khi extract trajectories, các trajectory-aligned descriptors sẽ được adopted. Sau đó, features tính toán được từ các descriptors này sẽ được sử dụng cho việc biểu diễn motion information trong video.
+\paragraph{Proposal, Idea and Steps}Trong bài báo này, chúng tôi sử dụng một feature representation dựa trên dense trajectories của \cite{wang2011densetraj}, do bởi hiệu quả của cách tiếp cận này trong nhiều bài toán, including activity recognition and multimedia event detection. Các trajectories thu được bằng cách tracking các sampled points densely sử dụng optical flow fields. Sau khi extract trajectories, các trajectory-aligned descriptors sẽ được adopted. Sau đó, features tính toán được từ các descriptors này sẽ được sử dụng cho việc biểu diễn motion information trong video.
 
 Tuy nhiên, việc thiếu sót depth information trong feature representation có thể gây ra các trường hợp bị confused, như được chỉ ra trong Figure \ref{subfig-1:FrontView}. Do đó, để đảm bảo việc không bỏ sót thông tin depth, ý tưởng cơ bản là combine thông tin chuyển động từ nhiều góc nhìn khác nhau. Các biểu diễn từ nhiều góc nhìn có thể đạt được bằng cách chiếu depth maps lên trên các mặt phẳng tương ứng. Việc chiếu này dễ dàng thực hiện được bởi những thuận lợi mà depth data mang lại.
 
@@ -133,15 +136,15 @@ Feature representation là 1 trong số các thành phần thu hút được s�
 - Our method sử dụng late fusion sheme.
 
 \section{Proposed Method}
-This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, chúng tôi sẽ cung cấp một brief review of the dense trajectories-based feature proposed by Heng Wang et al. [DenseTraj2011]. Những phần liên quan như: dense sampling, tracking and feature descriptors is referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
+This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, chúng tôi sẽ cung cấp một brief review of the dense trajectories-based feature proposed by Heng Wang et al. \cite{wang2011densetraj}. Những phần liên quan như: dense sampling, tracking and feature descriptors is referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
 
 \subsection{Dense trajectories}
 % - Giới thiệu khái quát về dense trajectories
-In order to obtain trajectories, there are two important steps: sampling and tracking. [DenseTraj2011] propose sampling on a dense grid with a step size of 5 pixels. The sampling is performed at multiple scales with a factor of $1/\sqrt{2}$. Then, tracking is the next step to form trajectories. At each scale, in frame \textit{t}, each point \textit{$P_t = (x_t, y_t)$} is tracked to point \textit{$P_{t+1} = (x_{t+1}, y_{t+1})$} in next frame \textit{t+1} by:
+In order to obtain trajectories, there are two important steps: sampling and tracking. \cite{wang2011densetraj} propose sampling on a dense grid with a step size of 5 pixels. The sampling is performed at multiple scales with a factor of $1/\sqrt{2}$. Then, tracking is the next step to form trajectories. At each scale, in frame \textit{t}, each point \textit{$P_t = (x_t, y_t)$} is tracked to point \textit{$P_{t+1} = (x_{t+1}, y_{t+1})$} in next frame \textit{t+1} by:
 \begin{equation}
 	\textit{$P_{t+1} = (x_{t+1}, y_{t+1}) = (x_t, y_t) + (M*\omega)|_{(\bar{x}_t,\bar{y}_t)} $},
 \end{equation}
-where \textit{$\omega = (u_t, v_t)$} denotes the dense optical flow field, \textit{M} is the kernel of median filtering, and \textit{$(\bar{x}_t,\bar{y}_t)$} is the rounded position of \textit{$P_t$}. The algorithm of [Farneback, G - Two-Frame Estimation...] is adopted to compute the dense optical flow. And to avoid a drifting problem, a suitable value of trajectory length is set to 15 frames. Beside, trajectories with sudden changes are removed.
+where \textit{$\omega = (u_t, v_t)$} denotes the dense optical flow field, \textit{M} is the kernel of median filtering, and \textit{$(\bar{x}_t,\bar{y}_t)$} is the rounded position of \textit{$P_t$}. The algorithm of \cite{farneback2003two} is adopted to compute the dense optical flow. And to avoid a drifting problem, a suitable value of trajectory length is set to 15 frames. Beside, trajectories with sudden changes are removed.
 
 After extracting trajectories, two kinds of descriptors: a trajectory shape descriptor and a trajectory-aligned descriptor can be adopted.
 
@@ -153,9 +156,9 @@ After extracting trajectories, two kinds of descriptors: a trajectory shape desc
 
 \paragraph{Trajectory-aligned Descriptor}The descriptors are much more complex than the trajectory shape descriptor. They are computed within a space-time volume ($N \times N$ spatial pixels and $L$ temporal frames) around the trajectory. This volume is divided into a 3D grid (spatially $n_\sigma \times n_\sigma$ grid and temporally $n_\tau$ segments). The default settings of these parameters are $N$ = 32 pixels, $L$ = 15 frames, $n_\sigma$ = 2, and $n_\tau$ = 3.
 
-In order to capture the local motion and appearance around a trajectory, three kinds of descriptors have been employed: the Histogram of Oriented Gradient (HOG) [Dalal et al. Histogram of Oriented Gradients], the Histogram of Optical Flow (HOF) [Laptev et al. Learning Realistic 2008], and the Motion Boundary Histogram (MBH) [Dalal et al. Human detection using oriented histograms of flow 2006]. For HOG, orientation information is quantized into 8-bin histogram. HOF is 9-bin histogram. Since the feature of a trajectory is calculated and concatenated from sub-volumes of a 3D volume, the final representation has 96 dimensions for HOG and 108 dimensions for HOF. MBH descriptor computes derivatives on both horizontal and vertical components of optical flow $I_\omega = (I_x. I_y)$. Similar to HOG descriptor, the orientation information is quantized into 8-bin histogram. Since the motion information is combined along two directions, the final representation is $96 \times 2 = 192$-bin histogram. By presenting gradient of optical flow, MBH descriptor is able to suppress global motion information and only keep local relative changes in pixels.
+In order to capture the local motion and appearance around a trajectory, three kinds of descriptors have been employed: the Histogram of Oriented Gradient (HOG) \cite{dalal2005histograms}, the Histogram of Optical Flow (HOF) \cite{laptev2008learning}, and the Motion Boundary Histogram (MBH) \cite{dalal2006human}. For HOG, orientation information is quantized into 8-bin histogram. HOF is 9-bin histogram. Since the feature of a trajectory is calculated and concatenated from sub-volumes of a 3D volume, the final representation has 96 dimensions for HOG and 108 dimensions for HOF. MBH descriptor computes derivatives on both horizontal and vertical components of optical flow $I_\omega = (I_x. I_y)$. Similar to HOG descriptor, the orientation information is quantized into 8-bin histogram. Since the motion information is combined along two directions, the final representation is $96 \times 2 = 192$-bin histogram. By presenting gradient of optical flow, MBH descriptor is able to suppress global motion information and only keep local relative changes in pixels.
 
-According to the authors [Laptev et al. 2008 Learning Realistic human ...], [Wang.H et al. 2008 Evaluation of local Spatio-temporal features...], [Liu.J et al. 2009 Recognizing realistic actions from video...], [Wang.H et al. 2011 Action Recognition by dense trajectories...], all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in [Wang.H et al. 2011 Action Recognition by dense trajectories...]. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
+According to the authors \cite{laptev2008learning, wang2011densetraj, wang2009evaluation, liu2009recognizing}, all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in \cite{wang2011densetraj}. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
 
 \subsection{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}
 
@@ -165,9 +168,9 @@ Our proposed trajectory-based approach for human action recognition in depth dat
 
 - Hình 3 - Framework overview for our system - Depth data -> 3 feature extraction -> 3 BoW model -> 3 histogramintersection-SVM -> concatenated-score features -> cai-kernel SVM classifier
 
-In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in [Bag of 3D points]. This technique is also used in [DMM-HOG]. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in [DenseTraj-2011, Heng Wang]. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
+In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
 
-Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as [LOP], [3D-EigenJoints]. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as: cluttered background, hardware quality, camera motion, ... Figure 4 illustrates an example case when extract skeleton information.
+Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as: cluttered background, hardware quality, camera motion, ... Figure 4 illustrates an example case when extract skeleton information.
 
 - Hình 4 - An example for skeleton extraction error.
 
@@ -208,7 +211,7 @@ We test our method on MSR Action 3D dataset. This dataset contains 20 actions, a
 	\caption{\label{lbl:20actions}20 actions in MSR Action 3D dataset}
 \end{table}
 
-In order to conduct a fair comparison, we use the same experimental settings as [Bag of 3D points, EigenJoints, DMM-HOG, LOP, DSTIP-DCSF, HON4D]. In the settings, the dataset is divided into three action subsets. Each subset has 8 actions (Table \ref{lbl:3ActionSubsets}). The two subsets AS1 and AS2 present that grouped actions have similar movements. The subset AS3 groups complex actions together. For instance, action $hammer$ seems to be confused with action $forward punch$ in AS1 or similar movements between action $hand catch$ and action $side\ boxing$ in AS2. As for each subset, we select half of the subjects as training and the rest as testing (Cross Subject test).
+In order to conduct a fair comparison, we use the same experimental settings as \cite{li2010action, yang2012eigenjoints, yang2012recognizing, wang2012mining, xia2013spatio, oreifej2013hon4d}. In the settings, the dataset is divided into three action subsets. Each subset has 8 actions (Table \ref{lbl:3ActionSubsets}). The two subsets AS1 and AS2 present that grouped actions have similar movements. The subset AS3 groups complex actions together. For instance, action $hammer$ seems to be confused with action $forward punch$ in AS1 or similar movements between action $hand catch$ and action $side\ boxing$ in AS2. As for each subset, we select half of the subjects as training and the rest as testing (i.e. cross subject test).
 
 \begin{table}[H]
 	\begin{center}
@@ -251,7 +254,7 @@ This section presents the experimental results from applying our proposed approa
 
 \subsection{Recognize Actions from An Intensity Representation}
 
-Table \ref{lbl:MBHvsSoAonFront} - lists the results from our trajectory-based approach on front representation. Interestingly, the result table indicates that this approach beats all the state-of-the-art methods based on silhouette features [Bag of 3D points, DMM-HOG], skeletal joint features [EigenJoints, LOP], local occupancy patterns[STOP, ROP], normal orientation features [HON4D] and cuboid similarity features [DSTIP\&DCSF]. However, the results also show that there is significant difference of the performance among the used feature descriptors.
+Table \ref{lbl:MBHvsSoAonFront} - lists the results from our trajectory-based approach on front representation. Interestingly, the result table indicates that this approach beats all the state-of-the-art methods based on silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. However, the results also show that there is significant difference of the performance among the used feature descriptors.
 
 \begin{table}[H]
 	\begin{center}
@@ -307,47 +310,95 @@ Consider the results on action subsets, we found that 2 subsets AS1, AS2 contain
 			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
 			\begin{tabular}{c|cccccccc}
 			
-			               &      {\bf a01} &      {\bf a03} &      {\bf a05} &      {\bf a06} &      {\bf a10} &      {\bf a13} &      {\bf a18} &      {\bf a20} \\
+			               &      {\bf a02} &      {\bf a03} &      {\bf a05} &      {\bf a06} &      {\bf a10} &      {\bf a13} &      {\bf a18} &      {\bf a20} \\
 			\hline
-			     {\bf a01} &    {\bf 0.83 } &              0 &    {\bf 0.17 } &              0 &              0 &              0 &              0 &              0 \\
+			     {\bf a02} &   {\bf 0.833 } &              0 &   {\bf 0.167 } &              0 &              0 &              0 &              0 &              0 \\
 			
-			     {\bf a03} &              0 &    {\bf 0.92 } &    {\bf 0.08 } &              0 &              0 &              0 &              0 &              0 \\
+			     {\bf a03} &              0 &   {\bf 0.917 } &   {\bf 0.083 } &              0 &              0 &              0 &              0 &              0 \\
 			
-			     {\bf a05} &              0 &    {\bf 0.36 } &    {\bf 0.64 } &              0 &              0 &              0 &              0 &              0 \\
+			     {\bf a05} &              0 &   {\bf 0.364 } &   {\bf 0.636 } &              0 &              0 &              0 &              0 &              0 \\
 			
-			     {\bf a06} &              0 &              0 &              0 &    {\bf 1.00 } &              0 &              0 &              0 &              0 \\
+			     {\bf a06} &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 &              0 &              0 \\
 			
-			     {\bf a10} &              0 &              0 &              0 &              0 &    {\bf 1.00 } &              0 &              0 &              0 \\
+			     {\bf a10} &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 &              0 \\
 			
-			     {\bf a13} &              0 &              0 &              0 &              0 &              0 &    {\bf 1.00 } &              0 &              0 \\
+			     {\bf a13} &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 \\
 			
-			     {\bf a18} &              0 &              0 &              0 &              0 &              0 &              0 &    {\bf 1.00 } &              0 \\
+			     {\bf a18} &              0 &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 \\
 			
-			     {\bf a20} &              0 &              0 &              0 &              0 &              0 &    {\bf 0.07 } &              0 &    {\bf 0.93 } \\
+			     {\bf a20} &              0 &              0 &              0 &              0 &              0 &   {\bf 0.067 } &              0 &   {\bf 0.933 } \\
 			
 			\end{tabular}
 		}
 		
-		\subfloat{
-		asdsad
+		\subfloat[Action Subset 2 \label{lbl:ConfMatAS2}]{
+			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
+			\begin{tabular}{c|cccccccc}
+			
+			               &      {\bf a01} &      {\bf a04} &      {\bf a07} &      {\bf a08} &      {\bf a09} &      {\bf a11} &      {\bf a12} &      {\bf a14} \\
+			\hline
+			     {\bf a01} &     {\bf 1.0 } &              0 &              0 &              0 &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a04} &   {\bf 0.083 } &   {\bf 0.833 } &   {\bf 0.083 } &              0 &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a07} &              0 &              0 &   {\bf 0.786 } &   {\bf 0.071 } &   {\bf 0.071 } &              0 &   {\bf 0.071 } &              0 \\
+			
+			     {\bf a08} &              0 &              0 &              0 &     {\bf 1.0 } &                &              0 &              0 &              0 \\
+			
+			     {\bf a09} &              0 &              0 &              0 &   {\bf 0.133 } &   {\bf 0.867 } &              0 &              0 &              0 \\
+			
+			     {\bf a11} &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 \\
+			
+			     {\bf a12} &              0 &   {\bf 0.133 } &              0 &              0 &              0 &              0 &   {\bf 0.867 } &              0 \\
+			
+			     {\bf a14} &              0 &              0 &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } \\
+			
+			\end{tabular}
 		}
-				
-		\subfloat{
 		
+		\subfloat[Action Subset 3 \label{lbl:ConfMatAS3}]{
+			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
+			\begin{tabular}{c|cccccccc}
+			
+			               &      {\bf a06} &      {\bf a14} &      {\bf a15} &      {\bf a16} &      {\bf a17} &      {\bf a18} &      {\bf a19} &      {\bf a20} \\
+			\hline
+			     {\bf a06} &     {\bf 1.0 } &              0 &              0 &              0 &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a14} &              0 &     {\bf 1.0 } &              0 &              0 &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a15} &              0 &              0 &     {\bf 1.0 } &              0 &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a16} &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 &              0 &              0 \\
+			
+			     {\bf a17} &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 &              0 &              0 \\
+			
+			     {\bf a18} &              0 &              0 &              0 &              0 &              0 &   {\bf 0.933 } &   {\bf 0.067 } &              0 \\
+			
+			     {\bf a19} &              0 &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } &              0 \\
+			
+			     {\bf a20} &              0 &              0 &              0 &              0 &              0 &              0 &              0 &     {\bf 1.0 } \\
+			
+			\end{tabular}
 		}
+		
 	\end{center}
 	\caption{\label{lbl:AS123ConfusionMatrix}Confusion matrices on three subsets.}
 \end{table}
 
+\subsection{Compensate Motion Information from Other Representations}
+ 
+ Trong phần thí nghiệm này, chúng tôi bổ sung thông tin từ các representation còn lại cho representation ban đầu. Figure \ref{lbl:Figure_LateFusion_AS123_MBH} chỉ ra a better view khi so sánh hiệu quả của Fusion với các separate representations. Expectedly, the fusion performance, which is 0.9543 accuracy, is better than all the separate ones on each representation in terms of average. Obviously, our proposed approach outperforms the mentioned state-of-the-art methods.
+ 
+ \begin{figure}[H]
+ 	\begin{center}
+ 		\includegraphics[scale=0.6]{Chart_LateFusion_AS123_MBH.eps}
+ 	\end{center}
+ 	\caption{\label{lbl:Figure_LateFusion_AS123_MBH}Results from using the late fusion scheme on representations}
+ \end{figure}
+ 
+Ngoài ra, dựa vào kết quả được chỉ ra ở Figure \ref{lbl:Figure_LateFusion_AS123_MBH}, việc bổ sung thông tin từ các representations khẳng định 2 điều. The first one bảo đảm rằng kết quả nhận biết từ front representation là đóng vai trò quan trọng nhất. The second one chỉ ra rằng thông tin bổ sung từ các represenations khác có thể hỗ trợ hiệu quả cho final predictions.
 
-\subsection{Fuse Motion Information from All Representations}
- 
- 
- 
-- Mô tả thí nghiệm trên 3 view
-- Table - So sánh với SoA
-- Đánh giá lại các trường hợp bị confused
-- Figure - Ví dụ về trajectories trên các views khác
+\section{Discussions}
 
 \subsection{Evaluate the Role of Intensity Representations}
 
@@ -362,16 +413,13 @@ Consider the results on action subsets, we found that 2 subsets AS1, AS2 contain
 
 \section{Conclusions}
 
-\paragraph{Tóm tắt our work}
+We proposed using the trajectory-based approach for human action recognition using depth data in this work. We evaluated our approach by using the dense trajectories motion feature on MSR Action 3D datasets. More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data. Beside, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed. Therefore, the effectiveness of our approach on depth datasets like MSR is confirmed.
 
-\paragraph{Đề xuất cho future work}
-
-
+A trajectory-based approach with compensating information from separate representations shows promising results. This opens a general approach to leverage intensity-based techniques for depth data. This also suggests the importance of trajectory-based motion information on human action recognition using depth data. Therefore, exploiting depth-trajectory-based motion information for human action can be beneficial for an action recognition system. This is also an interesting idea for our future work.
 
 \section*{References}
 
-\paragraph{Cách cite ref}Here are two sample references: \cite{Feynman1963118,Dirac1953888}.
-
-\bibliography{mybibfile}
+\bibliographystyle{splncs}
+\bibliography{JournalPaper_Ref}
 
 \end{document}
