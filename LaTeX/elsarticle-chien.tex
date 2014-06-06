@@ -121,12 +121,12 @@ Tuy nhiên, việc thiếu sót depth information trong feature representation c
 
 \section{Related Works}
 
-\paragraph{Trajectories Extraction}
+\subsection{Trajectories Extraction}
 Trajectories provide a compact representation of motion information in video. Trajectories from intensity videos can be used for multimedia event detection (MED), video mining, action classification and so on. Trajectory extraction much depends on both processes: sampling and tracking. Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched  SIFT descriptors between consecutive frames to obtain feature trajectories. Recently, the dense trajectories feature proposed by \cite{wang2011densetraj} has achieved state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
 
 Although, depth data has been studied ago several decades, the trajectory extraction in depth videos is not still paid attention to. This is obviously a significant deficiency for motion feature-based systems using depth data.
 
-\paragraph{Feature Representation from Depth Videos}
+\subsection{Feature Representation from Depth Videos}
 In terms of human action recognition in depth video, most recent methods exploit depth information into two major directions. The first one is adapting intensity techniques-based methods for depth data. The second one is proposing approaches to use depth value as its mean.
 
 For the first direction, Yang.X et al. \cite{yang2012recognizing} propose the Depth Motion Maps (DMM) to accumulate global activities in depth video sequences. And the Histogram of Oriented Gradients (HOG) are computed from the DMM to represent an action video. Another approach bases on spatio-temporal interest points proposed by Xia.L and Aggarwal.J.K \cite{xia2013spatio}. In this approach, they extend a work of Dollar et al. \cite{dollar2005behavior} to adapt for depth data.
