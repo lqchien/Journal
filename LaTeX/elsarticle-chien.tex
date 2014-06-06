@@ -121,19 +121,19 @@ Tuy nhiên, việc thiếu sót depth information trong feature representation c
 
 \section{Related Works}
 
-Tìm hiểu các thành phần của một hệ thống HAR hiện là một trong những hướng nghiên cứu quan trọng của CV.
-Feature representation là 1 trong số các thành phần thu hút được sự chú ý của cộng đồng nghiên cứu.
+\paragraph{Trajectories Extraction}
+Trajectories provide a compact representation of motion information in video. Trajectories from intensity videos can be used for multimedia event detection (MED), video mining, action classification and so on. Trajectory extraction much depends on both processes: sampling and tracking. Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched  SIFT descriptors between consecutive frames to obtain feature trajectories. Recently, the dense trajectories feature proposed by \cite{wang2011densetraj} has achieved state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
 
-\paragraph{Works trích chọn features từ depth data}
-- Hướng xem depth value như intensity value.
-- Hướng sử dụng real depth value và skeleton information.
+Although, depth data has been studied ago several decades, the trajectory extraction in depth videos is not still paid attention to. This is obviously a significant deficiency for motion feature-based systems using depth data.
 
-\paragraph{Điểm khác biệt của phương pháp hiện tại với các phương pháp trước}
-- Hướng sử dụng 2d trajectories cho 3d data.
+\paragraph{Feature Representation from Depth Videos}
+In terms of human action recognition in depth video, most recent methods exploit depth information into two major directions. The first one is adapting intensity techniques-based methods for depth data. The second one is proposing approaches to use depth value as its mean.
 
-\paragraph{Works in combining many types of features and sự khác biệt với our work}
-- Works gần đây sử dụng early fusion sheme.
-- Our method sử dụng late fusion sheme.
+For the first direction, Yang.X et al. \cite{yang2012recognizing} propose the Depth Motion Maps (DMM) to accumulate global activities in depth video sequences. And the Histogram of Oriented Gradients (HOG) are computed from the DMM to represent an action video. Another approach bases on spatio-temporal interest points proposed by Xia.L and Aggarwal.J.K \cite{xia2013spatio}. In this approach, they extend a work of Dollar et al. \cite{dollar2005behavior} to adapt for depth data.
+
+For the second direction, \cite{li2010action} uses a bag of 3D points to characterize a set of salient postures. The 3D points are extracted on the contours of the planar projections of the 3D depth map. And then, about 1\% 3D points are sampled to calculate feature. \cite{vieira2012stop, wang2012robust, wang2012mining} use occupancy patterns to represent feature in action video. Another approach proposed by Oeifej et al. \cite{oreifej2013hon4d} leverages the distribution of surface normal orientation in the 4D space of time, depth and spatial coordinates to build a feature histogram. Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, works \cite{yang2012eigenjoints, wang2012mining} propose new types of features based on skeleton information.
+
+Different from other approaches, we use a trajectory-based approach for action recognition. We do not care to segment human body like in \cite{li2010action,yang2012recognizing}. We only investigate the benefit of generating intensity representations from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no methods has previously proposed for human action recognition using depth data. We conduct evaluations on recognition accuracy using dense trajectories motion feature proposed by Wang et al. \cite{wang2011densetraj}.
 
 \section{Proposed Method}
 This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, chúng tôi sẽ cung cấp một brief review of the dense trajectories-based feature proposed by Heng Wang et al. \cite{wang2011densetraj}. Những phần liên quan như: dense sampling, tracking and feature descriptors is referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
@@ -402,14 +402,29 @@ Ngoài ra, dựa vào kết quả được chỉ ra ở Figure \ref{lbl:Figure_L
 
 \subsection{Evaluate the Role of Intensity Representations}
 
+Trong phần này, chúng tôi muốn thảo luận về vai trò của các representations trong cách tiếp cận của chúng tôi. Figure \ref{lbl:Figure_LateFusion_AS123_MBH} khẳng định rằng front representation luôn cho kết quả nhận biết tốt nhất so với phần còn lại. Rõ ràng, nó là thành phần không thể thiếu trong việc tổng hợp thông tin. Đối với phần còn lại, chúng tôi thực hiện thử nghiệm trên các tổ hợp representations với front representation. Kết quả thử nghiệm được chỉ ra ở Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP}.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{Chart_LateFusion_AS123_MBH.eps}
+	\end{center}
+	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Results on combinations of representations}
+\end{figure}
+
+Trong phần thí nghiệm này, chúng tôi tạo ra các tổ hợp representations: front and Side, front and Top. Kết quả cho thấy khi tổ hợp front and top là tốt hơn hẳn so với tổ hợp front and side . Thậm chí, kết quả này là comparable with kết quả của việc tổ hợp all the representations. Rõ ràng, nếu chúng ta quan tâm đến chi phí tính toán thì việc chỉ dựa vào tổ hợp gồm ít representations hơn nhưng vẫn đảm bảo performance là lựa chọn hàng đầu. Đây là kết quả rất có ý nghĩa mà các ứng dụng xử lý thực tế luôn hướng đến.
 
 \subsection{The Impact of Our Method on Descriptors}
 
-- Mô tả thí nghiệm trên 3 descriptors: HOG, HOF, MBH
-- Nhận xét trước khi fusion
-- Nhận xét sau khi khi fusion:
-    + Compensate information
-    + Keep salient information
+Trong dữ liệu intensity, according to \cite{wang2011densetraj} MBH is the best feature descriptor for dense trajectories. Therefore, trong các thí nghiệm trước, chúng tôi chỉ sử dụng MBH descriptor cho việc biểu diễn motion information. Tuy nhiên, do bởi sự khác biệt của depth data với intensity data, thì cách tiếp cận của chúng tôi có ảnh hưởng như thế nào đối với các khác trajectory-aligned descriptors (i.e. HOG, HOF). Trong phần này, chúng tôi sẽ present lại các kết quả thí nghiệm nhưng trên các descriptors này.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{Chart_LateFusion_AS123_MBH.eps}
+	\end{center}
+	\caption{\label{lbl:Figure_MBHHOGHOF}Results on trajectory-aligned descriptors}
+\end{figure}
+
+Figure \ref{lbl:Figure_MBHHOGHOF} shows ra một kết quả rất interesting. Mặc dù, kết quả nhận biết của các descriptors HOG, HOF là không tốt trên mỗi intensity representation, kết quả sau khi fusion đã được improve đáng kể. The fusion results cho thấy HOG, HOF cũng outperform the state-of-the-art methods like MBH. Beside, HOG, HOF lại rất có lợi trong việc giảm thiểu chi phí tính toán trong các bước như: feature extraction and representation (using the bag-of-words model). This issue means rằng với các descriptors đơn giản hơn chúng ta không những xây dựng được một hệ thống effective mà còn efficient. It is worth to apply for real processing systems.
 
 \section{Conclusions}
 

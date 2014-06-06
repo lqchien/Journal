@@ -32,6 +32,81 @@ H.~Wang, A.~Kl{\"a}ser, C.~Schmid, C.-L. Liu,
   Recognition, Colorado Springs, United States, 2011, pp. 3169--3176.
 \newline\urlprefix\url{http://hal.inria.fr/inria-00583818/en}
 
+\bibitem{matikainen2009trajectons}
+P.~Matikainen, M.~Hebert, R.~Sukthankar, Trajectons: Action recognition through
+  the motion analysis of tracked features, in: Computer Vision Workshops (ICCV
+  Workshops), 2009 IEEE 12th International Conference on, IEEE, 2009, pp.
+  514--521.
+
+\bibitem{messing2009activity}
+R.~Messing, C.~Pal, H.~Kautz, Activity recognition using the velocity histories
+  of tracked keypoints, in: Computer Vision, 2009 IEEE 12th International
+  Conference on, IEEE, 2009, pp. 104--111.
+
+\bibitem{lucas1981iterative}
+B.~D. Lucas, T.~Kanade, et~al., An iterative image registration technique with
+  an application to stereo vision., in: IJCAI, Vol.~81, 1981, pp. 674--679.
+
+\bibitem{sun2009hierarchical}
+J.~Sun, X.~Wu, S.~Yan, L.-F. Cheong, T.-S. Chua, J.~Li, Hierarchical
+  spatio-temporal context modeling for action recognition, in: Computer Vision
+  and Pattern Recognition, 2009. CVPR 2009. IEEE Conference on, IEEE, 2009, pp.
+  2004--2011.
+
+\bibitem{phan2014multimedia}
+S.~Phan, T.~D. Ngo, V.~Lam, S.~Tran, D.-D. Le, D.~A. Duong, S.~Satoh,
+  Multimedia event detection using segment-based approach for motion feature,
+  Journal of Signal Processing Systems 74~(1) (2014) 19--31.
+
+\bibitem{oneata2012axes}
+D.~Oneata, M.~Douze, J.~Revaud, S.~Jochen, D.~Potapov, H.~Wang, Z.~Harchaoui,
+  J.~Verbeek, C.~Schmid, R.~Aly, et~al., Axes at trecvid 2012: Kis, ins, and
+  med, in: TRECVID workshop, 2012.
+
+\bibitem{natarajan2012bbn}
+P.~Natarajan, P.~Natarajan, S.~Wu, X.~Zhuang, A.~Vazquez-reina, S.~N.
+  Vitaladevuni, C.~Andersen, R.~Prasad, G.~Ye, D.~Liu, et~al., Bbn viser
+  trecvid 2012 multimedia event detection and multimedia event recounting
+  systems.
+
+\bibitem{dollar2005behavior}
+P.~Doll{\'a}r, V.~Rabaud, G.~Cottrell, S.~Belongie, Behavior recognition via
+  sparse spatio-temporal features, in: Visual Surveillance and Performance
+  Evaluation of Tracking and Surveillance, 2005. 2nd Joint IEEE International
+  Workshop on, IEEE, 2005, pp. 65--72.
+
+\bibitem{li2010action}
+W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
+  Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
+  Society Conference on, IEEE, 2010, pp. 9--14.
+
+\bibitem{vieira2012stop}
+A.~W. Vieira, E.~R. Nascimento, G.~L. Oliveira, Z.~Liu, M.~F. Campos, Stop:
+  Space-time occupancy patterns for 3d action recognition from depth map
+  sequences, in: Progress in Pattern Recognition, Image Analysis, Computer
+  Vision, and Applications, Springer, 2012, pp. 252--259.
+
+\bibitem{wang2012robust}
+J.~Wang, Z.~Liu, J.~Chorowski, Z.~Chen, Y.~Wu, Robust 3d action recognition
+  with random occupancy patterns, in: Computer Vision--ECCV 2012, Springer,
+  2012, pp. 872--885.
+
+\bibitem{shotton2013real}
+J.~Shotton, T.~Sharp, A.~Kipman, A.~Fitzgibbon, M.~Finocchio, A.~Blake,
+  M.~Cook, R.~Moore, Real-time human pose recognition in parts from single
+  depth images, Communications of the ACM 56~(1) (2013) 116--124.
+
+\bibitem{xia2011human}
+L.~Xia, C.-C. Chen, J.~Aggarwal, Human detection using depth information by
+  kinect, in: Computer Vision and Pattern Recognition Workshops (CVPRW), 2011
+  IEEE Computer Society Conference on, IEEE, 2011, pp. 15--22.
+
+\bibitem{yang2012eigenjoints}
+X.~Yang, Y.~Tian, Eigenjoints-based action recognition using
+  naive-bayes-nearest-neighbor, in: Computer Vision and Pattern Recognition
+  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
+  14--19.
+
 \bibitem{farneback2003two}
 G.~Farneb{\"a}ck, Two-frame motion estimation based on polynomial expansion,
   in: Image Analysis, Springer, 2003, pp. 363--370.
@@ -60,27 +135,5 @@ H.~Wang, M.~M. Ullah, A.~Klaser, I.~Laptev, C.~Schmid, et~al., Evaluation of
 J.~Liu, J.~Luo, M.~Shah, Recognizing realistic actions from videos “in the
   wild”, in: Computer Vision and Pattern Recognition, 2009. CVPR 2009. IEEE
   Conference on, IEEE, 2009, pp. 1996--2003.
-
-\bibitem{li2010action}
-W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
-  Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
-  Society Conference on, IEEE, 2010, pp. 9--14.
-
-\bibitem{yang2012eigenjoints}
-X.~Yang, Y.~Tian, Eigenjoints-based action recognition using
-  naive-bayes-nearest-neighbor, in: Computer Vision and Pattern Recognition
-  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
-  14--19.
-
-\bibitem{wang2012robust}
-J.~Wang, Z.~Liu, J.~Chorowski, Z.~Chen, Y.~Wu, Robust 3d action recognition
-  with random occupancy patterns, in: Computer Vision--ECCV 2012, Springer,
-  2012, pp. 872--885.
-
-\bibitem{vieira2012stop}
-A.~W. Vieira, E.~R. Nascimento, G.~L. Oliveira, Z.~Liu, M.~F. Campos, Stop:
-  Space-time occupancy patterns for 3d action recognition from depth map
-  sequences, in: Progress in Pattern Recognition, Image Analysis, Computer
-  Vision, and Applications, Springer, 2012, pp. 252--259.
 
 \end{thebibliography}
