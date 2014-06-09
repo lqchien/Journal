@@ -62,12 +62,11 @@
 \author{Chien-Quang LE}
 \address{The Graduate University for Advanced Studies}
 
-%% or include affiliations in footnotes:
 \author{Duy-Dinh LE}
-\address{National Institute of Informatics}
+\address{National Institute of Informatics, The Graduate University for Advanced Studies}
 
 \author{Shin'ichi Satoh}
-\address{National Institute of Informatics}
+\address{National Institute of Informatics, The University of Tokyo}
 
 
 \begin{abstract}
@@ -162,7 +161,7 @@ According to the authors \cite{laptev2008learning, wang2011densetraj, wang2009ev
 
 \subsection{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}
 
-Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in Figure \ref{lbl:Figure_ProposedMethod}. In particular, we choose number of the representations of 3. Number 3 represents 3 view directions: front, side, and top in 3D space. Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories are extracted from the intensity representations. And the feature descriptors are also computed in this step. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by apply a "bag-of-words" model. A "late fusion" scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}).
+Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in Figure \ref{lbl:Figure_ProposedMethod}. In particular, we choose three representations to represents for 3 view directions: front, side, and top in 3D space. Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories are extracted from the intensity representations. And the feature descriptors are also computed in this step. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by apply a "bag-of-words" model. A "late fusion" scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}).
 
 \begin{figure}[H]
 	\begin{center}
