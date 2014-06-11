@@ -10,8 +10,9 @@
 \usepackage{float}
 \usepackage{subfloat}
 \usepackage{sidecap}
-
+%\usepackage{caption}
 \usepackage{epstopdf}
+%\usepackage{subfigure}
 
 \usepackage{mathtools}
 
@@ -68,7 +69,7 @@
 \author{Duy-Dinh LE}
 \address{National Institute of Informatics, The Graduate University for Advanced Studies}
 
-\author{Shin'ichi Satoh}
+\author{Shin'ichi SATOH}
 \address{National Institute of Informatics, The University of Tokyo}
 
 
@@ -97,18 +98,21 @@ For action recognition, in order to effectively adapt intensity-based methods fo
 	\begin{center}
 		\subfloat[From front view]{\label{subfig1:FrontView}
 			\includegraphics[scale=0.5]{ForwardPunch_FRONT.png}
+			\hspace{2cm}
 			\includegraphics[scale=0.5]{Hammer_FRONT.png}
 		}
 	\end{center}
 	\begin{center}
 		\subfloat[From side view]{\label{subfig2:SideView}
 			\includegraphics[scale=0.5]{ForwardPunch_SIDE.png}
+			\hspace{2cm}
 			\includegraphics[scale=0.5]{Hammer_SIDE.png}
 		}
 	\end{center}
 	\begin{center}
 		\subfloat[From top view]{\label{subfig3:TopView}
 			\includegraphics[scale=0.5]{ForwardPunch_TOP.png}
+			\hspace{2cm}
 			\includegraphics[scale=0.5]{Hammer_TOP.png}
 		}
 	\end{center}
@@ -203,16 +207,7 @@ Our proposed trajectory-based approach for human action recognition in depth dat
 
 In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
 
-Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as: cluttered background, hardware quality, camera motion, ... Figure \ref{lbl:Figure_SkeletonError} illustrates an example case when extract skeleton information.
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
-	\end{center}
-	\caption{\label{lbl:Figure_SkeletonError}Results on combinations of representations}
-\end{figure}
-
-%- Hình 4 - An example for skeleton extraction error.
+Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as cluttered background, hardware quality, camera motion, so on.
 
 \section{Experimental Settings}
 \label{lbl:ExperimentalSettings}
@@ -288,7 +283,7 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 
 Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-features. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each. After that, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations.
 
-Once all the BoW histograms are generated, we adopt the late-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection measurement for the first classification step and apply $\chi^2$ kernel for the next step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the scores of each intensity representation at the first classification step are concatenated to generate the final feature representation as the input of the final prediction. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
+Once all the BoW histograms are generated, we adopt the late-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection measurement for the classification step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the BoW histograms of corresponding intensity representations are concatenated to generate the final feature representation. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
 
 \section{Experimental Results}
 \label{lbl:ExperimentalResults}
@@ -296,7 +291,7 @@ This section presents the experimental results from applying our proposed approa
 
 \subsection{Recognize Actions from An Intensity Representation}
 
-Table \ref{lbl:MBHvsSoAonFront} - lists the results from our trajectory-based approach on front representation. Interestingly, the result table indicates that this approach beats all the state-of-the-art methods based on silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. However, the results also show that there is significant difference of the performance among the used feature descriptors.
+Table \ref{lbl:Table_MBHvsSoAonFront} - lists the results from our trajectory-based approach on front representation. Interestingly, the result table indicates that this approach beats all the state-of-the-art methods based on silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. However, the results also show that there is significant difference of the performance among the used feature descriptors.
 
 \begin{table}[H]
 	\begin{center}
@@ -325,7 +320,7 @@ Table \ref{lbl:MBHvsSoAonFront} - lists the results from our trajectory-based ap
 		
 		\end{tabular}  
 	\end{center}
-	\caption{\label{lbl:MBHvsSoAonFront}Results on front representation using MBH descriptor.}
+	\caption{\label{lbl:Table_MBHvsSoAonFront}Results on front representation using MBH descriptor.}
 \end{table}
 
 \begin{table}[H]
@@ -341,10 +336,10 @@ Table \ref{lbl:MBHvsSoAonFront} - lists the results from our trajectory-based ap
 		
 		\end{tabular}
 	\end{center}
-	\caption{\label{lbl:MBHandAS123}Results on three subsets.}
+	\caption{\label{lbl:MBHandAS123}Results on three action subsets.}
 \end{table}
 
-Consider the results on action subsets, we found that 2 subsets AS1, AS2 contain many confused actions (Table \ref{lbl:MBHandAS123}). For example, action-pair \textit{hammer} and \textit{forward punch} in AS1, or \textit{side-boxing} and \textit{hand catch} in AS2, as showed in Table \ref{lbl:AS123ConfusionMatrix}. When analyzing confused actions, we found that the main cause is due to similar movements. And, since depth data is textureless, it makes recognition more difficult. That is a reason why we need compensate information from other intensity representations.
+Consider the results on action subsets reported in Table \ref{lbl:MBHandAS123}, we found that two	 subsets AS1, AS2 contain many confused actions. For example, action-pair \textit{hammer} and \textit{forward punch} in AS1, or \textit{side-boxing} and \textit{hand catch} in AS2, as showed in Table \ref{lbl:AS123ConfusionMatrix}. When analyzing confused actions, we found that the main cause is due to similar movements. And, since depth data is textureless, it makes recognition more difficult. That is a reason why we need compensate information from other intensity representations.
 
 \begin{table}[H]
 	\begin{center}
@@ -428,33 +423,19 @@ Consider the results on action subsets, we found that 2 subsets AS1, AS2 contain
 \end{table}
 
 \subsection{Compensate Motion Information from Other Representations}
-
-In this part, we conduct experiments based on additional information from all the rest representations compensated for the initial representation. Figure \ref{lbl:Figure_LateFusion_AS123_MBH} reports a better view in comparing the performance of fusion with separate representations. Expectedly, the fusion performance, which is 0.9543 accuracy, is better than all the separate ones on each representation in terms of average. Obviously, our proposed approach outperforms the mentioned state-of-the-art methods.
+In this part, we conduct experiments based on compensating information from all the rest representations for the front representation. Figure \ref{lbl:Figure_EarlyFusion_AS123_MBH} reports a better view in comparing the performance of fusion with separate representations. Expectedly, the average fusion performance, which is 96.67\% accuracy, is better than all the separate ones on each representation. Obviously, our proposed approach outperforms the mentioned state-of-the-art methods.
  
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.6]{Chart_LateFusion_AS123_MBH.eps}
+		\includegraphics[scale=0.55]{Chart_EarlyFusion_AS123_MBH.eps}
 	\end{center}
-	\caption{\label{lbl:Figure_LateFusion_AS123_MBH}Results from using the early fusion scheme on representations}
+	\caption{\label{lbl:Figure_EarlyFusion_AS123_MBH}Results from using the early fusion scheme on representations}
 \end{figure}
  
-Beside, based on experimental results in figure \ref{lbl:Figure_LateFusion_AS123_MBH}, compensating information shows two confirmations. The first one confirms that recognition result from front representation plays the best role. The second one indicates that compensated information from other representations can support final predictions effectively.
+Beside, based on experimental results in figure \ref{lbl:Figure_EarlyFusion_AS123_MBH}, compensating information indicates two interesting points. The first one confirms that recognition result from front representation is better than the others (i.e. side and top). The second one shows that compensated information from other representations for front representation supports final predictions effectively. Thus, our proposed approach can be applied for any intensity-based techniques, in general.
 
 \section{Discussions}
 \label{lbl:Discussions}
-
-\subsection{Evaluate the Role of Intensity Representations}
-
-In this section, we consider the role of representations to our proposed method. Figure \ref{lbl:Figure_LateFusion_AS123_MBH} confirms that front representation achieves the best result. Obviously, it is an indispensable component to merge information. For the rest, we perform experiment on representation combinations with front representation. Experimental results are reported in Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP}.
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
-	\end{center}
-	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Results on combinations of representations}
-\end{figure}
-
-In order to conduct experiment, we create combinations: front and side, front and top. Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP} indicates that combination of front and top is better than combination of front and side. Even, the achieved performance is comparable with the performance based on combining all the representations. Actually, combination contains less representations but still ensures good performance is a promising choice to decrease computational cost.
 
 \subsection{The Impact of Our Method on Descriptors}
 
@@ -462,25 +443,59 @@ For intensity data, according to \cite{wang2011densetraj} MBH is the best featur
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
+		\includegraphics[scale=0.55]{Chart_ImpactOfDescriptors.eps}
 	\end{center}
 	\caption{\label{lbl:Figure_MBHHOGHOF}Results on trajectory-aligned descriptors}
 \end{figure}
 
-Figure \ref{lbl:Figure_MBHHOGHOF} shows interesting results. Although, recognition results on descriptors HOG, HOF are not good for each intensity representation, the final results after fusing have been significantly improved. The results indicate that HOG, HOF also outperform the state-of-the-art methods like MBH. Beside, HOG, HOF have more benefits in decreasing computational cost at processes, such as feature extraction and representation (using the BoW model). This issue means that with simple descriptors we can build an effective and efficient system.
+Figure \ref{lbl:Figure_MBHHOGHOF} shows interesting results. Although, recognition results on descriptors HOG, HOF are not good for each intensity representation, the final results after fusing have been significantly improved. The results indicate that the performances of HOG and HOF, respectively 94.53\% and 92.42\%, also outperform the state-of-the-art methods, as mentioned in Table \ref{lbl:Table_MBHvsSoAonFront}. In addition, lower-cost descriptors like HOG, HOF have more benefits for decreasing computational cost in processes, such as feature extraction and video representation (using the BoW model). These advantages provide a promising way for building effective and efficient systems.
+
+\subsection{Evaluate the Role of Intensity Representations}
+
+In this section, we consider the role of representations to our proposed method. Figure \ref{lbl:Figure_EarlyFusion_AS123_MBH} confirms that front representation achieves the best result. Obviously, it is an indispensable component to merge information. For the rest, we perform experiments on representation combinations with front representation. Experimental results are reported in Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP}.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.55]{Chart_RoleOfRepresentations.eps}
+	\end{center}
+	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Results on combinations of representations}
+\end{figure}
+
+In order to conduct the experiments, we create combinations: front and side, front and top. Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP} indicates that the combination of front and top is better than the combination of front and side. More interestingly, the achieved performance, which is 96.95\% accuracy, from the combination of front and top beats the performance based on combining all the representations, in terms of average. Actually, the discovery provides a good choice to decrease computational cost but still ensures a convincing performance.
 
 \subsection{MSR Daily Activity 3D Dataset}
 
  The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which bao gồm 16 daily activities  (Fig. \ref{lbl:Figure_MSRDaily3D}) such as talking on the phone, reading a book, playing game, ... etc. In this dataset, background objects and subjects appear at different distances to the camera. Table \ref{lbl:Table_Daily3D} shows a comparison between the state-of-the-art methods on MSR Daily Activity 3D dataset. In this experiment, we conduct our trajectory-based approach only on front representation. In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance. In \cite{xia2013spatio}, they modified this dataset to do evaluation. It is not fair to compare. Therefore, to ensure a fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on original MSR Daily Activity 3D dataset.
 
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
-	\end{center}
-	\caption{\label{lbl:Figure_MSRDaily3D}Sample Actions on MSR Daily Activity 3D dataset}
+\begin{figure}
+%    \centering
+    \subfloat[Reading book]{
+        \includegraphics[width=0.45\textwidth]{ReadingBook.png}        
+        }
+    \hfill
+    \subfloat[Drinking water]{
+        \includegraphics[width=0.45\textwidth]{DrinkingWater.png}        
+        }
+    \hfill
+    \subfloat[Talking on a phone]{
+        \includegraphics[width=0.45\textwidth]{TalkingOnAPhone.png}        
+        }
+    \hfill
+    \subfloat[Playing game]{
+        \includegraphics[width=0.45\textwidth]{PlayingGame.png}        
+        }
+    \hfill
+    \subfloat[Writing on a paper]{
+        \includegraphics[width=0.45\textwidth]{WritingOnAPaper.png}        
+        }
+    \hfill
+    \subfloat[Using a laptop]{
+        \includegraphics[width=0.45\textwidth]{UsingALaptop.png}        
+        }
+	\caption{\label{lbl:Figure_MSRDaily3D}Sample actions on MSR Daily Activity 3D dataset}
 \end{figure}
 
-Although our method outperforms all the state-of-the-art methods, it is not our aim. It is important to note that why in condition of only using depth data, most of methods are failed. When considering failed samples, such as \textit{playing a game}, \textit{reading a book}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}. For \textit{playing a game}, main action focus on motion of fingers, it is very difficult to discriminate from depth noise. For \textit{reading a book} and \textit{using a latop}, hand gestures are major actions to present motion information. But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop). That is one reason to explain for the failure. The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}. In these cases, objects is small and textureless. Thus it is very difficult to identify these actions exactly if only depending on depth data.
+Although our method outperforms all the state-of-the-art methods, it is not our aim. It is important to note that why in condition of only using depth data, most of methods are failed. When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}. For \textit{playing a game}, main action focus on motion of fingers, it is very difficult to discriminate from depth noise. For \textit{writing on a paper} and \textit{using a latop}, hand gestures are major actions to present motion information. But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop). That is one reason to explain for the failure. The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}. In these cases, objects is small and textureless. Thus it is very difficult to identify these actions exactly if only depending on depth data.
 
 \begin{table}[H]
 	\begin{center}
@@ -502,7 +517,7 @@ Although our method outperforms all the state-of-the-art methods, it is not our 
 	\caption{\label{lbl:Table_Daily3D}Performance of Methods on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
 \end{table}
 
-\subsection{Early Fusion vs. Late Fusion on Depth Data}
+%\subsection{Early Fusion vs. Late Fusion on Depth Data}
 
 
 \section{Conclusions}
