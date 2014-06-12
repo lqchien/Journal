@@ -153,7 +153,7 @@ In terms of human action recognition in depth video, most recent methods exploit
 
 For the first direction, Yang.X et al. \cite{yang2012recognizing} propose the Depth Motion Maps (DMM) to accumulate global activities in depth video sequences. And the Histogram of Oriented Gradients (HOG) are computed from the DMM to represent an action video. Another approach bases on spatio-temporal interest points proposed by Xia.L and Aggarwal.J.K \cite{xia2013spatio}. In this approach, they extend a work of Dollar et al. \cite{dollar2005behavior} to adapt for depth data.
 
-For the second direction, \cite{li2010action} uses a bag of 3D points to characterize a set of salient postures. The 3D points are extracted on the contours of the planar projections of the 3D depth map. And then, about 1\% 3D points are sampled to calculate feature. \cite{vieira2012stop, wang2012robust, wang2012mining} use occupancy patterns to represent feature in action video. Another approach proposed by Oeifej et al. \cite{oreifej2013hon4d} leverages the distribution of surface normal orientation in the 4D space of time, depth and spatial coordinates to build a feature histogram. Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, works \cite{yang2012eigenjoints, wang2012mining} propose new types of features based on skeleton information.
+For the second direction, \cite{li2010action} uses a bag of 3D points to characterize a set of salient postures. The 3D points are extracted on the contours of the planar projections of the 3D depth map. And then, about 1\% 3D points are sampled to calculate feature. \cite{vieira2012stop, wang2012robust, wang2012mining} use occupancy patterns to represent feature in action video. Another approach proposed by Oreifej et al. \cite{oreifej2013hon4d} leverages the distribution of surface normal orientation in the 4D space of time, depth and spatial coordinates to build a feature histogram. Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, works \cite{yang2012eigenjoints, wang2012mining} propose new types of features based on skeleton information.
 
 Different from other approaches, we use a trajectory-based approach for action recognition. We do not care to segment human body like \cite{li2010action,yang2012recognizing}. We only investigate the benefit of generating intensity representations from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no method has previously proposed adapting trajectory-based approach for human action recognition in depth video. We conduct evaluations on recognition accuracy using dense trajectories motion feature proposed by Wang et al. \cite{wang2011densetraj}.
 
@@ -190,22 +190,22 @@ Our proposed trajectory-based approach for human action recognition in depth dat
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
+		\includegraphics[width=0.7\textwidth]{Projections.eps}
 	\end{center}
-	\caption{\label{lbl:Figure_ProposedMethod}Illustration on Our Proposed Method}
+	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
 \end{figure}
 
 %- Hình 2 - Illustration of proposed method - Depth maps -> 3 projections -> dense trajectories
 
+In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
+
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.5]{Unknown.png}
+		\includegraphics[width=\textwidth]{Framework3D.png}
 	\end{center}
 	\caption{\label{lbl:Figure_Framework}Our Framework Overview}
 \end{figure}
 %- Hình 3 - Framework overview for our system - Depth data -> 3 feature extraction -> 3 BoW model -> 3 histogramintersection-SVM -> concatenated-score features -> chi-kernel SVM classifier
-
-In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
 
 Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as cluttered background, hardware quality, camera motion, so on.
 
@@ -249,7 +249,7 @@ We test our method on MSR Action 3D dataset. This dataset contains 20 actions, a
 
 In order to conduct a fair comparison, we use the same experimental settings as \cite{li2010action, yang2012eigenjoints, yang2012recognizing, wang2012mining, xia2013spatio, oreifej2013hon4d}. In the settings, the dataset is divided into three action subsets. Each subset has 8 actions (Table \ref{lbl:3ActionSubsets}). The two subsets AS1 and AS2 present that grouped actions have similar movements. The subset AS3 groups complex actions together. For instance, action \textit{hammer} seems to be confused with action \textit{forward punch} in AS1 or similar movements between action \textit{hand catch} and action \textit{side boxing} in AS2. As for each subset, we select half of the subjects as training and the rest as testing (i.e. cross subject test).
 
-\begin{table}[H]
+\begin{table}
 	\begin{center}
 		% Table generated by Excel2LaTeX from sheet 'Sheet3'
 		\begin{tabular}{c|c|c}
@@ -517,15 +517,15 @@ Although our method outperforms all the state-of-the-art methods, it is not our 
 	\caption{\label{lbl:Table_Daily3D}Performance of Methods on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
 \end{table}
 
-%\subsection{Early Fusion vs. Late Fusion on Depth Data}
-
+%\subsection{Early versus Late Fusion in Depth Motion Analysis}
+%
 
 \section{Conclusions}
 \label{lbl:Conclusions}
 
 We proposed using the trajectory-based approach for human action recognition using depth data in this work. We evaluated our approach by using the dense trajectories motion feature on MSR Action 3D datasets. More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data. Beside, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed. Therefore, the effectiveness of our approach on depth datasets like MSR is confirmed.
 
-A trajectory-based approach with compensating information from separate representations shows promising results. This opens a general approach to leverage intensity-based techniques for depth data. This also suggests the importance of trajectory-based motion information on human action recognition using depth data. Therefore, exploiting depth-trajectory-based motion information for human action can be beneficial for an action recognition system. This is also an interesting idea for our future work.
+A trajectory-based approach with compensating information from separate representations shows promising results. This opens a general approach to leverage intensity-based techniques for depth data. This also suggests the importance of trajectory-based motion information on human action recognition using depth data. Therefore, exploiting depth-based motion trajectories can be beneficial for action recognition systems using depth cameras. This is also an interesting idea for our future work.
 
 \section*{References}
 
