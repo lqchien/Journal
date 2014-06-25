@@ -70,18 +70,27 @@
 \title{Pseudo-3D Trajectories: An Effective Approach for Motion Representation in Depth Data}
 
 %% Group authors per affiliation:
-\author{Chien-Quang LE}
-\address{The Graduate University for Advanced Studies}
+%\author{Chien-Quang LE}
+%\address{The Graduate University for Advanced Studies}
 
-\author{Duy-Dinh LE}
-\address{National Institute of Informatics, The Graduate University for Advanced Studies}
+%\author{Duy-Dinh LE}
+%\address{National Institute of Informatics, The Graduate University for Advanced Studies}
 
-\author{Shin'ichi SATOH}
-\address{National Institute of Informatics, The University of Tokyo}
+%\author{Shin'ichi SATOH}
+%\address{National Institute of Informatics, The University of Tokyo}
+
+\author{Author1's name}
+\address{Adress 1}
+
+\author{Author2's name}
+\address{Adress 2}
+
+\author{Author3's name}
+\address{Adress 3}
 
 
 \begin{abstract}
-Leveraging the motion information of trajectories shows the effectiveness to the human action recognition in intensity videos. However, the performance of this approach for representing motions in depth video is not still answered. In this paper, we will deal with this issue by conducting experiments based on intensity trajectory features to describe motion information in depth video. In addition, in order to ensure including depth information, we propose a method based on compensating motion information from different representations of depth video. Evaluated on benchmark datasets, our method significantly outperforms the state-of-the-art depth-based methods.
+Leveraging the motion information of trajectories shows the effectiveness to the human action recognition in intensity videos. However, the influence of this approach for representing motions in depth video is not still answered. In this paper, we will deal with this issue by conducting experiments based on intensity trajectory features to describe motion information in depth video. In addition, in order to ensure including depth information, we propose a method based on compensating motion information from different representations of depth video. Evaluated on benchmark datasets, our method significantly outperforms the state-of-the-art depth-based methods.
 \end{abstract}
 
 \begin{keyword}
@@ -99,30 +108,27 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 Recently, with the development of RGB-D cameras such as Kinect, depth data pioneers many potential research directions for human action recognition. Compared with conventional intensity images, depth maps support more several advantages. For example, depth maps provide shape information, which can be clearer than intensity images. Moreover, the depth data is less affected by illumination variations. However, an issue is that intensity-based methods are effective or not on depth data, which has not been much interested.
 
 %\paragraph{Existing approaches and drawbacks} 
-For action recognition, in order to effectively adapt intensity-based methods for depth data, we need satisfy two major factors. Firstly, a robust feature representation is extremely important to exactly capture motion information. Secondly, to ensure that a motion contains full information in depth video, merging depth information into feature representation is an indispensable requirement. However, the recent proposed methods do not combine two the factors completely. Works \cite{yang2012recognizing, xia2013spatio} consider depth value as intensity value and adapt the intensity-based techniques. Although, they can achieve reasonable results, they deal with many limitations. \cite{yang2012recognizing} can leverage depth information from the projections of depth maps. But its feature representation based on global motion such as HOG easily cause confusion by similar postures. \cite{xia2013spatio} can ensure depth information in feature descriptor computation. But this approach does not guarantee the reliability when extracting local points, due by textureless data and depth noise. Beside, methods in \cite{wang2012mining, oreifej2013hon4d} only focus on exploiting depth information without leveraging the effectiveness of the intensity-based features. Therefore, we propose an effective method that can satisfy both mentioned factors.
+For action recognition, in order to effectively adapt intensity-based methods for depth data, we need satisfy two major factors. Firstly, a robust feature representation is extremely important to exactly capture motion information. Secondly, to ensure that a motion contains full information in depth video, merging depth information into feature representation is an indispensable requirement. However, the recent proposed methods do not combine two the factors completely. Works \cite{yang2012recognizing, xia2013spatio} consider depth value as intensity value and adapt the intensity-based techniques. Although, they can achieve reasonable results, they deal with many limitations. \cite{yang2012recognizing} can leverage depth information from the projections of depth maps. But its feature representation based on global motion such as HOG easily cause confusion by similar postures. \cite{xia2013spatio} can ensure depth information in feature descriptor computation. But this approach does not guarantee the reliability when extracting local points, due to textureless data and depth noise. Beside, methods in \cite{wang2012mining, oreifej2013hon4d} only focus on exploiting depth information without leveraging the effectiveness of the intensity-based features. Therefore, we propose an effective method that can satisfy both mentioned factors.
 
 \begin{figure}
-	\begin{center}
+	\centering
 		\subfloat[From front view]{\label{subfig1:FrontView}
-			\includegraphics[scale=0.5]{ForwardPunch_FRONT.png}
+			\includegraphics[width=0.32\textwidth]{ForwardPunch_FRONT.png}
 			\hspace{2cm}
-			\includegraphics[scale=0.5]{Hammer_FRONT.png}
+			\includegraphics[width=0.32\textwidth]{Hammer_FRONT.png}
 		}
-	\end{center}
-	\begin{center}
+		\hfill
 		\subfloat[From side view]{\label{subfig2:SideView}
-			\includegraphics[scale=0.5]{ForwardPunch_SIDE.png}
+			\includegraphics[width=0.32\textwidth]{ForwardPunch_SIDE.png}
 			\hspace{2cm}
-			\includegraphics[scale=0.5]{Hammer_SIDE.png}
+			\includegraphics[width=0.32\textwidth]{Hammer_SIDE.png}
 		}
-	\end{center}
-	\begin{center}
+		\hfill		
 		\subfloat[From top view]{\label{subfig3:TopView}
-			\includegraphics[scale=0.5]{ForwardPunch_TOP.png}
+			\includegraphics[width=0.32\textwidth]{ForwardPunch_TOP.png}
 			\hspace{2cm}
-			\includegraphics[scale=0.5]{Hammer_TOP.png}
+			\includegraphics[width=0.32\textwidth]{Hammer_TOP.png}
 		}
-	\end{center}
 	\caption{An illustrative comparison between trajectories' shape of actions \textit{Forward Punch} and \textit{Hammer}.}
 	\label{fig:Illustration}
 \end{figure}
@@ -130,10 +136,10 @@ For action recognition, in order to effectively adapt intensity-based methods fo
 %\paragraph{Proposal, Idea and Steps}
 In this paper, we use a feature representation based on dense trajectories proposed by \cite{wang2011densetraj}, due to the effectiveness of this approach in many problems, including  activity recognition and multimedia event detection (MED). The trajectories obtained by tracking densely sampled points using optical flow fields. After extracting the trajectories, trajectory-aligned descriptors will be adopted. Then, features computed from the descriptors will be used to represent motion information in video.
 
-However, the lack of depth information in feature representation can cause several confused cases, as shown in figure \ref{subfig1:FrontView}. Thus, to ensure that depth information is not ignored, a basic idea is to combine the motion information from various views. The view-based representations can be achieved by projecting depth maps onto the corresponding planes. The projections are easily obtained by the mentioned advantages of depth data.
+However, the lack of depth information in feature representation can cause several confused cases due to the similarity of movements. As shown in figure \ref{fig:Illustration}, two actions \textit{hammer} and \textit{forward punch} are confused if we only base on motion information from front representation (i.e. the similarity of trajectory shape of actions (fig. \ref{subfig1:FrontView})). In contrast, motion information from other representations, such as side and top representations, provides a clearer discrimination between the two actions (fig. \ref{subfig2:SideView} \& \ref{subfig3:TopView}). Thus, to ensure that depth information is not ignored, a basic idea is to combine the motion information from various views. The view-based representations can be achieved by projecting depth maps onto the corresponding planes. The projections are easily obtained by the mentioned advantages of depth data.
 
 %\paragraph{Experiments and Results}
-We conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) We propose an adaptive method for depth video representation by using intensity-based features. (2) We perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
+We conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an adaptive method for depth video representation by using intensity-based features, (2) we perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
 
 %\paragraph{Paper structure}
 After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the proposed method is described in Section \ref{lbl:ProposedMethod}. Sections \ref{lbl:ExperimentalSettings} and \ref{lbl:ExperimentalResults} present the experimental settings and results. In section \ref{lbl:Discussions} we provide some concerned discussions. The summaries of our work are given in Section \ref{lbl:Conclusions}.
@@ -151,7 +157,8 @@ After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the 
 \label{lbl:RelatedWorks}
 
 \subsection{Trajectories Extraction}
-Trajectories provide a compact representation of motion information in video. Trajectories from intensity videos can be used for multimedia event detection (MED), video mining, action classification and so on. Trajectory extraction much depends on both processes: sampling and tracking. Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched  SIFT descriptors between consecutive frames to obtain feature trajectories. Recently, the dense trajectories feature proposed by \cite{wang2011densetraj} has achieved state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
+
+Trajectories provide a compact representation of motion information in video. Trajectories from intensity videos can be used for MED, video mining, action classification and so on. Trajectory extraction much depends on both processes: sampling and tracking. Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched  SIFT descriptors between consecutive frames to obtain feature trajectories. Recently, the dense trajectories feature proposed by \cite{wang2011densetraj} has achieved state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
 
 Although, depth data has been studied ago several decades, the trajectory extraction in depth videos is not still paid attention to. This is obviously a significant deficiency for motion-based recognition systems using depth data.
 
@@ -167,7 +174,16 @@ Different from other approaches, we use a trajectory-based approach for action r
 \section{Proposed Method}
 \label{lbl:ProposedMethod}
 
-This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, we provide a brief review of the dense trajectories-based feature proposed by Heng Wang et al. \cite{wang2011densetraj}. Related parts, such as: dense sampling, tracking and feature descriptors are also referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
+This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, we provide a brief review of the dense trajectory-based feature proposed by Wang.H et al. \cite{wang2011densetraj}. Related parts, such as: dense sampling, tracking and feature descriptors are also referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{Projections.png}
+	\end{center}
+	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
+\end{figure}
+
+%- Hình 2 - Illustration of proposed method - Depth maps -> 3 projections -> dense trajectories
 
 \subsection{Dense trajectories}
 % - Giới thiệu khái quát về dense trajectories
@@ -187,26 +203,15 @@ After extracting trajectories, two kinds of descriptors: a trajectory shape desc
 
 \paragraph{Trajectory-aligned Descriptor}The descriptors are much more complex than the trajectory shape descriptor. They are computed within a space-time volume ($N \times N$ spatial pixels and $L$ temporal frames) around the trajectory. This volume is divided into a 3D grid (spatially $n_\sigma \times n_\sigma$ grid and temporally $n_\tau$ segments). The default settings of these parameters are $N$ = 32 pixels, $L$ = 15 frames, $n_\sigma$ = 2, and $n_\tau$ = 3.
 
-In order to capture the local motion and appearance around a trajectory, three kinds of descriptors have been employed: the Histogram of Oriented Gradient (HOG) \cite{dalal2005histograms}, the Histogram of Optical Flow (HOF) \cite{laptev2008learning}, and the Motion Boundary Histogram (MBH) \cite{dalal2006human}. For HOG, orientation information is quantized into 8-bin histogram. HOF is 9-bin histogram. Since the feature of a trajectory is calculated and concatenated from sub-volumes of a 3D volume, the final representation has 96 dimensions for HOG and 108 dimensions for HOF. MBH descriptor computes derivatives on both horizontal and vertical components of optical flow $I_\omega = (I_x. I_y)$. Similar to HOG descriptor, the orientation information is quantized into 8-bin histogram. Since the motion information is combined along two directions, the final representation is $96 \times 2 = 192$-bin histogram. By presenting gradient of optical flow, MBH descriptor is able to suppress global motion information and only keep local relative changes in pixels.
+In order to capture the local motion and appearance around a trajectory, three kinds of descriptors have been employed: the HOG \cite{dalal2005histograms}, the Histogram of Optical Flow (HOF) \cite{laptev2008learning}, and the Motion Boundary Histogram (MBH) \cite{dalal2006human}. For HOG, orientation information is quantized into 8-bin histogram. HOF is 9-bin histogram. Since the feature of a trajectory is calculated and concatenated from sub-volumes of a 3D volume, the final representation has 96 dimensions for HOG and 108 dimensions for HOF. MBH descriptor computes derivatives on both horizontal and vertical components of optical flow $I_\omega = (I_x. I_y)$. Similar to HOG descriptor, the orientation information is quantized into 8-bin histogram. Since the motion information is combined along two directions, the final representation is $96 \times 2 = 192$-bin histogram. By presenting gradient of optical flow, MBH descriptor is able to suppress global motion information and only keep local relative changes in pixels.
 
 According to the authors \cite{laptev2008learning, wang2011densetraj, wang2009evaluation, liu2009recognizing}, all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in \cite{wang2011densetraj}. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
 
 \subsection{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}
 
-Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in Figure \ref{lbl:Figure_ProposedMethod}. In particular, we choose three representations to represents for 3 view directions: front, side, and top in 3D space. Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories are extracted from the intensity representations. And the feature descriptors are also computed in this step. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by apply a bag-of-words (BoW) model. An \textit{early fusion} scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}).
+Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in figure \ref{lbl:Figure_ProposedMethod}. In particular, we choose three representations to represents for 3 view directions: front, side, and top in 3D space. Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories are extracted from the intensity representations. And feature descriptors are also computed in this step. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by apply a bag-of-words (BoW) model. An \textit{early fusion} scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}).
 
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=0.7\textwidth]{Projections.png}
-	\end{center}
-	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
-\end{figure}
-
-%- Hình 2 - Illustration of proposed method - Depth maps -> 3 projections -> dense trajectories
-
-In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information in different intensity representations.
-
-\begin{figure}[H]
+\begin{figure}
 %	\begin{center}
 	\centering
 %	\resizebox{1.2\textwidth}{!}{ %
@@ -217,7 +222,9 @@ In order to generate intensity representations from the sequence of depth maps, 
 \end{figure}
 %- Hình 3 - Framework overview for our system - Depth data -> 3 feature extraction -> 3 BoW model -> 3 histogramintersection-SVM -> concatenated-score features -> chi-kernel SVM classifier
 
-Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an unsolved problem, due to the challenges, such as cluttered background, hardware quality, camera motion, so on.
+In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information from different intensity representations.
+
+Our proposed trajectory-based approach is compared with the state-of-the-art methods in human action recognition using depth data. Actually, our approach does not care skeleton extraction, which is used as an important factor in some works, such as \cite{wang2012mining, yang2012eigenjoints}. In fact, extracting skeleton exactly is still an completely unsolved problem, due to the challenges, such as cluttered background, hardware quality, camera motion, so on.
 
 \section{Experimental Settings}
 \label{lbl:ExperimentalSettings}
@@ -291,9 +298,9 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 \subsection{Evaluation Method}
 
 
-Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-features. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each. After that, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations.
+Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-descriptors. Experimental results reported in section \ref{lbl:ExperimentalResults} attach to the MBH descriptor. The HOG, HOF descriptors will be mentioned in the section \ref{lbl:Discussions}. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each. After that, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations.
 
-Once all the BoW histograms are generated, we adopt the late-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection measurement for the classification step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the BoW histograms of corresponding intensity representations are concatenated to generate the final feature representation. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
+Once all the BoW histograms are generated, we adopt the early-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the BoW histograms of corresponding intensity representations are concatenated to generate the final feature representation. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
 
 \section{Experimental Results}
 \label{lbl:ExperimentalResults}
@@ -317,7 +324,7 @@ This section presents the experimental results from applying our proposed approa
 
 \subsection{Recognize Actions from An Intensity Representation}
 
-Table \ref{lbl:Table_MBHvsSoAonFront} - lists the results from our trajectory-based approach on front representation. Interestingly, the result table indicates that this approach beats all the state-of-the-art methods based on silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. However, the results also show that there is significant difference of the performance among the used feature descriptors.
+Table \ref{lbl:Table_MBHvsSoAonFront} shows evaluation results of our trajectory-based approach on front representation and the state-of-the-art methods. In which, methods are based on various feature representations, such as silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features like \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. Interestingly, the result table indicates that our approach beats all of them. Besides, the results also show that there is significant difference of the performance between our method and the rest.
 
 \begin{table}
 	\begin{center}
@@ -349,7 +356,7 @@ Table \ref{lbl:Table_MBHvsSoAonFront} - lists the results from our trajectory-ba
 	\caption{\label{lbl:Table_MBHvsSoAonFront}Results on front representation using MBH descriptor.}
 \end{table}
 
-Consider the results on action subsets reported in Table \ref{lbl:MBHandAS123}, we found that two	 subsets AS1, AS2 contain many confused actions. For example, action-pair \textit{hammer} and \textit{forward punch} in AS1, or \textit{side-boxing} and \textit{hand catch} in AS2, as showed in Table \ref{lbl:AS123ConfusionMatrix}. When analyzing confused actions, we found that the main cause is due to similar movements. And, since depth data is textureless, it makes recognition more difficult. That is a reason why we need compensate information from other intensity representations.
+Consider the results on action subsets reported in Table \ref{lbl:MBHandAS123}, we found that two	 subsets AS1, AS2 contain many confused actions. For example, action-pair \textit{hammer} and \textit{forward punch} in AS1, or \textit{side-boxing} and \textit{hand catch} in AS2, as showed in Table \ref{lbl:AS123ConfusionMatrix}. When analyzing confused actions, we found that the main cause is due to similar motions when only depend on one intensity representation. And, since depth data is textureless, it makes recognition more difficult. That is a reason why we need compensate information from other intensity representations.
 \begin{table}
 	\begin{center}
 		\subfloat[Action Subset 1 \label{lbl:ConfMatAS1}]{ %
@@ -431,7 +438,7 @@ Consider the results on action subsets reported in Table \ref{lbl:MBHandAS123}, 
 		}
 		
 	\end{center}
-	\caption{\label{lbl:AS123ConfusionMatrix}Confusion matrices on three subsets.}
+	\caption{\label{lbl:AS123ConfusionMatrix}Confusion matrices on three subsets. Notice that action names are identified by indices of actions in table \ref{lbl:20actions}}
 \end{table}
 
 \subsection{Compensate Motion Information from Other Representations}
@@ -475,16 +482,20 @@ In this section, we consider the role of representations to our proposed method.
 
 In order to conduct the experiments, we create combinations: front and side, front and top. Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP} indicates that the combination of front and top is better than the combination of front and side. More interestingly, the achieved performance, which is 96.95\% accuracy, from the combination of front and top beats the performance based on combining all the representations, in terms of average. Actually, the discovery provides a good choice to decrease computational cost but still ensures a convincing performance.
 
- \begin{table}[H]
+\subsection{MSR Daily Activity 3D Dataset}
+
+ The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which includes 16 daily activities  (Fig. \ref{lbl:Figure_MSRDaily3D}) such as talking on the phone, reading a book, playing game, ... etc. In this dataset, background objects and subjects appear at different distances to the camera. Table \ref{lbl:Table_Daily3D} shows a comparison between the state-of-the-art methods on MSR Daily Activity 3D dataset. In this experiment, we conduct our trajectory-based approach only on front representation and use MBH descriptor to describe motion feature. In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance. In \cite{xia2013spatio}, they modified this dataset to do evaluation. It is not fair to compare. Therefore, to ensure a fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on original MSR Daily Activity 3D dataset.
+ 
+\begin{table}[H]
  	\begin{center}
  		% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
  		\begin{tabular}{c|c}
  		
  		{\bf Method} & {\bf Accuracy} \\
  		\hline
- 		       LOP \cite{wang2012mining} &       42.5 \\
+       LOP \cite{wang2012mining} &       42.5 \\
  		
- 		     HON4D \cite{oreifej2013hon4d} &         52 \\
+     HON4D \cite{oreifej2013hon4d} &         52 \\
  		
  		DSTIP\&DCSF \cite{xia2013spatio} &      56.88 \\
  		\hline
@@ -493,11 +504,7 @@ In order to conduct the experiments, we create combinations: front and side, fro
  		\end{tabular}
  	\end{center}
  	\caption{\label{lbl:Table_Daily3D}Performance of Methods on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
- \end{table}
-
-\subsection{MSR Daily Activity 3D Dataset}
-
- The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which bao gồm 16 daily activities  (Fig. \ref{lbl:Figure_MSRDaily3D}) such as talking on the phone, reading a book, playing game, ... etc. In this dataset, background objects and subjects appear at different distances to the camera. Table \ref{lbl:Table_Daily3D} shows a comparison between the state-of-the-art methods on MSR Daily Activity 3D dataset. In this experiment, we conduct our trajectory-based approach only on front representation and use MBH descriptor to describe motion feature. In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance. In \cite{xia2013spatio}, they modified this dataset to do evaluation. It is not fair to compare. Therefore, to ensure a fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on original MSR Daily Activity 3D dataset.
+\end{table}
  
 \begin{figure}
 %    \centering
@@ -527,18 +534,24 @@ In order to conduct the experiments, we create combinations: front and side, fro
 	\caption{\label{lbl:Figure_MSRDaily3D}Sample actions on MSR Daily Activity 3D dataset}
 \end{figure}
 
-Although our method outperforms all the state-of-the-art methods, it is not our aim. It is important to note that why in condition of only using depth data, most of methods are failed. When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}. For \textit{playing a game}, main action focus on motion of fingers, it is very difficult to discriminate from depth noise. For \textit{writing on a paper} and \textit{using a latop}, hand gestures are major actions to present motion information. But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop). That is one reason to explain for the failure. The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}. In these cases, objects is small and textureless. Thus it is very difficult to identify these actions exactly if only depending on depth data.
+Although our method outperforms all the state-of-the-art methods, it is not our aim. It is important to note that why in condition of only using depth data, most of methods are failed. When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}. For \textit{playing a game}, main action focus on motion of fingers, it is very difficult to discriminate from depth noise. For \textit{writing on a paper} and \textit{using a laptop}, hand gestures are major actions to present motion information. But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop). That is one reason to explain for the failure. The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}. In these cases, objects are small and textureless, so, it is very difficult to identify them.  Therefore, if only depending on depth data, it it very challenging to recognize these actions exactly. Due to these reasons, in order to improve the performance of recognition systems in terms of interaction, adding more information related to interactive objects must be necessary.
 
-%\subsection{Early versus Late Fusion in Depth Motion Analysis}
+\subsection{Early versus Late Fusion in Our Approach}
 
-%Liên quan đến vấn đề fusion, [snoek2005early] cung cấp một interesting work. Trong work này, tác giả đánh giá các semantic concepts trên 2 fusion schemes: early fusion và late fusion. Thí nghiệm được tiến hành trên the 2004 TRECVID benchmark dataset for visual modality and textual modality. Kết quả chỉ ra là late fusion scheme có khuynh hướng cho kết quả tốt hơn for most concepts. Đánh giá này cũng được sử dụng trong nhiều hệ thống dựa trên multimodal. Vậy đánh giá trên liệu có đúng cho cách tiếp cận của chúng tôi, khi xem xét mỗi intensity representation như là một modality. Để trả lời vấn đề này, chúng tôi thực hiện lại các thí nghiệm trên the late fusion scheme. Trong thí nghiệm này, chúng tôi sử dụng MBH descriptor để represent motion feature và tiến hành trên các tổ hợp representations: (front; side), (front; top) and (front; side; top). Kết quả thí nghiệm được chỉ ra ở Figure [EarlyLateFusion].
+In terms of the fusion, \cite{snoek2005early} provided an interesting work. In this work, authors evaluated semantic concepts on two fusion schemes: early fusion and late fusion. They conducted experiments on the 2004 TRECVID benchmark dataset for visual modality and textual modality. Results indicated that the performance of the late fusion scheme is better than the performance of the early fusion scheme for most concepts. This evaluation are also applied for several multimodal-based analysis systems. However, the conclusion is reasonable or not for our approach, when considering each intensity representation as a modality. In order to answer this issue, we perform similar experiments on the late fusion scheme. In the experimental setting, we use the MBH descriptor to represent motion features and work on representation combinations: (front and side), (front and top) and (front, side and top). Experimental results are showed in figure \ref{lbl:Figure_EarlyLateFusion}.
 
-%Figure [EarlyLateFusion] cho thấy rằng cả hai the fusion schemes đều cho những significant improvements. Mặc dù vậy, do bởi các modalities có tính chất tương tự nhau (i.e. to represent motion information) nên 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Chart_EarlyLateFusion.eps}
+	\caption{\label{lbl:Figure_EarlyLateFusion}Results on the early and late fusion schemes}
+\end{figure}
+
+Figure \ref{lbl:Figure_EarlyLateFusion} indicates that both of the fusion schemes obtain significant improvements. However, the early fusion scheme gets better performances. Actually, we know that disadvantage of the early fusion approach is the difficulty to create a good feature representation, due to the semantic difference of modalities. To deal with this challenge, the late fusion approach is used to convert the representations into the same type of semantics (i.e. probability score). In our approach, due to the similarity of semantics between modalities (i.e. features to represent motion information), the performance of the early fusion approach will tend to be better than the one of the late fusion approach. Besides, the achieved results from combinations confirm again that selecting representations to merge motion information is not a trivial task.
 
 \section{Conclusions}
 \label{lbl:Conclusions}
 
-We proposed using the trajectory-based approach for human action recognition using depth data in this work. We evaluated our approach by using the dense trajectories motion feature on MSR Action 3D datasets. More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data. Beside, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed. Therefore, the effectiveness of our approach on depth datasets like MSR is confirmed.
+We proposed using the trajectory-based approach for human action recognition using depth data in this work. We evaluated our approach by using the dense trajectory motion feature on the challenging datasets. More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data. Beside, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed. Therefore, the effectiveness of our approach on depth datasets like MSR is confirmed.
 
 A trajectory-based approach with compensating information from separate representations shows promising results. This opens a general approach to leverage intensity-based techniques for depth data. This also suggests the importance of trajectory-based motion information on human action recognition using depth data. Therefore, exploiting depth-based motion trajectories can be beneficial for action recognition systems using depth cameras. This is also an interesting idea for our future work.
 
