@@ -107,39 +107,42 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 %\paragraph{Background and Challenges}
 Recently, with the development of RGB-D cameras such as Kinect, depth data pioneers many potential research directions for human action recognition. Compared with conventional intensity images, depth maps support more several advantages. For example, depth maps provide shape information, which can be clearer than intensity images. Moreover, the depth data is less affected by illumination variations. However, an issue is that intensity-based methods are effective or not on depth data, which has not been much interested.
 
-%\paragraph{Existing approaches and drawbacks} 
-For action recognition, in order to effectively adapt intensity-based methods for depth data, we need satisfy two major factors. Firstly, a robust feature representation is extremely important to exactly capture motion information. Secondly, to ensure that a motion contains full information in depth video, merging depth information into feature representation is an indispensable requirement. However, the recent proposed methods do not combine two the factors completely. Works \cite{yang2012recognizing, xia2013spatio} consider depth value as intensity value and adapt the intensity-based techniques. Although, they can achieve reasonable results, they deal with many limitations. \cite{yang2012recognizing} can leverage depth information from the projections of depth maps. But its feature representation based on global motion such as HOG easily cause confusion by similar postures. \cite{xia2013spatio} can ensure depth information in feature descriptor computation. But this approach does not guarantee the reliability when extracting local points, due to textureless data and depth noise. Beside, methods in \cite{wang2012mining, oreifej2013hon4d} only focus on exploiting depth information without leveraging the effectiveness of the intensity-based features. Therefore, we propose an effective method that can satisfy both mentioned factors.
+%\paragraph{Existing approaches and drawbacks}
+In order to apply intensity-based techniques on depth data, firstly depth data must be converted to corresponding intensity data. This issue can be easily performed by considering depth value as intensity value. However, this way can cause risks due to textureless information and depth noises from depth data. For example, \textit{forward punch} and \textit{hammer} are actions with similar movements if we view them from front. Since both actions include movements, respectively: ``lift arm up'' and ``stretch out''. Therefore the additional information is needed to distinguish such actions.
 
+The basis idea to deal with such risks is watching actions from various views. Information achieved from some views can provide clearer cues to discriminate actions. To collect such information from depth data, a simple way is to project depth maps onto view planes. The projections are easily obtained by the mentioned advantages of depth data. Data collected from the planes is then gathered to generate corresponding intensity representations. After receiving the intensity representations, we need a robust feature representation to exactly capture motion information.
+
+%\paragraph{Proposal, Idea and Steps}
+In this paper, we use a feature representation based on dense trajectories proposed by \cite{wang2011densetraj}, due to the effectiveness of this approach in many problems, including  activity recognition and multimedia event detection (MED). The trajectories obtained by tracking densely sampled points using optical flow fields. After extracting the trajectories, trajectory-aligned descriptors will be adopted. Then, features computed from the descriptors will be used to represent motion information in intensity representations.
+
+%For action recognition, in order to effectively adapt intensity-based methods for depth data, we need satisfy two major factors. Firstly, a robust feature representation is extremely important to exactly capture motion information. Secondly, to ensure that a motion contains full information in depth video, merging depth information into feature representation is an indispensable requirement. However, the recent proposed methods do not combine two the factors completely. Works \cite{yang2012recognizing, xia2013spatio} consider depth value as intensity value and adapt the intensity-based techniques. Although, they can achieve reasonable results, they deal with many limitations. The basis idea in \cite{yang2012recognizing} is to accumulate global activities from sequences of segmented human postures in three virtual views. The postures can be obtained by projecting depth maps without background onto three orthogonal planes (i.e. correspond to three view positions: front, side and top). With this approach, feature representations may be ensured including depth information. Due to the density of human postures in performing movements, accumulating global motion information can make confusions in the feature representations of different actions. \cite{xia2013spatio} adopts intensity-based approach proposed in \cite{dollar2005behavior}. In this approach, authors present a filtering method to extract Spatio-Temporal Interest Points of depth video (DSTIP). For challenges from textureless data and depth noise, this approach does not guarantee the reliability to extract local points. Unlike \cite{yang2012recognizing, xia2013spatio}, approaches in \cite{wang2012mining, oreifej2013hon4d} investigate to exploit depth information only. \cite{wang2012mining} designs a new feature called local occupancy pattern (LOP) to describe the local "depth appearance" for the joints. This feature can be suitable to characterize interactive information between the human subject and the environmental objects. \cite{oreifej2013hon4d} accumulates motion information and geometry cues using a histogram capturing the distribution of the surface normal orientation in the 4D space of depth, time, and spatial coordinates. The approaches show promising results on depth information. They, however, do not leverage the effectiveness of the intensity-based techniques. Therefore, we propose an effective method that can satisfy both mentioned factors.
+\iffalse
 \begin{figure}
 	\centering
-		\subfloat[From front view]{\label{subfig1:FrontView}
+		\subfloat[Trajectory shape of action \textit{Forward Punch} on various views]{\label{subfig1:ForwardPunch_TrajShape}
 			\includegraphics[width=0.32\textwidth]{ForwardPunch_FRONT.png}
-			\hspace{2cm}
-			\includegraphics[width=0.32\textwidth]{Hammer_FRONT.png}
+			\includegraphics[width=0.32\textwidth]{ForwardPunch_SIDE.png}
+			\includegraphics[width=0.32\textwidth]{ForwardPunch_TOP.png}
 		}
 		\hfill
-		\subfloat[From side view]{\label{subfig2:SideView}
-			\includegraphics[width=0.32\textwidth]{ForwardPunch_SIDE.png}
-			\hspace{2cm}
+		\subfloat[Trajectory shape of action \textit{Hammer} on various views]{\label{subfig2:Hammer_TrajShape}
+			\includegraphics[width=0.32\textwidth]{Hammer_FRONT.png}
 			\includegraphics[width=0.32\textwidth]{Hammer_SIDE.png}
+			\includegraphics[width=0.32\textwidth]{Hammer_TOP.png}	
 		}
 		\hfill		
-		\subfloat[From top view]{\label{subfig3:TopView}
-			\includegraphics[width=0.32\textwidth]{ForwardPunch_TOP.png}
-			\hspace{2cm}
-			\includegraphics[width=0.32\textwidth]{Hammer_TOP.png}
+		\subfloat[From top view]{\label{subfig3:ForwardPunch_TrajShape}
+			
 		}
 	\caption{An illustrative comparison between trajectories' shape of actions \textit{Forward Punch} and \textit{Hammer}.}
 	\label{fig:Illustration}
 \end{figure}
+\fi
 
-%\paragraph{Proposal, Idea and Steps}
-In this paper, we use a feature representation based on dense trajectories proposed by \cite{wang2011densetraj}, due to the effectiveness of this approach in many problems, including  activity recognition and multimedia event detection (MED). The trajectories obtained by tracking densely sampled points using optical flow fields. After extracting the trajectories, trajectory-aligned descriptors will be adopted. Then, features computed from the descriptors will be used to represent motion information in video.
-
-However, the lack of depth information in feature representation can cause several confused cases due to the similarity of movements. As shown in figure \ref{fig:Illustration}, two actions \textit{hammer} and \textit{forward punch} are confused if we only base on motion information from front representation (i.e. the similarity of trajectory shape of actions (fig. \ref{subfig1:FrontView})). In contrast, motion information from other representations, such as side and top representations, provides a clearer discrimination between the two actions (fig. \ref{subfig2:SideView} \& \ref{subfig3:TopView}). Thus, to ensure that depth information is not ignored, a basic idea is to combine the motion information from various views. The view-based representations can be achieved by projecting depth maps onto the corresponding planes. The projections are easily obtained by the mentioned advantages of depth data.
+However, the lack of depth information in feature representations captured from corresponding intensity representations can cause several mentioned confusions. Thus, to ensure that depth information is not ignored, we need a method to combine the feature representations. In this work, we consider each intensity representation like a modality and apply the early fusion scheme to combine them into a video representation. With this approach, we have not only a robust feature representation but also ensure merging depth information into this feature representation.
 
 %\paragraph{Experiments and Results}
-We conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an adaptive method for depth video representation by using intensity-based features, (2) we perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
+To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an adaptive method for depth video representation by using intensity-based features, (2) we perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
 
 %\paragraph{Paper structure}
 After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the proposed method is described in Section \ref{lbl:ProposedMethod}. Sections \ref{lbl:ExperimentalSettings} and \ref{lbl:ExperimentalResults} present the experimental settings and results. In section \ref{lbl:Discussions} we provide some concerned discussions. The summaries of our work are given in Section \ref{lbl:Conclusions}.
