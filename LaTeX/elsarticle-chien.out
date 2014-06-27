@@ -1,19 +1,17 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Related Works}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Trajectories Extraction}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Feature Representation from Depth Videos}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Proposed Method}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Dense trajectories}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}{section.3}% 7
-\BOOKMARK [1][-]{section.4}{Experimental Settings}{}% 8
-\BOOKMARK [2][-]{subsection.4.1}{Dataset}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.2}{Evaluation Method}{section.4}% 10
-\BOOKMARK [1][-]{section.5}{Experimental Results}{}% 11
-\BOOKMARK [2][-]{subsection.5.1}{Recognize Actions from An Intensity Representation}{section.5}% 12
-\BOOKMARK [2][-]{subsection.5.2}{Compensate Motion Information from Other Representations}{section.5}% 13
-\BOOKMARK [1][-]{section.6}{Discussions}{}% 14
-\BOOKMARK [2][-]{subsection.6.1}{The Impact of Our Method on Descriptors}{section.6}% 15
-\BOOKMARK [2][-]{subsection.6.2}{Evaluate the Role of Intensity Representations}{section.6}% 16
-\BOOKMARK [2][-]{subsection.6.3}{MSR Daily Activity 3D Dataset}{section.6}% 17
-\BOOKMARK [2][-]{subsection.6.4}{Early versus Late Fusion in Our Approach}{section.6}% 18
-\BOOKMARK [1][-]{section.7}{Conclusions}{}% 19
+\BOOKMARK [1][-]{section.3}{Proposed Method}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Dense trajectories}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Experimental Settings}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Dataset}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.2}{Evaluation Method}{section.4}% 8
+\BOOKMARK [1][-]{section.5}{Experimental Results}{}% 9
+\BOOKMARK [2][-]{subsection.5.1}{Recognize Actions from An Intensity Representation}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.2}{Compensate Motion Information from Other Representations}{section.5}% 11
+\BOOKMARK [1][-]{section.6}{Discussions}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{The Impact of Our Method on Descriptors}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Evaluate the Role of Intensity Representations}{section.6}% 14
+\BOOKMARK [2][-]{subsection.6.3}{MSR Daily Activity 3D Dataset}{section.6}% 15
+\BOOKMARK [2][-]{subsection.6.4}{Early versus Late Fusion in Our Approach}{section.6}% 16
+\BOOKMARK [1][-]{section.7}{Conclusions}{}% 17
