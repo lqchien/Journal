@@ -197,7 +197,7 @@ In order to obtain trajectories, there are two important steps: sampling and tra
 \end{equation}
 where \textit{$\omega = (u_t, v_t)$} denotes the dense optical flow field, \textit{M} is the kernel of median filtering, and \textit{$(\bar{x}_t,\bar{y}_t)$} is the rounded position of \textit{$P_t$}. The algorithm of \cite{farneback2003two} is adopted to compute the dense optical flow. And to avoid a drifting problem, a suitable value of trajectory length is set to 15 frames. Besides, trajectories with sudden changes are removed.
 
-After extracting trajectories, two kinds of descriptors: a trajectory shape descriptor and a trajectory-aligned descriptor can be adopted. In our experiments, we only use trajectory-aligned descriptors including the HOG \cite{dalal2005histograms}, the Histogram of Optical Flow (HOF) \cite{laptev2008learning}, and the Motion Boundary Histogram (MBH) \cite{dalal2006human}. The descriptors are computed within a space-time volume ($N \times N$ spatial pixels and $L$ temporal frames) around the trajectory. This volume is divided into a 3D grid (spatially $n_\sigma \times n_\sigma$ grid and temporally $n_\tau$ segments). The default settings of these parameters are $N$ = 32 pixels, $L$ = 15 frames, $n_\sigma$ = 2, and $n_\tau$ = 3.
+After extracting trajectories, two kinds of descriptors: a trajectory shape descriptor and a trajectory-aligned descriptor can be adopted. In our experiments, we only use trajectory-aligned descriptors including the HOG \cite{dalal2005histograms}, the Histogram of Optical Flow (HOF) \cite{laptev2008learning}, and the Motion Boundary Histogram (MBH) \cite{dalal2006human}. HOG captures local appearance information, while HOF and MBH encode local motion pattern. The descriptors are computed within a space-time volume ($N \times N$ spatial pixels and $L$ temporal frames) around the trajectory. This volume is divided into a 3D grid (spatially $n_\sigma \times n_\sigma$ grid and temporally $n_\tau$ segments). The default settings of these parameters are $N$ = 32 pixels, $L$ = 15 frames, $n_\sigma$ = 2, and $n_\tau$ = 3.
 
 \iffalse
 \paragraph{Trajectory Shape Descriptor}This descriptor describes the shape of a trajectory in the simplest way. Given a trajectory of length L, its shape is concatenated by a sequence of displacement vectors \textit{$S = (\Delta P_t, ..., \Delta P_{t+L-1})$}, where \textit{$\Delta P_t = P_{t+1} - P_t = (x_{t+1} - x_t, y_{t+1} - y_t)$}. In order to make the descriptor invariant to scale changes, the final result is then achieved by normalizing the shape vector by the overall magnitude of the displacement vectors:
@@ -234,19 +234,19 @@ where,
 
 And the intensity value $v$ at the projected point $P_\mathcal{P}$ is computed by:
 \begin{equation}
-	v(P_\mathcal{P}) = \frac{(ax_t + by_t + cz_t + d)^2}{a^2 + b^2 + c^2}
+	v(P_\mathcal{P}) = \frac{ax_t + by_t + cz_t + d}{\sqrt{a^2 + b^2 + c^2}}
 \end{equation}
-So, given a set of 3D points $\mathcal{S} = \{(x_t,y_t,z_t)\vert(x_t,y_t,z_t) \in t\}$, we have a projection $\mathcal{S}_\alpha = \{(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})\vert(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P}) \in \mathcal{P}(\alpha)\}$. A set of the projections from a given sequence of depth maps is the expected intensity representation.
+So, given a set of 3D points $\mathcal{S}(t) = \{(x_t,y_t,z_t)\vert(x_t,y_t,z_t) \in t\}$, we have a projection $\mathcal{S}_\alpha(t) = \{(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})\vert(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P}) \in \mathcal{P}(\alpha)\}$. Therefore, a set of the projections obtained from a given sequence of M depth maps under a view direction $\alpha$ is a expected intensity representation $\mathcal{R}(\alpha) = \{\mathcal{S}_\alpha(t) \vert t=\overline{1..M}\}$.
 
-In particular, we choose three representations to represents for three view directions: front, side, and top in 3D space. With these view directions, the corresponding projections are, respectively:
+In particular, we choose three representations to represents for three view directions: front, side, and top in 3D space, corresponding to three view planes, respectively: $Oxy$, $Oyz$ and $Ozx$. With these view directions, the corresponding projections are respectively:
 \begin{equation}
-\mathcal{S}_\text{front} = \{(x_t,y_t,0)\vert(x_t,y_t,0) \in \mathcal{P}:z=0\}
+\mathcal{S}_\text{front}(t) = \{(x_t,y_t,0)\vert(x_t,y_t,0) \in \mathcal{P}:z=0\}
 \end{equation}
 \begin{equation}
-\mathcal{S}_\text{side} = \{(0,y_t,z_t)\vert(0,y_t,z_t) \in \mathcal{P}:x=0\}
+\mathcal{S}_\text{side}(t) = \{(0,y_t,z_t)\vert(0,y_t,z_t) \in \mathcal{P}:x=0\}
 \end{equation}
 \begin{equation}
-\mathcal{S}_\text{top} = \{(x_t,0,z_t)\vert(x_t,0,z_t) \in \mathcal{P}:y=0\}
+\mathcal{S}_\text{top}(t) = \{(x_t,0,z_t)\vert(x_t,0,z_t) \in \mathcal{P}:y=0\}
 \end{equation}
 And the corresponding intensity values in the three projections are, respectively:
 \begin{equation}
@@ -258,7 +258,7 @@ And the corresponding intensity values in the three projections are, respectivel
 \begin{equation}
 	v(P_\text{top}) = y_t
 \end{equation}
-Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. After that, the dense trajectories \cite{wang2011densetraj} are extracted from the intensity representations. With this approach, we do not care the challenges for segmenting human body. Trajectory-aligned descriptors are computed then. At the next step, with each intensity representation, corresponding feature representation is quantized from raw trajectory features by applying a bag-of-words (BoW) model. An \textit{early fusion} scheme is used to generate the final feature representation for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}).
+Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. Afterwards, the dense trajectories \cite{wang2011densetraj} are extracted from the intensity representations. With this approach, we do not care the challenges from human body segmentation as well as skeleton extraction. Trajectory-aligned descriptors are computed then. At the next step, with each intensity representation $\mathcal{R}(\alpha_i)$, $i = \overline{1..N}$, corresponding feature representation $F(\alpha_i) = (b^1_\text{$\alpha_i$},b^2_\text{$\alpha_i$},...,b^K_\text{$\alpha_i$})$ is quantized from a set of raw trajectory features using a bag-of-words (BoW) model with $K$ visual words. For quantization, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations. An \textit{early fusion} scheme, then, which integrates unimodal features before learning, is used to generate feature representation $\mathcal{F} = (F(\alpha_1),...,F(\alpha_N))$ for action in the sequence of depth maps (Fig. \ref{lbl:Figure_Framework}). After the final feature representations are generated, we adopt the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step. Besides, we perform the one-vs-all strategy for multi-class classification.
 
 \begin{figure}
 %	\begin{center}
@@ -347,9 +347,9 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 \subsection{Evaluation Method}
 
 
-Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-descriptors. Experimental results reported in section \ref{lbl:ExperimentalResults} attach to the MBH descriptor. The HOG, HOF descriptors will be mentioned in the section \ref{lbl:Discussions}. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each. After that, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations.
+Figure 3 shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-descriptors. Experimental results reported in section \ref{lbl:ExperimentalResults} attach to the MBH descriptor. The HOG, HOF descriptors will be mentioned in the section \ref{lbl:Discussions}. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each.
 
-Once all the BoW histograms are generated, we adopt the early-fusion scheme with the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step. In our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/} and perform the one-vs-all strategy for multi-class classification. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the BoW histograms of corresponding intensity representations are concatenated to generate the final feature representation. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
+In order to classify actions, in our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/}. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, the BoW histograms of corresponding intensity representations are concatenated to generate the final feature representation. The predicted value is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
 
 \section{Experimental Results}
 \label{lbl:ExperimentalResults}
