@@ -1,0 +1,47 @@
+﻿
+The recognition of human action and motion using computer vision has recently gained more and more interest in recent years [14][10][7].  
+[7]  Pirsiavash, H. and Ramanan, D., 2012. Detecting activities of daily living in first-person camera views. In Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference onIEEE, 2847-2854. 
+[10]  Liu, J., Kuipers, B., and Savarese, S., 2011. Recognizing human actions by attributes. In Computer Vision and Pattern Recognition (CVPR), 2011 IEEE Conference onIEEE, 3337-3344. 
+[14]  Poppe, R., 2010. A survey on vision-based human action recognition. Image and vision computing 28, 6, 976-990. 
+
+Human motion analysis has been a major topic from the early beginning of computer vision [1, 2] due to its relevance to a large variety of applications. 
+1. Klette, R., Tee, G.: Understanding human motion: A historic review. In Rosenhahn, B., Klette, R., Metaxas, D., eds.: Human Motion. Volume 36 of Computational Imaging and Vision. Springer Netherlands (2008) 1–22
+2. Aggarwal, J.: Motion analysis: Past, present and future. In Bhanu, B., Ravishankar, C.V., Roy-Chowdhury, A.K., Aghajan, H., Terzopoulos, D., eds.: Distributed Video Sensor Networks. Springer London (2011) 27–39
+
+
+#--Background
+Action recognition in videos has been one of the very active research field in computer vision [7, 14] due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments. 
+In the recent decades, studies of human action recognition mainly work on video sequences captured by traditional RGB cameras. 
+Because of individual differences, the diversity and complexity of actions, and complex backgrounds, action recognition is still a challenging problem. 
+With the development of new RGB-D cameras, e.g. Kinect camera, capturing color images as well as depth maps has become feasible in real time.
+The depth maps can provide additional cues, such as body shape and motion information to discriminate actions.
+In addition, the new data type is able to generate similar projections from a single view.
+Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition [1-4,...].
+
+#--Motivation
+
+----------
+For action recognition, motion is crucial information to represent actions in videos.
+In order to capture motion information, there are methods, such as: global motion-based methods, space-time interest point-based methods, and trajectory-based methods.
+The global motion-based methods accumulate global activities on a sequence of human postures.
+However, this approach does not only depend on human posture extraction, a non-trivial task, but also easily cause confusions by similar postures.
+An other approach is using space-time filters to detect interest points in motion.
+Works of [x,x,x,x] have showed good results when apply this approach for presenting actions in videos.
+Nevertheless, extracting interest points is not reliable on textureless and noisy data, such as depth data.
+Unlike the mentioned methods, trajectory-based methods mainly depend on tracking sampled points in videos.
+Although, this approach is one of the state-of-the-art solutions [y,y,y,y] to capture motion information exactly, in our best knowledge, there is no work extend to depth video.
+To adapt this approach for depth video, tracking interest points is obviously not a reasonable choice.
+Tracking points densely sampled is a better choice, due to dense sampling does not care challenges from depth data.
+Therefore, we leverage trajectory-based approach with dense sampling to present trajectories in depth videos.
+
+#--Proposed method
+In this paper, we use a feature representation based on dense trajectories proposed by \cite{wang2011densetraj}, due to the effectiveness of this approach in many problems, including  activity recognition and multimedia event detection (MED). In order to apply the trajectory-based approach on depth data, firstly depth video must be converted to corresponding intensity video. This issue can be easily performed by considering depth value as intensity value. However, this way can cause confused cases of action classes. For example, \textit{forward punch} and \textit{hammer} are actions which contain similar movements if we view them from front, including respectively: ``lift arm up'' and ``stretch out''. Therefore the additional information is needed to distinguish such actions.
+
+The basis idea to deal with such cases is to watch actions from various views. Information achieved from the views can provide clearer cues to discriminate such actions. To collect such information from depth video, a simple way is to project depth maps onto view planes. The projections are easily obtained by the mentioned advantages of depth data. Data collected from the planes is then gathered to generate corresponding intensity videos. Dense trajectory-based motion features, then, are extracted on each intensity video. Finally, a bag-of-words model is applied to generate corresponding feature representations.
+
+However, the lack of depth information in the feature representations can cause mentioned confusions. Thus, to ensure that depth information is not ignored, we need a method to combine the feature representations. In this work, we consider each intensity representation like a modality and apply the early fusion scheme to combine them into a video representation. The final video representation can be regarded as a representation of trajectories in 3D space, called \textit{Pseudo-3D Trajectories}. With this approach, we have not only a robust feature representation but also ensure merging depth information into this feature representation.
+
+#--Experiment
+To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an adaptive method for depth video representation by using intensity-based features, (2) we perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
+#--Structure of paper
+After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the proposed method is described in Section \ref{lbl:ProposedMethod}. Sections \ref{lbl:ExperimentalSettings} and \ref{lbl:ExperimentalResults} present the experimental settings and results. In section \ref{lbl:Discussions} we provide some concerned discussions. The summaries of our work are given in Section \ref{lbl:Conclusions}.

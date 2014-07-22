@@ -31,6 +31,8 @@
 \captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
 \renewcommand\thesubfigure{(\alph{subfigure})}
 
+\usepackage{natbib}
+% \biboptions{sort&compress}
 %%%%%%%%%%%%%%%%%%%%%%%
 %% Elsevier bibliography styles
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -105,56 +107,28 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 \section{Introduction}
 
 %\paragraph{Background and Challenges}
-Recently, with the development of RGB-D cameras such as Kinect, depth data pioneers many potential research directions for human action recognition. Compared with conventional intensity images, depth maps support more several advantages. For example, depth maps provide shape information, which can be clearer than intensity images. Moreover, the depth data is less affected by illumination variations. However, an issue is that intensity-based methods are effective or not on depth data, which has not been much interested.
+Action recognition in videos has been one of the very active research fields in computer vision \cite{pirsiavash2012detecting, poppe2010survey} due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments. In the recent decades, studies of human action recognition mainly work on video sequences captured by traditional RGB cameras. Because of individual differences, the diversity and complexity of actions, and complex backgrounds, action recognition is still a challenging problem. With the development of new RGB-D cameras, e.g. Kinect camera, capturing color images as well as depth maps has become feasible in real time. The depth maps can provide additional cues, such as body shape and motion information to discriminate actions. Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition \cite{li2010action, wang2012mining, yang2012eigenjoints, yang2012recognizing, xia2011human, xia2012view, xia2013spatio, oreifej2013hon4d, vieira2012stop, wang2012robust}.
 
 %\paragraph{Existing approaches and drawbacks}
-In order to apply intensity-based techniques on depth data, firstly depth data must be converted to corresponding intensity data. This issue can be easily performed by considering depth value as intensity value. However, this way can cause risks due to textureless information and depth noises from depth data. For example, \textit{forward punch} and \textit{hammer} are actions with similar movements if we view them from front. Since both actions include movements, respectively: ``lift arm up'' and ``stretch out''. Therefore the additional information is needed to distinguish such actions.
-
-The basis idea to deal with such risks is watching actions from various views. Information achieved from some views can provide clearer cues to discriminate actions. To collect such information from depth data, a simple way is to project depth maps onto view planes. The projections are easily obtained by the mentioned advantages of depth data. Data collected from the planes is then gathered to generate corresponding intensity representations. After receiving the intensity representations, we need a robust feature representation to exactly capture motion information.
+For action recognition, motion is crucial information to represent actions in videos.
+In order to capture motion information, there are two major approaches, including: space-time interest point (STIP)-based approach, and trajectory-based approach.
+The STIP-based approach, as described in works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}, generates a compact video representation and accepts background clutter, occlusions and scale changes.
+However, the approach only detects points with dramatic changes in both spatio-temporal directions, it does not provide moving patterns appear in videos.
+To deal with this issue, the trajectory-based approach in \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical} is mainly based on tracking sampled points in videos along time dimension.
+This approach has demonstrated the effectiveness in motion-based problems, such as: action recognition, multimedia event detection (MED), video mining, so on.
+Although, it is one of the state-of-the-art approaches to capture motion information exactly, in our best knowledge, there is no work extend to depth video.
+In this paper, we considers to exploit the trajectory-based approach on depth video.
 
 %\paragraph{Proposal, Idea and Steps}
-In this paper, we use a feature representation based on dense trajectories proposed by \cite{wang2011densetraj}, due to the effectiveness of this approach in many problems, including  activity recognition and multimedia event detection (MED). The trajectories obtained by tracking densely sampled points using optical flow fields. After extracting the trajectories, trajectory-aligned descriptors will be adopted. Then, features computed from the descriptors will be used to represent motion information in intensity representations.
+In order to adapt the trajectory-based approach on depth video, we must transform depth video to corresponding intensity video. This issue can be easily performed by considering depth value as intensity value. However, this way can cause confused cases of action classes. For example, \textit{forward punch} and \textit{hammer} may be confused actions, if we view them from front, since they contain similar movements respectively: ``lift arm up'' and ``stretch out''. Therefore the additional information is needed to distinguish such actions.
 
-%For action recognition, in order to effectively adapt intensity-based methods for depth data, we need satisfy two major factors. Firstly, a robust feature representation is extremely important to exactly capture motion information. Secondly, to ensure that a motion contains full information in depth video, merging depth information into feature representation is an indispensable requirement. However, the recent proposed methods do not combine two the factors completely. Works \cite{yang2012recognizing, xia2013spatio} consider depth value as intensity value and adapt the intensity-based techniques. Although, they can achieve reasonable results, they deal with many limitations. The basis idea in \cite{yang2012recognizing} is to accumulate global activities from sequences of segmented human postures in three virtual views. The postures can be obtained by projecting depth maps without background onto three orthogonal planes (i.e. correspond to three view positions: front, side and top). With this approach, feature representations may be ensured including depth information. Due to the density of human postures in performing movements, accumulating global motion information can make confusions in the feature representations of different actions. \cite{xia2013spatio} adopts intensity-based approach proposed in \cite{dollar2005behavior}. In this approach, authors present a filtering method to extract Spatio-Temporal Interest Points of depth video (DSTIP). For challenges from textureless data and depth noise, this approach does not guarantee the reliability to extract local points. Unlike \cite{yang2012recognizing, xia2013spatio}, approaches in \cite{wang2012mining, oreifej2013hon4d} investigate to exploit depth information only. \cite{wang2012mining} designs a new feature called local occupancy pattern (LOP) to describe the local "depth appearance" for the joints. This feature can be suitable to characterize interactive information between the human subject and the environmental objects. \cite{oreifej2013hon4d} accumulates motion information and geometry cues using a histogram capturing the distribution of the surface normal orientation in the 4D space of depth, time, and spatial coordinates. The approaches show promising results on depth information. They, however, do not leverage the effectiveness of the intensity-based techniques. Therefore, we propose an effective method that can satisfy both mentioned factors.
-\iffalse
-\begin{figure}
-	\centering
-		\subfloat[Trajectory shape of action \textit{Forward Punch} on various views]{\label{subfig1:ForwardPunch_TrajShape}
-			\includegraphics[width=0.32\textwidth]{ForwardPunch_FRONT.png}
-			\includegraphics[width=0.32\textwidth]{ForwardPunch_SIDE.png}
-			\includegraphics[width=0.32\textwidth]{ForwardPunch_TOP.png}
-		}
-		\hfill
-		\subfloat[Trajectory shape of action \textit{Hammer} on various views]{\label{subfig2:Hammer_TrajShape}
-			\includegraphics[width=0.32\textwidth]{Hammer_FRONT.png}
-			\includegraphics[width=0.32\textwidth]{Hammer_SIDE.png}
-			\includegraphics[width=0.32\textwidth]{Hammer_TOP.png}	
-		}
-		\hfill		
-		\subfloat[From top view]{\label{subfig3:ForwardPunch_TrajShape}
-			
-		}
-	\caption{An illustrative comparison between trajectories' shape of actions \textit{Forward Punch} and \textit{Hammer}.}
-	\label{fig:Illustration}
-\end{figure}
-\fi
-
-However, the lack of depth information in feature representations captured from corresponding intensity representations can cause several mentioned confusions. Thus, to ensure that depth information is not ignored, we need a method to combine the feature representations. In this work, we consider each intensity representation like a modality and apply the early fusion scheme to combine them into a video representation. The video representation can be regarded as a representation of trajectories in 3D space, called \textit{Pseudo-3D Trajectories}. With this approach, we have not only a robust feature representation but also ensure merging depth information into this feature representation.
+The basis idea to deal with such cases is to watch actions from various views. Information achieved from the views can provide clearer cues to discriminate such actions. To collect such information from depth video, a simple way is to project depth maps onto view planes. The projections are easily obtained by the mentioned advantages of depth data. Data projected on the planes is then gathered to generate corresponding intensity videos. Trajectory-based motion features are then calculated on intensity videos to generate a final feature representation for depth video. The final feature representation can be regarded as a representation of trajectories in 3D space, called \textit{Pseudo-3D Trajectories}.
 
 %\paragraph{Experiments and Results}
-To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an adaptive method for depth video representation by using intensity-based features, (2) we perform comprehensive experiments on the challenging benchmark datasets and indicate that our method is the best when compared with the state-of-the-art depth-based methods.
+To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an effective method to exploit trajectories in depth video, (2) we perform comprehensive experiments on the challenging benchmark dataset and indicate that our proposed method is the best when compared with the state-of-the-art depth-based methods.
 
 %\paragraph{Paper structure}
 After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the proposed method is described in Section \ref{lbl:ProposedMethod}. Sections \ref{lbl:ExperimentalSettings} and \ref{lbl:ExperimentalResults} present the experimental settings and results. In section \ref{lbl:Discussions} we provide some concerned discussions. The summaries of our work are given in Section \ref{lbl:Conclusions}.
-
-% % Vietnamese version
-%\paragraph{Background and Challenges} Gần đây, với sự phát triển của RGB-D camera như Kinect, depth data đã mở ra nhiều hướng nghiên cứu tiềm năng cho bài toán Human Action Recognition. So sánh với intensity images thông thường, depth maps hỗ trợ nhiều advantages hơn. Ví dụ, depth maps cung cấp các thông tin về shape rõ ràng hơn so với intensity images. Hơn thế nữa, depth data ít bị ảnh hưởng bởi những thay đổi của ánh sáng. Tuy nhiên, các phương pháp dựa trên intensity liệu có hiệu quả trên depth data hay không vẫn chưa được quan tâm nhiều.
-
-%\paragraph{Existing approaches and drawbacks} Trong bài toán action recognition, để adapt các phương pháp dựa trên intensity cho depth data có 2 yếu tố chính. Thứ nhất, để capture motion information hiệu quả việc chọn lựa a robust feature representation là rất quan trọng. Thứ hai, để đảm bảo motion là đầy đủ thông tin trong depth video, việc bổ sung thông tin depth vào feature representation là yêu cầu không thể thiếu. Tuy nhiên, các phương pháp được đề xuất gần đây vẫn chưa hội tụ đủ 2 yếu tố này. Một số phương pháp như \cite{yang2012recognizing, xia2013spatio} xem xét depth value như là intensity value và adapt các intensity-based techniques. Mặc dù, chúng có thể đạt được những kết quả hợp lý, nhưng tất cả chúng đều phải đối mặt với nhiều hạn chế. [DMM-HOG] có thể tận dụng thông tin depth từ các phép chiếu của depth maps. Nhưng its feature representation dựa trên global motion như HOG sẽ dễ gây nhầm lẫn bởi những similar postures. \cite{xia2013spatio} có thể đảm bảo depth information trong việc tính toán features. Nhưng cách tiếp cận này không đảm bảo được sự tin cậy khi extract các local points, do bởi textureless data and depth noise. Ngoài hướng tiếp cận trên, các phương pháp như \cite{wang2012mining, oreifej2013hon4d} chỉ tập trung khai thác depth information nên không tận dụng được sức mạnh của các intensity-based features. Do đó, hướng nghiên cứu của chúng tôi là propose một phương pháp có thể đáp ứng đầy đủ cả 2 yếu tố nêu trên.
-
-%\paragraph{Proposal, Idea and Steps}Trong bài báo này, chúng tôi sử dụng một feature representation dựa trên dense trajectories của \cite{wang2011densetraj}, do bởi hiệu quả của cách tiếp cận này trong nhiều bài toán, including activity recognition and multimedia event detection. Các trajectories thu được bằng cách tracking các sampled points densely sử dụng optical flow fields. Sau khi extract trajectories, các trajectory-aligned descriptors sẽ được adopted. Sau đó, features tính toán được từ các descriptors này sẽ được sử dụng cho việc biểu diễn motion information trong video.
-
-%Tuy nhiên, việc thiếu sót depth information trong feature representation có thể gây ra các trường hợp bị confused, như được chỉ ra trong Figure \ref{subfig-1:FrontView}. Do đó, để đảm bảo việc không bỏ sót thông tin depth, ý tưởng cơ bản là combine thông tin chuyển động từ nhiều góc nhìn khác nhau. Các biểu diễn từ nhiều góc nhìn có thể đạt được bằng cách chiếu depth maps lên trên các mặt phẳng tương ứng. Việc chiếu này dễ dàng thực hiện được bởi những thuận lợi mà depth data mang lại.
 
 \section{Related Works}
 \label{lbl:RelatedWorks}
@@ -605,5 +579,6 @@ A trajectory-based approach with compensating information from separate represen
 
 \bibliographystyle{splncs}
 \bibliography{JournalPaper_Ref}
+\biboptions{sort&compress}
 
 \end{document}
