@@ -111,18 +111,27 @@ Action recognition in videos has been one of the very active research fields in 
 
 %\paragraph{Existing approaches and drawbacks}
 For action recognition, motion is crucial information to represent actions in videos.
-In order to capture motion information, there are two major approaches, including: space-time interest point (STIP)-based approach, and trajectory-based approach.
-The STIP-based approach, as described in works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}, generates a compact video representation and accepts background clutter, occlusions and scale changes.
-However, the approach only detects points with dramatic changes in both spatio-temporal directions, it does not provide moving patterns appear in videos.
-To deal with this issue, the trajectory-based approach in \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical} is mainly based on tracking sampled points in videos along time dimension.
-This approach has demonstrated the effectiveness in motion-based problems, such as: action recognition, multimedia event detection (MED), video mining, so on.
-Although, it is one of the state-of-the-art approaches to capture motion information exactly, in our best knowledge, there is no work extend to depth video.
+In order to capture motion information, there are two major approaches, including: detecting salient points, and tracking sampled points.
+The first approach, as described in works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}, generates a compact video representation and accepts background clutter, occlusions and scale changes.
+However, the approach only detects points with dramatic changes in both spatio-temporal directions, it does not capture moving patterns appear in videos.
+Therefore, this approach may deal with several challenges to recognize complicated motions.
+An other approach is based on tracking sampled points in videos along time dimension.
+With tracking, moving patterns are easily captured, thereby it provides motion information more exactly.
+This approach has demonstrated the effectiveness in studies \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical} concentrate on exploiting trajectories in video.
+In our best knowledge, there is no related work extend to depth video.
 In this paper, we considers to exploit the trajectory-based approach on depth video.
 
 %\paragraph{Proposal, Idea and Steps}
 In order to adapt the trajectory-based approach on depth video, we must transform depth video to corresponding intensity video. This issue can be easily performed by considering depth value as intensity value. However, this way can cause confused cases of action classes. For example, \textit{forward punch} and \textit{hammer} may be confused actions, if we view them from front, since they contain similar movements respectively: ``lift arm up'' and ``stretch out''. Therefore the additional information is needed to distinguish such actions.
 
-The basis idea to deal with such cases is to watch actions from various views. Information achieved from the views can provide clearer cues to discriminate such actions. To collect such information from depth video, a simple way is to project depth maps onto view planes. The projections are easily obtained by the mentioned advantages of depth data. Data projected on the planes is then gathered to generate corresponding intensity videos. Trajectory-based motion features are then calculated on intensity videos to generate a final feature representation for depth video. The final feature representation can be regarded as a representation of trajectories in 3D space, called \textit{Pseudo-3D Trajectories}.
+The basis idea to deal with such cases is to watch actions from various views. Information achieved from the views can provide clearer cues to discriminate such actions. To collect such information from depth video, a simple way is to project depth maps onto view planes, see figure \ref{lbl:Figure_ProposedMethod}. The projections are easily obtained by the mentioned advantages of depth data. Data projected on the planes is then gathered to generate corresponding intensity videos. Trajectory-based motion features are then calculated on intensity videos to generate a final feature representation for depth video. The final feature representation can be regarded as a representation of trajectories in 3D space, called \textit{Pseudo-3D Trajectories}.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{Projections.png}
+	\end{center}
+	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
+\end{figure}
 
 %\paragraph{Experiments and Results}
 To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset. Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data. The results also present our contributions: (1) we propose an effective method to exploit trajectories in depth video, (2) we perform comprehensive experiments on the challenging benchmark dataset and indicate that our proposed method is the best when compared with the state-of-the-art depth-based methods.
@@ -151,15 +160,6 @@ Different from the previous approaches, we use a trajectory-based approach for a
 \label{lbl:ProposedMethod}
 
 This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, we provide a brief review of the dense trajectory-based feature proposed by Wang.H et al. \cite{wang2011densetraj}. Related parts, such as: dense sampling, tracking and feature descriptors are also referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
-
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=0.7\textwidth]{Projections.png}
-	\end{center}
-	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
-\end{figure}
-
-%- Hình 2 - Illustration of proposed method - Depth maps -> 3 projections -> dense trajectories
 
 \subsection{Dense trajectories}
 % - Giới thiệu khái quát về dense trajectories
