@@ -92,7 +92,13 @@
 
 
 \begin{abstract}
-Leveraging the motion information of trajectories shows the effectiveness to the human action recognition in intensity videos. However, the influence of this approach for representing motions in depth video is not still answered. In this paper, we will deal with this issue by conducting experiments based on intensity trajectory features to describe motion information in depth video. In addition, in order to ensure including depth information, we propose a method based on compensating motion information from different representations of depth video. Evaluated on benchmark datasets, our method significantly outperforms the state-of-the-art depth-based methods.
+Dense trajectory-based approaches on 2D videos have been demonstrated state-of-the-art at action recognition since it can capture most discriminative motions.
+% However, ...
+In this work, we extend the approach on depth video and show its effectiveness on action recognition.
+We extract dense trajectories from 2D videos transformed from depth video and apply trajectory-aligned descriptors to calculate motion features.
+Further, we present a projection method to view actions under different directions that provide additional information for recognizing actions more exactly.
+We evaluate this approach on framework of action recognition using the benchmark MSR Action 3D and MSR Activity Daily 3D datasets.
+Evaluation results show that our proposed approach is effective for action recognition on depth video and outperforms the state-of-the-art methods.
 \end{abstract}
 
 \begin{keyword}
@@ -107,38 +113,46 @@ Leveraging the motion information of trajectories shows the effectiveness to the
 \section{Introduction}
 
 %\paragraph{Background and Challenges}
-Action recognition in videos has been one of the very active research fields in computer vision \cite{pirsiavash2012detecting, poppe2010survey} due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments.
-In the recent decades, studies of human action recognition mainly work on video sequences captured by traditional RGB cameras.
-Because of individual differences, the diversity and complexity of actions, and complex backgrounds, action recognition is still a challenging problem.
-In domain of 2D videos, two approaches are used popularly, including: spatio-temporal interest points (STIP)-based approach and trajectory-based approach.
-The first approach, as described in works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}, generates a compact video representation and accepts background clutter, occlusions and scale changes.
-However, in case of recognizing complicated motions, the approach deals with several challenges, due to the lack of relationship of interest points.
-In recent studies \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical}, an other approach based on trajectories captures moving patterns in video, thereby it provides additional information to recognize motions more exactly.
-H.Wang et al. \cite{wang2011densetraj} has demonstrated that dense trajectory-based approach is the state-of-the-art approach for action recognition.
+Action recognition in videos has been one of the active research fields in computer vision \cite{pirsiavash2012detecting, poppe2010survey} due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments.
+Due to the diversity and complexity of actions, and complicated environment (e.g background clutter and illumination variation), action recognition is still a challenging problem.
+In order to solve this problem, related approaches can be divided into three major directions, including silhouette-based \cite{blank2005actions, ke2007event, vitaladevuni2008action, yilmaz2005actions}, salient point-based \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient} and trajectory-based \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical}.
+All the three approaches, especially, try to capture motion information that appears in videos, since motion is crucial information for presenting actions.
+Based on work of H.Wang et al. \cite{wang2011densetraj}, dense trajectory-based approach has been demonstrated that it is the state-of-the-art approach for action recognition \cite{phan2014multimedia, oneata2012axes, natarajan2012bbn}.
+%Recently, the dense trajectory-based motion feature proposed by \cite{wang2011densetraj} has achieved the state-of-the-art performances on multimedia event detection (MED) systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
 
 %\paragraph{Existing approaches and drawbacks}
+In the past decades, most studies in human action recognition mainly investigate on video sequences captured by traditional 2D cameras.
+Although, there are many advanced approaches for action recognition in domain of 2D videos, the mentioned challenges are still difficult to handle.
 With the development of new RGB-D cameras, e.g. Kinect camera, capturing color images as well as depth maps has become feasible in real time.
-The depth maps can provide additional cues, such as body shape and motion information to discriminate actions.
-Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition \cite{li2010action, wang2012mining, yang2012eigenjoints, yang2012recognizing, xia2011human, xia2012view, xia2013spatio, oreifej2013hon4d, vieira2012stop, wang2012robust}.
-In our best knowledge, none success with combining dense trajectories, the state-of-the-art approach on 2D video, and depth video.
+The depth maps can enrich information for cues, such as body shape and motion information.
+In addition, depth information is less sensitive to the challenges RGB information usually deals with.
+Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition \cite{li2010action, wang2012mining, vieira2012stop, yang2012eigenjoints, yang2012recognizing, wang2012robust, xia2013spatio, oreifej2013hon4d}.
+% Works \cite{li2010action, yang2012recognizing, xia2013spatio} leverage the 2D technique robustness to adapt for depth video.
+% In contrast, others \cite{vieira2012stop, wang2012robust, oreifej2013hon4d} propose methods to recognize actions in depth videos as in 4D data.
+% Besides, skeleton information, the higher-level information of depth data, is also proposed to use in works \cite{wang2012mining, yang2012eigenjoints}.
+However, in our best knowledge, none success with combining dense trajectories, the state-of-the-art approach on 2D video, and depth video.
 In this paper, we investigate to exploit the dense trajectory-based approach on depth video.
 
 %\paragraph{Proposal, Idea and Steps}
-In order to exploit the 2D approach on depth video, we must transform depth video to corresponding 2D video.
-This issue can be easily performed by considering depth value as intensity value.
-However, this way can cause confused cases of action classes.
-For example, forward punch and hammer may be confused actions, if we view them from front, since they contain similar movements respectively: “lift arm up” and “stretch out”.
-Therefore the additional information is needed to distinguish such actions.
+The dense trajectory-based approach leverages dense sampling to keep most discriminative trajectories in video.
+Therefore, in order to effectively exploit this approach on depth video, it is necessary to exactly extract discriminative trajectories in depth video.
+To perform this requirement, a straightforward method is to consider depth value as intensity value and adapts extracting dense trajectories on 2D transformed videos.
+However, unlike RGB information, depth information is textureless and more unstable.
+Besides, depth noise usually appears in any environment due to several reasons, such as systematic errors and non-systematic errors, as described in \cite{foix2011lock}.
+Thus, applying the dense trajectory-based approach always deals with confused cases of action classes.
+For example, \textit{forward punch} and \textit{hammer} may be confused actions, if we view them from front, since they contain similar movements respectively: ``lift arm up'' and ``stretch out''.
+Obviously, it is difficult to distinguish such actions with data contains less discriminative information as depth data.
+This is major reason to require additional information for effectively recognizing actions.
 
-\begin{figure}[H]
+\begin{figure}
 	\begin{center}
 		\includegraphics[width=0.7\textwidth]{Projections.png}
 	\end{center}
 	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
 \end{figure}
 
-The basis idea to deal with such cases is to watch actions from various views.
-Information achieved from the views can provide clearer cues to discriminate such actions.
+The basis idea to deal with such cases is to view actions from various directions.
+Information achieved from the view directions can provide clearer cues to discriminate such actions.
 To collect such information from depth video, a simple way is to project depth maps onto view planes, see figure \ref{lbl:Figure_ProposedMethod}.
 The projections are easily obtained by the mentioned advantages of depth data.
 Data projected on the planes is then gathered to generate corresponding 2D videos.
@@ -155,7 +169,16 @@ After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the 
 \section{Related Works}
 \label{lbl:RelatedWorks}
 
-In terms of human action recognition in depth video, most recent methods exploit depth information into two major directions. The first one is adapting intensity techniques-based methods for depth data. The second one is to use depth value as its mean.
+In terms of action recognition in 2D video, there are three popular approaches used in several action recognition systems, including silhouette-based, salient point-based and trajectory-based.
+The silhouette-based approach, as described in \cite{blank2005actions, ke2007event, vitaladevuni2008action, yilmaz2005actions}, is powerful since it encodes a great deal of information in a sequence of images.
+However, it is sensitive to different viewpoints, noise and occlusions.
+Besides, it depends on the accuracy of localization, background subtraction or tracking for exactly extracting region of interest.
+An other approach based on salient points generates a compact video representation and accepts background clutter, occlusions and scale changes.
+The effectiveness of this approach is also showed in several works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}.
+However, in case of recognizing complicated motions, the salient point-based approach deals with several challenges, due to the lack of relationship of salient points.
+In recent studies \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical}, the trajectory-based approach captures moving patterns in video, thereby it provides additional information to recognize motions more exactly.
+
+For depth video, most recent methods exploit depth information into two major directions. The first one is to adapt 2D techniques-based methods for depth data. The second one is to use depth value as its mean.
 
 For the first direction, Yang.X et al. \cite{yang2012recognizing} propose the Depth Motion Maps (DMM) to accumulate global activities in depth video sequences. The DMM are generated by stacking motion energy of depth maps projected onto three orthogonal Cartesian planes. And the Histogram of Oriented Gradients (HOG) \cite{dalal2005histograms} are computed from the DMM to represent an action video. Another approach proposed by Xia.L and Aggarwal.J.K \cite{xia2013spatio} presents a filtering method to extract spatio-temporal interest points from depth videos (DSTIPs). In this approach, they extend a work of Dollar et al. \cite{dollar2005behavior} to adapt for depth data. Firstly, 2D and 1D filters (e.g. Gaussian and Gabor filters) are applied respectively on to the spatial dimensions and temporal dimension in depth video. A correction function then is used to suppress points as depth noises. Finally, points with the largest responses by this filtering method will be selected as the DSTIPs for each video. Besides, a depth cuboid similarity feature (DCSF) is proposed to describe a 3D cuboid around the DSTIPs with supporting size to be adaptable to the depth.
 
@@ -167,16 +190,20 @@ Recently, Oreifej and Liu \cite{oreifej2013hon4d} presented a new descriptor for
 
 Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, the work by Yang et al. \cite{yang2012eigenjoints} developed the EigenJoints features based on skeleton information from RGBD sequences. The features contain three feature channels: posture, motion and offset. The posture and motion features represent spatial and temporal information, respectively. The offset features encode the difference between a pose with the initial pose in assumption that the initial pose is neutral. The three channels, then, are normalized and reduced by applying PCA method to obtain the EigenJoints descriptor.
 
-Different from the previous approaches, we use a trajectory-based approach for action recognition. We do not care to segment human body like \cite{li2010action,yang2012recognizing}. Besides, skeleton extraction used in \cite{yang2012eigenjoints, wang2012mining} is not also required in our work. We only investigate the benefit of generating intensity representations from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no method has previously proposed adapting trajectory-based approach for human action recognition in depth video. We conduct evaluations on recognition accuracy using dense trajectories motion feature proposed by Wang et al. \cite{wang2011densetraj}.
+Different from the previous approaches, we use a dense trajectory-based approach for action recognition. We do not care to segment human body like \cite{li2010action,yang2012recognizing}. Besides, skeleton extraction used in \cite{yang2012eigenjoints, wang2012mining} is not also required in our work. We only investigate the benefit of generating intensity representations from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no method has previously proposed to adapt the dense trajectory-based approach for human action recognition in depth video. We conduct evaluations on recognition accuracy in depth video using dense trajectories motion feature proposed by Wang et al. \cite{wang2011densetraj}.
 
 \section{Proposed Method}
 \label{lbl:ProposedMethod}
 
-This paper presents a effective depth video representation by adapting intensity trajectories-based motion features. First, we provide a brief review of the dense trajectory-based feature proposed by Wang.H et al. \cite{wang2011densetraj}. Related parts, such as: dense sampling, tracking and feature descriptors are also referred to. Our trajectories-based approach for depth data is mentioned at the end of this section.
+This paper presents an effective method for action recognition on depth video by adapting the dense trajectory-based motion feature. First, we provide a brief review of the dense trajectory-based feature proposed by Wang.H et al. \cite{wang2011densetraj}. Related parts, such as: dense sampling, tracking and feature descriptors are also referred to. Our dense trajectory-based approach on depth video is mentioned at the end of this section.
 
 \subsection{Dense trajectories}
 % - Giới thiệu khái quát về dense trajectories
-Trajectories provide a compact representation of motion information in video. Trajectories from intensity videos can be used for MED, video mining, action classification and so on. Trajectory extraction much depends on both processes: sampling and tracking. Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched  SIFT descriptors between consecutive frames to obtain feature trajectories. Recently, the dense trajectories feature proposed by \cite{wang2011densetraj} has achieved state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
+Trajectories provide a compact representation of motion information in video.
+Trajectories from intensity videos can be used for multimedia event detection (MED), video mining, action classification and so on.
+Trajectory extraction much depends on both processes: sampling and tracking.
+Some concerned methods, such as \cite{matikainen2009trajectons, messing2009activity} used KLT tracker \cite{lucas1981iterative}, or \cite{sun2009hierarchical} matched SIFT descriptors between consecutive frames to obtain feature trajectories.
+Recently, the dense trajectory-based motion feature proposed by \cite{wang2011densetraj} has achieved the state-of-the-art performances on MED systems, such as, segment-based system \cite{phan2014multimedia} on TRECVID MED 2010, 2011, or AXES \cite{oneata2012axes}, and BBNVISER \cite{natarajan2012bbn} on TRECVID MED 2012.
 
 In order to obtain trajectories, there are two important steps: sampling and tracking. \cite{wang2011densetraj} propose sampling on a dense grid with a step size of 5 pixels. The sampling is performed at multiple scales with a factor of $1/\sqrt{2}$. Then, tracking is the next step to form trajectories. At each scale, in frame \textit{t}, each point \textit{$P_t = (x_t, y_t)$} is tracked to point \textit{$P_{t+1} = (x_{t+1}, y_{t+1})$} in next frame \textit{t+1} by:
 \begin{equation}
@@ -198,9 +225,19 @@ After extracting trajectories, two kinds of descriptors: a trajectory shape desc
 
 According to the authors \cite{laptev2008learning, wang2011densetraj, wang2009evaluation, liu2009recognizing}, all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in \cite{wang2011densetraj}. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
 
-\subsection{Pseudo-3D trajectory-based Approach for Motion Feature in Depth Data}
+\subsection{Proposed Method to Adapt Dense Trajectory-based Approach for Depth Video}
 
-Our proposed trajectory-based approach for human action recognition in depth data is as follow. At first, intensity representations are formed from the sequence of depth maps, as illustrated in figure \ref{lbl:Figure_ProposedMethod}. At this step, to obtain an intensity representation from an view direction $\alpha$, corresponding to a view plane $\mathcal{P}(\alpha): ax + by + cx + d = 0$, in each depth map $t$, each point $P_t(x_t,y_t,z_t)$ is projected to $P_\mathcal{P}(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})$ on the view plane $\mathcal{P}(\alpha)$ by:
+Our proposed method to adapt the dense trajectory-based approach for human action recognition in depth video is as follow. At first, intensity videos are formed from the sequence of depth maps, as illustrated in figure \ref{lbl:Figure_ProposedMethod}. At this step, to obtain an intensity video from a view direction $\alpha$, corresponding to a view plane $\mathcal{P}(\alpha): ax + by + cx + d = 0$, in each depth map $t$, each point $P_t(x_t,y_t,z_t)$ is projected to $P_\mathcal{P}(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})$ on the view plane $\mathcal{P}(\alpha)$, see in figure \ref{lbl:Figure_PointProjection}, by:
+
+\begin{figure}
+%	\begin{center}
+	\centering
+%	\resizebox{1.2\textwidth}{!}{ %
+		\includegraphics[width=0.7\textwidth]{Figure_PointProjection.pdf} %
+%	}
+%	\end{center}
+	\caption{\label{lbl:Figure_PointProjection}An illustration of the projection. Point $P_\mathcal{P}$ is the projection of point $P_t$ along a view direction $\alpha$ onto a view plane $\mathcal{P}(\alpha)$.}
+\end{figure}
 
 \begin{equation}
 	P_t(x_t,y_t,z_t)\xrightarrow{\mathcal{P}(\alpha)}P_\mathcal{P}(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})
@@ -220,7 +257,7 @@ And the intensity value $v$ at the projected point $P_\mathcal{P}$ is computed b
 \begin{equation}
 	v(P_\mathcal{P}) = \frac{ax_t + by_t + cz_t + d}{\sqrt{a^2 + b^2 + c^2}}
 \end{equation}
-So, given a set of 3D points $\mathcal{S}(t) = \{(x_t,y_t,z_t)\vert(x_t,y_t,z_t) \in t\}$, we have a projection $\mathcal{S}_\alpha(t) = \{(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})\vert(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P}) \in \mathcal{P}(\alpha)\}$. Therefore, a set of the projections obtained from a given sequence of M depth maps under a view direction $\alpha$ is a expected intensity representation $\mathcal{R}(\alpha) = \{\mathcal{S}_\alpha(t) \vert t=\overline{1..M}\}$.
+So, given a set of 3D points $\mathcal{S}(t) = \{(x_t,y_t,z_t)\vert(x_t,y_t,z_t) \in t\}$, we have a projection $\mathcal{S}_\alpha(t) = \{(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})\vert(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P}) \in \mathcal{P}(\alpha)\}$. Therefore, a set of the projections obtained from a given sequence of M depth maps under a view direction $\alpha$ is an expected intensity video $\mathcal{R}(\alpha) = \{\mathcal{S}_\alpha(t) \vert t=\overline{1..M}\}$. Each intensity video obtained from the corresponding projection onto the sequence of depth maps can be regarded as a 2D transformed video of action in depth video.
 
 In particular, we choose three representations to represents for three view directions: front, side, and top in 3D space, corresponding to three view planes, respectively: $Oxy$, $Oyz$ and $Ozx$. With these view directions, the corresponding projections are respectively:
 \begin{equation}
@@ -242,7 +279,19 @@ And the corresponding intensity values in the three projections are, respectivel
 \begin{equation}
 	v(P_\text{top}) = y_t
 \end{equation}
-Forming the representations is necessary due to dimensional gap when we adapt 2D techniques for 3D data. Afterwards, the dense trajectories \cite{wang2011densetraj} are extracted from the intensity representations. With this approach, we do not care the challenges from human body segmentation as well as skeleton extraction. Trajectory-aligned descriptors are computed then. At the next step, with each intensity representation $\mathcal{R}(\alpha_i)$, $i = \overline{1..N}$, corresponding feature representation $F(\alpha_i) = (b^1_\text{$\alpha_i$},b^2_\text{$\alpha_i$},...,b^K_\text{$\alpha_i$})$ is quantized from a set of raw trajectory features using a bag-of-words (BoW) model with $K$ visual words. For quantization, the hard-assignment technique is used to compute histograms of the visual words on the corresponding intensity representations. An \textit{early fusion} scheme which integrates unimodal features before learning, then, is used to generate feature representation $\mathcal{F} = (F(\alpha_1),...,F(\alpha_N))$ for action in the sequence of depth maps. After the final feature representations are generated, we adopt the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step. Besides, we perform the one-vs-all strategy for multi-class classification.
+
+\subsection{Our framework overview}
+
+In this section, we provide a brief introduction about our framework for action recognition task.
+The first step is to transform projection results from sequences of depth maps into corresponding 2D videos.
+Transforming depth video into the 2D videos is necessary due to dimensional gap when we adapt 2D techniques for 3D data.
+Afterwards, the dense trajectories \cite{wang2011densetraj} are extracted from the 2D transformed videos.
+With this approach, we do not care the challenges from human body segmentation as well as skeleton extraction.
+Trajectory-aligned descriptors are computed then. At the next step, with each 2D transformed video $\mathcal{R}(\alpha_i)$, $i = \overline{1..N}$, corresponding feature representation $F(\alpha_i) = (b^1_\text{$\alpha_i$},b^2_\text{$\alpha_i$},...,b^K_\text{$\alpha_i$})$ is quantized from a set of raw trajectory features using a bag-of-words (BoW) model with $K$ visual words.
+For quantization, the hard-assignment technique is used to compute histograms of the visual words on the 2D transformed videos.
+An \textit{early fusion} scheme which integrates unimodal features before learning, then, is used to generate feature representation $\mathcal{F} = (F(\alpha_1),...,F(\alpha_N))$ for action in the sequence of depth maps.
+After the final feature representations are generated, we adopt the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step.
+Besides, we perform the one-vs-all strategy for multi-class classification.
 
 \begin{figure}
 %	\begin{center}

@@ -1,38 +1,53 @@
-﻿#--Background
-Action recognition in videos has been one of the very active research fields in computer vision \cite{pirsiavash2012detecting, poppe2010survey} due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments.
-In the recent decades, studies of human action recognition mainly work on video sequences captured by traditional RGB cameras.
-Because of individual differences, the diversity and complexity of actions, and complex backgrounds, action recognition is still a challenging problem.
-In domain of 2D videos, two approaches are used popularly, including: spatio-temporal interest points (STIP)-based approach and trajectory-based approach.
-The first approach, as described in works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}, generates a compact video representation and accepts background clutter, occlusions and scale changes.
-However, in case of recognizing complicated motions, the approach deals with several challenges, due to the lack of relationship of interest points.
-In recent studies \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical}, an other approach based on trajectories captures moving patterns in video, thereby it provides additional information to recognize motions more exactly.
-H.Wang et al. [DenseTraj] has demonstrated that dense trajectory-based approach is the state-of-the-art approach for action recognition.
+﻿\section{Introduction}
 
-#--Motivation
+%\paragraph{Background and Challenges}
+%\paragraph{Background and Challenges}
+Action recognition in videos has been one of the active research fields in computer vision \cite{pirsiavash2012detecting, poppe2010survey} due to its wide applications in areas like surveillance, video retrieval, human-computer interaction and smart environments.
+Because of the diversity and complexity of actions, and complicated environment (e.g background clutter and illumination variation), action recognition is still a challenging problem.
+In order to solve this problem, related approaches can be divided into three major directions, including silhouette-based, salient point-based and trajectory-based.
+The silhouette-based approach, as described in \cite{blank2005actions, ke2007event, vitaladevuni2008action, yilmaz2005actions}, is powerful since it encodes a great deal of information in a sequence of images.
+However, it is sensitive to different viewpoints, noise and occlusions.
+Besides, it depends on the accuracy of localization, background subtraction or tracking for exactly extracting region of interest.
+An other approach based on salient points generates a compact video representation and accepts background clutter, occlusions and scale changes.
+The effectiveness of this approach is also showed in several works \cite{laptev2005space, dollar2005behavior, laptev2008learning, bregonzio2009recognising, klaser2008aspatiotemporal, willems2008efficient}.
+However, in case of recognizing complicated motions, the salient point-based approach deals with several challenges, due to the lack of relationship of salient points.
+In recent studies \cite{matikainen2009trajectons, messing2009activity, sun2009hierarchical}, the trajectory-based approach captures moving patterns in video, thereby it provides additional information to recognize motions more exactly.
+H.Wang et al. \cite{wang2011densetraj} has demonstrated that dense trajectory-based approach is the state-of-the-art approach for action recognition.
+In the past decades, most studies in human action recognition mainly investigate on video sequences captured by traditional 2D cameras.
+Although, there are many advanced approaches for action recognition in domain of 2D videos, the mentioned challenges are still difficult to handle.
+
+%\paragraph{Existing approaches and drawbacks}
 With the development of new RGB-D cameras, e.g. Kinect camera, capturing color images as well as depth maps has become feasible in real time.
 The depth maps can provide additional cues, such as body shape and motion information to discriminate actions.
-Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition [3–12].
+Due to these advantages, recent research trend concentrates on exploiting depth maps for action recognition \cite{li2010action, wang2012mining, yang2012eigenjoints, yang2012recognizing, xia2011human, xia2012view, xia2013spatio, oreifej2013hon4d, vieira2012stop, wang2012robust}.
 In our best knowledge, none success with combining dense trajectories, the state-of-the-art approach on 2D video, and depth video.
 In this paper, we investigate to exploit the dense trajectory-based approach on depth video.
 
-#--Proposed method
-In order to exploit the 2D approach on depth video, we must transform depth video to corresponding 2D video.
-This issue can be easily performed by considering depth value as intensity value.
+%\paragraph{Proposal, Idea and Steps}
+In order to exploit the 2D approach on depth video, one of the recent approaches is to transform depth video to corresponding 2D video.
+A straightforward method is to consider depth value as intensity value.
 However, this way can cause confused cases of action classes.
-For example, forward punch and hammer may be confused actions, if we view them from front, since they contain similar movements respectively: “lift arm up” and “stretch out”.
+For example, \textit{forward punch} and \textit{hammer} may be confused actions, if we view them from front, since they contain similar movements respectively: “lift arm up” and “stretch out”.
 Therefore the additional information is needed to distinguish such actions.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{Projections.png}
+	\end{center}
+	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
+\end{figure}
 
 The basis idea to deal with such cases is to watch actions from various views.
 Information achieved from the views can provide clearer cues to discriminate such actions.
-To collect such information from depth video, a simple way is to project depth maps onto view planes.
+To collect such information from depth video, a simple way is to project depth maps onto view planes, see figure \ref{lbl:Figure_ProposedMethod}.
 The projections are easily obtained by the mentioned advantages of depth data.
 Data projected on the planes is then gathered to generate corresponding 2D videos.
 Dense trajectory-based motion features are then calculated on 2D videos to generate a final feature representation for depth video.
 
-#--Experiment
+%\paragraph{Experiments and Results}
 To evaluate the effectiveness of our method, we conduct experiments on MSR Action 3D dataset and MSR Daily Activity 3D dataset.
 Experimental results show that our proposed method beats the state-of-the-art methods in constrain of only using depth data.
 The results also present our contributions: (1) we propose an effective method to exploit trajectories in depth video, (2) we perform comprehensive experiments on the challenging benchmark dataset and indicate that our proposed method is the best when compared with the state-of-the-art depth-based methods.
 
-#--Paper structure
-After a brief review of the related work in Section 2, the proposed method is described in Section 3. Sections 4 and 5 present the experimental settings and results. In section 6 we provide some concerned discussions. The summaries of our work are given in Section 7.
+%\paragraph{Paper structure}
+After a brief review of the related work in Section \ref{lbl:RelatedWorks}, the proposed method is described in Section \ref{lbl:ProposedMethod}. Sections \ref{lbl:ExperimentalSettings} and \ref{lbl:ExperimentalResults} present the experimental settings and results. In section \ref{lbl:Discussions} we provide some concerned discussions. The summaries of our work are given in Section \ref{lbl:Conclusions}.

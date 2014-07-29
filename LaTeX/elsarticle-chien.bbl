@@ -14,58 +14,25 @@ H.~Pirsiavash, D.~Ramanan, Detecting activities of daily living in first-person
 R.~Poppe, A survey on vision-based human action recognition, Image and vision
   computing 28~(6) (2010) 976--990.
 
-\bibitem{li2010action}
-W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
-  Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
-  Society Conference on, IEEE, 2010, pp. 9--14.
+\bibitem{blank2005actions}
+M.~Blank, L.~Gorelick, E.~Shechtman, M.~Irani, R.~Basri, Actions as space-time
+  shapes, in: Computer Vision, 2005. ICCV 2005. Tenth IEEE International
+  Conference on, Vol.~2, IEEE, 2005, pp. 1395--1402.
 
-\bibitem{wang2012mining}
-J.~Wang, Z.~Liu, Y.~Wu, J.~Yuan, Mining actionlet ensemble for action
-  recognition with depth cameras, in: Computer Vision and Pattern Recognition
-  (CVPR), 2012 IEEE Conference on, IEEE, 2012, pp. 1290--1297.
+\bibitem{ke2007event}
+Y.~Ke, R.~Sukthankar, M.~Hebert, Event detection in crowded videos, in:
+  Computer Vision, 2007. ICCV 2007. IEEE 11th International Conference on,
+  IEEE, 2007, pp. 1--8.
 
-\bibitem{yang2012eigenjoints}
-X.~Yang, Y.~Tian, Eigenjoints-based action recognition using
-  naive-bayes-nearest-neighbor, in: Computer Vision and Pattern Recognition
-  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
-  14--19.
+\bibitem{vitaladevuni2008action}
+S.~N. Vitaladevuni, V.~Kellokumpu, L.~S. Davis, Action recognition using
+  ballistic dynamics, in: Computer Vision and Pattern Recognition, 2008. CVPR
+  2008. IEEE Conference on, IEEE, 2008, pp. 1--8.
 
-\bibitem{yang2012recognizing}
-X.~Yang, C.~Zhang, Y.~Tian, Recognizing actions using depth motion maps-based
-  histograms of oriented gradients, in: Proceedings of the 20th ACM
-  international conference on Multimedia, ACM, 2012, pp. 1057--1060.
-
-\bibitem{xia2011human}
-L.~Xia, C.-C. Chen, J.~Aggarwal, Human detection using depth information by
-  kinect, in: Computer Vision and Pattern Recognition Workshops (CVPRW), 2011
-  IEEE Computer Society Conference on, IEEE, 2011, pp. 15--22.
-
-\bibitem{xia2012view}
-L.~Xia, C.-C. Chen, J.~Aggarwal, View invariant human action recognition using
-  histograms of 3d joints, in: Computer Vision and Pattern Recognition
-  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
-  20--27.
-
-\bibitem{xia2013spatio}
-L.~Xia, J.~Aggarwal, Spatio-temporal depth cuboid similarity feature for
-  activity recognition using depth camera, in: Computer Vision and Pattern
-  Recognition (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 2834--2841.
-
-\bibitem{oreifej2013hon4d}
-O.~Oreifej, Z.~Liu, Hon4d: Histogram of oriented 4d normals for activity
-  recognition from depth sequences, in: Computer Vision and Pattern Recognition
-  (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 716--723.
-
-\bibitem{vieira2012stop}
-A.~W. Vieira, E.~R. Nascimento, G.~L. Oliveira, Z.~Liu, M.~F. Campos, Stop:
-  Space-time occupancy patterns for 3d action recognition from depth map
-  sequences, in: Progress in Pattern Recognition, Image Analysis, Computer
-  Vision, and Applications, Springer, 2012, pp. 252--259.
-
-\bibitem{wang2012robust}
-J.~Wang, Z.~Liu, J.~Chorowski, Z.~Chen, Y.~Wu, Robust 3d action recognition
-  with random occupancy patterns, in: Computer Vision--ECCV 2012, Springer,
-  2012, pp. 872--885.
+\bibitem{yilmaz2005actions}
+A.~Yilmaz, M.~Shah, Actions sketch: A novel action representation, in: Computer
+  Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer Society
+  Conference on, Vol.~1, IEEE, 2005, pp. 984--989.
 
 \bibitem{laptev2005space}
 I.~Laptev, On space-time interest points, International Journal of Computer
@@ -114,26 +81,12 @@ J.~Sun, X.~Wu, S.~Yan, L.-F. Cheong, T.-S. Chua, J.~Li, Hierarchical
   and Pattern Recognition, 2009. CVPR 2009. IEEE Conference on, IEEE, 2009, pp.
   2004--2011.
 
-\bibitem{dalal2005histograms}
-N.~Dalal, B.~Triggs, Histograms of oriented gradients for human detection, in:
-  Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer
-  Society Conference on, Vol.~1, IEEE, 2005, pp. 886--893.
-
-\bibitem{shotton2013real}
-J.~Shotton, T.~Sharp, A.~Kipman, A.~Fitzgibbon, M.~Finocchio, A.~Blake,
-  M.~Cook, R.~Moore, Real-time human pose recognition in parts from single
-  depth images, Communications of the ACM 56~(1) (2013) 116--124.
-
 \bibitem{wang2011densetraj}
 H.~Wang, A.~Kl{\"a}ser, C.~Schmid, C.-L. Liu,
   \href{http://hal.inria.fr/inria-00583818/en}{{Action Recognition by Dense
   Trajectories}}, in: IEEE Conference on Computer Vision \& Pattern
   Recognition, Colorado Springs, United States, 2011, pp. 3169--3176.
 \newline\urlprefix\url{http://hal.inria.fr/inria-00583818/en}
-
-\bibitem{lucas1981iterative}
-B.~D. Lucas, T.~Kanade, et~al., An iterative image registration technique with
-  an application to stereo vision., in: IJCAI, Vol.~81, 1981, pp. 674--679.
 
 \bibitem{phan2014multimedia}
 S.~Phan, T.~D. Ngo, V.~Lam, S.~Tran, D.-D. Le, D.~A. Duong, S.~Satoh,
@@ -150,6 +103,71 @@ P.~Natarajan, P.~Natarajan, S.~Wu, X.~Zhuang, A.~Vazquez-reina, S.~N.
   Vitaladevuni, C.~Andersen, R.~Prasad, G.~Ye, D.~Liu, et~al., Bbn viser
   trecvid 2012 multimedia event detection and multimedia event recounting
   systems.
+
+\bibitem{li2010action}
+W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
+  Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
+  Society Conference on, IEEE, 2010, pp. 9--14.
+
+\bibitem{wang2012mining}
+J.~Wang, Z.~Liu, Y.~Wu, J.~Yuan, Mining actionlet ensemble for action
+  recognition with depth cameras, in: Computer Vision and Pattern Recognition
+  (CVPR), 2012 IEEE Conference on, IEEE, 2012, pp. 1290--1297.
+
+\bibitem{vieira2012stop}
+A.~W. Vieira, E.~R. Nascimento, G.~L. Oliveira, Z.~Liu, M.~F. Campos, Stop:
+  Space-time occupancy patterns for 3d action recognition from depth map
+  sequences, in: Progress in Pattern Recognition, Image Analysis, Computer
+  Vision, and Applications, Springer, 2012, pp. 252--259.
+
+\bibitem{yang2012eigenjoints}
+X.~Yang, Y.~Tian, Eigenjoints-based action recognition using
+  naive-bayes-nearest-neighbor, in: Computer Vision and Pattern Recognition
+  Workshops (CVPRW), 2012 IEEE Computer Society Conference on, IEEE, 2012, pp.
+  14--19.
+
+\bibitem{yang2012recognizing}
+X.~Yang, C.~Zhang, Y.~Tian, Recognizing actions using depth motion maps-based
+  histograms of oriented gradients, in: Proceedings of the 20th ACM
+  international conference on Multimedia, ACM, 2012, pp. 1057--1060.
+
+\bibitem{wang2012robust}
+J.~Wang, Z.~Liu, J.~Chorowski, Z.~Chen, Y.~Wu, Robust 3d action recognition
+  with random occupancy patterns, in: Computer Vision--ECCV 2012, Springer,
+  2012, pp. 872--885.
+
+\bibitem{xia2013spatio}
+L.~Xia, J.~Aggarwal, Spatio-temporal depth cuboid similarity feature for
+  activity recognition using depth camera, in: Computer Vision and Pattern
+  Recognition (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 2834--2841.
+
+\bibitem{oreifej2013hon4d}
+O.~Oreifej, Z.~Liu, Hon4d: Histogram of oriented 4d normals for activity
+  recognition from depth sequences, in: Computer Vision and Pattern Recognition
+  (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 716--723.
+
+\bibitem{foix2011lock}
+S.~Foix, G.~Alenya, C.~Torras, Lock-in time-of-flight (tof) cameras: a survey,
+  Sensors Journal, IEEE 11~(9) (2011) 1917--1926.
+
+\bibitem{dalal2005histograms}
+N.~Dalal, B.~Triggs, Histograms of oriented gradients for human detection, in:
+  Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer
+  Society Conference on, Vol.~1, IEEE, 2005, pp. 886--893.
+
+\bibitem{shotton2013real}
+J.~Shotton, T.~Sharp, A.~Kipman, A.~Fitzgibbon, M.~Finocchio, A.~Blake,
+  M.~Cook, R.~Moore, Real-time human pose recognition in parts from single
+  depth images, Communications of the ACM 56~(1) (2013) 116--124.
+
+\bibitem{xia2011human}
+L.~Xia, C.-C. Chen, J.~Aggarwal, Human detection using depth information by
+  kinect, in: Computer Vision and Pattern Recognition Workshops (CVPRW), 2011
+  IEEE Computer Society Conference on, IEEE, 2011, pp. 15--22.
+
+\bibitem{lucas1981iterative}
+B.~D. Lucas, T.~Kanade, et~al., An iterative image registration technique with
+  an application to stereo vision., in: IJCAI, Vol.~81, 1981, pp. 674--679.
 
 \bibitem{farneback2003two}
 G.~Farneb{\"a}ck, Two-frame motion estimation based on polynomial expansion,
