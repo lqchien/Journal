@@ -1,8 +1,17 @@
-\documentclass[review]{elsarticle}
+%\documentclass[review]{elsarticle}
+\documentclass[final,3p,times,twocolumn]{elsarticle}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{lineno}
+%\journal{NEUROCOMPUTING}
+
 %\usepackage[utf8]{vietnam}
 \setlength{\parskip}{10pt}
 %\usepackage[pdftex]{graphicx}
 %\usepackage[font=footnotesize]{caption}
+
+%\usepackage{caption}
+%\usepackage{subcaption}
 
 \usepackage{mwe}    % loads »blindtext« and »graphicx«
 \usepackage{subfig}
@@ -26,7 +35,7 @@
 \usepackage{lineno,hyperref}
 \modulolinenumbers[5]
 
-\journal{Journal of \LaTeX\ Templates}
+\journal{Journal of NeuroComputing Templates}
 
 \captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
 \renewcommand\thesubfigure{(\alph{subfigure})}
@@ -87,13 +96,9 @@
 \author{Author2's name}
 \address{Adress 2}
 
-\author{Author3's name}
-\address{Adress 3}
-
-
 \begin{abstract}
-Dense trajectory-based approaches on 2D videos have been demonstrated state-of-the-art at action recognition since it can capture most discriminative motions.
-% However, ...
+Dense trajectory-based approaches on 2D video have been demonstrated state-of-the-art at action recognition since it can capture most discriminative motions.
+However, challenges in depth video, such as textureless data and depth noise, may decrease the effectiveness of capturing the discriminative motions.
 In this work, we extend the approach on depth video and show its effectiveness on action recognition.
 We extract dense trajectories from 2D videos transformed from depth video and apply trajectory-aligned descriptors to calculate motion features.
 Further, we present a projection method to view actions under different directions that provide additional information for recognizing actions more exactly.
@@ -146,7 +151,7 @@ This is major reason to require additional information for effectively recognizi
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{Projections.png}
+		\includegraphics[width=0.47\textwidth]{Projections.pdf}
 	\end{center}
 	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
 \end{figure}
@@ -190,7 +195,7 @@ Recently, Oreifej and Liu \cite{oreifej2013hon4d} presented a new descriptor for
 
 Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, the work by Yang et al. \cite{yang2012eigenjoints} developed the EigenJoints features based on skeleton information from RGBD sequences. The features contain three feature channels: posture, motion and offset. The posture and motion features represent spatial and temporal information, respectively. The offset features encode the difference between a pose with the initial pose in assumption that the initial pose is neutral. The three channels, then, are normalized and reduced by applying PCA method to obtain the EigenJoints descriptor.
 
-Different from the previous approaches, we use a dense trajectory-based approach for action recognition. We do not care to segment human body like \cite{li2010action,yang2012recognizing}. Besides, skeleton extraction used in \cite{yang2012eigenjoints, wang2012mining} is not also required in our work. We only investigate the benefit of generating intensity representations from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no method has previously proposed to adapt the dense trajectory-based approach for human action recognition in depth video. We conduct evaluations on recognition accuracy in depth video using dense trajectories motion feature proposed by Wang et al. \cite{wang2011densetraj}.
+Different from the previous approaches, we use a dense trajectory-based approach for action recognition. We do not care to segment human body like \cite{li2010action,yang2012recognizing}. Besides, skeleton extraction used in \cite{yang2012eigenjoints, wang2012mining} is not also required in our work. We only investigate the benefit of generating 2D transformed videos from depth data, as mentioned in \cite{li2010action,yang2012recognizing}. Moreover, we leverage the effectiveness of trajectory feature to represent an action video. In our best knowledge, no method has previously proposed to adapt the dense trajectory-based approach for human action recognition in depth video. We conduct evaluations on recognition accuracy in depth video using dense trajectories proposed by Wang et al. \cite{wang2011densetraj}.
 
 \section{Proposed Method}
 \label{lbl:ProposedMethod}
@@ -225,17 +230,13 @@ After extracting trajectories, two kinds of descriptors: a trajectory shape desc
 
 According to the authors \cite{laptev2008learning, wang2011densetraj, wang2009evaluation, liu2009recognizing}, all the three descriptors have shown the effectiveness for action recognition. The experimental settings for these descriptors are based on an empirical study showed in \cite{wang2011densetraj}. We also conduct our experiment on all the three descriptors when compared to the depth-based state-of-the-art methods.
 
-\subsection{Proposed Method to Adapt Dense Trajectory-based Approach for Depth Video}
+\subsection{Proposed Method for Dense Trajectory-based Approach}
 
 Our proposed method to adapt the dense trajectory-based approach for human action recognition in depth video is as follow. At first, intensity videos are formed from the sequence of depth maps, as illustrated in figure \ref{lbl:Figure_ProposedMethod}. At this step, to obtain an intensity video from a view direction $\alpha$, corresponding to a view plane $\mathcal{P}(\alpha): ax + by + cx + d = 0$, in each depth map $t$, each point $P_t(x_t,y_t,z_t)$ is projected to $P_\mathcal{P}(x_\mathcal{P},y_\mathcal{P},z_\mathcal{P})$ on the view plane $\mathcal{P}(\alpha)$, see in figure \ref{lbl:Figure_PointProjection}, by:
 
 \begin{figure}
-%	\begin{center}
 	\centering
-%	\resizebox{1.2\textwidth}{!}{ %
-		\includegraphics[width=0.7\textwidth]{Figure_PointProjection.pdf} %
-%	}
-%	\end{center}
+	\includegraphics[width=0.47\textwidth]{Figure_PointProjection.pdf} %
 	\caption{\label{lbl:Figure_PointProjection}An illustration of the projection. Point $P_\mathcal{P}$ is the projection of point $P_t$ along a view direction $\alpha$ onto a view plane $\mathcal{P}(\alpha)$.}
 \end{figure}
 
@@ -293,15 +294,11 @@ An \textit{early fusion} scheme which integrates unimodal features before learni
 After the final feature representations are generated, we adopt the popular Support Vector Machine (SVM) for classification. In practice, we use the precomputed-kernel technique with the histogram intersection kernel for the classification step.
 Besides, we perform the one-vs-all strategy for multi-class classification.
 
-\begin{figure}
-%	\begin{center}
+\begin{figure*}[t]
 	\centering
-%	\resizebox{1.2\textwidth}{!}{ %
-		\includegraphics[width=\textwidth]{Framework3D.png} %
-%	}
-%	\end{center}
+		\includegraphics[width=0.9\textwidth]{Framework3D.pdf} %
 	\caption{\label{lbl:Figure_Framework}Our Framework Overview}
-\end{figure}
+\end{figure*}
 %- Hình 3 - Framework overview for our system - Depth data -> 3 feature extraction -> 3 BoW model -> 3 histogramintersection-SVM -> concatenated-score features -> chi-kernel SVM classifier
 
 %In order to generate intensity representations from the sequence of depth maps, we use the approach proposed in \cite{li2010action}. This technique is also used in \cite{yang2012recognizing}. Basically, this method projects depth maps onto three orthogonal planes in Casterian space to obtain corresponding intensity representations. However, motion representation for human action in the previous approaches is accumulated from global motion information. Therefore, these approaches must deal with the challenges from human segmentation problem in more complicated datasets. In contrast to the previous ones, we pay attention to capture local motion information for representing human actions. With the approach, we do not care the challenges for segmenting human body. To effectively use local motion information, we leverage the effectiveness of trajectory-based representation. In practice, we adopt the dense trajectory-based approach proposed in \cite{wang2011densetraj}. Thus, motion information in depth data can be reproduced by complementary motion information from different intensity representations.
@@ -317,6 +314,7 @@ We test our method on MSR Action 3D dataset. This dataset contains 20 actions, a
 
 \begin{table}[H]
 	\begin{center}
+		\resizebox{0.47\textwidth}{!}{%
 		% Table generated by Excel2LaTeX from sheet 'MSRAction3D names'
 		\begin{tabular}{c|c|c|c}
 		
@@ -342,15 +340,17 @@ We test our method on MSR Action 3D dataset. This dataset contains 20 actions, a
 		
 		            10 &      hand clap &             20 & pick up \& throw \\
 		
-		\end{tabular}
+		\end{tabular} %
+		}
 	\end{center}
 	\caption{\label{lbl:20actions}20 actions in MSR Action 3D dataset}
 \end{table}
 
 In order to conduct a fair comparison, we use the same experimental settings as \cite{li2010action, yang2012eigenjoints, yang2012recognizing, wang2012mining, xia2013spatio, oreifej2013hon4d}. In the settings, the dataset is divided into three action subsets. Each subset has 8 actions (Table \ref{lbl:3ActionSubsets}). The two subsets AS1 and AS2 present that grouped actions have similar movements. The subset AS3 groups complex actions together. For instance, action \textit{hammer} seems to be confused with action \textit{forward punch} in AS1 or similar movements between action \textit{hand catch} and action \textit{side boxing} in AS2. As for each subset, we select half of the subjects as training and the rest as testing (i.e. cross subject test).
 
-\begin{table}
+\begin{table}[h]
 	\begin{center}
+		\resizebox{0.47\textwidth}{!}{%
 		% Table generated by Excel2LaTeX from sheet 'Sheet3'
 		\begin{tabular}{c|c|c}
 		
@@ -373,7 +373,8 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 		
 		pick up \& throw &   forward kick & pick up \& throw \\
 		
-		\end{tabular}
+		\end{tabular} %
+		}
 	\end{center}
 	\caption{\label{lbl:3ActionSubsets}The three action subsets used in the experiments}
 \end{table}
@@ -392,8 +393,27 @@ This section presents the experimental results for applying our proposed approac
 
 Table \ref{lbl:Table_MBHvsSoAonFront} shows evaluation results of our trajectory-based approach and the state-of-the-art methods in terms of average accuracy  on three action subsets of MSR Action 3D dataset (Table \ref{lbl:3ActionSubsets}). The compared methods are based on various feature representations, such as silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features like \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. Interestingly, under the same setting (i.e cross subject test), the result table indicates that our approach beats all of them. Besides, the results also show that there is significant difference of the performance between our method and the rest.
 
-\begin{table}
+\begin{table}[h]
 	\begin{center}
+		\resizebox{0.2\textwidth}{!}{%
+		% Table generated by Excel2LaTeX from sheet 'VIEWS_LateFusion'
+		\begin{tabular}{ccc}
+		
+		       \multicolumn{ 3}{c}{{\bf Action Subsets}} \\
+		\hline
+		     {\bf AS1} &      {\bf AS2} &      {\bf AS3} \\
+		\hline
+		        92.45  &         92.04  &         99.11  \\
+		
+		\end{tabular} %
+		}
+	\end{center}
+	\caption{\label{lbl:MBHandAS123}Accuracy of our method on three action subsets.}
+\end{table}
+
+\begin{table}[h]
+	\begin{center}
+		\resizebox{0.47\textwidth}{!}{%
 		% Table generated by Excel2LaTeX from sheet 'Methods'
 		\begin{tabular}{c|c}
 		
@@ -417,32 +437,18 @@ Table \ref{lbl:Table_MBHvsSoAonFront} shows evaluation results of our trajectory
 		\hline
 		    {\bf Ours} &   {\bf 94.53 } \\
 		
-		\end{tabular}  
+		\end{tabular}%
+		}
 	\end{center}
 	\caption{\label{lbl:Table_MBHvsSoAonFront}Comparison of accuracy on MSR Action 3D dataset. Notice that experimental results reported in this table is based on front representation only. Besides, we also use MBH descriptor only to calculate trajectory features.}
 \end{table}
 
 Consider the accuracy results on action subsets reported in Table \ref{lbl:MBHandAS123}, we found that two subsets AS1, AS2 contain many confused actions. Considering confusion matrices as showed in Table \ref{lbl:AS123ConfusionMatrix}, some action-pairs are confused, such as: \textit{hammer} (a03) and \textit{forward punch} (a05) in AS1, or \textit{side-boxing} (a12) and \textit{hand catch} (a04) in AS2. When analyzing the confused actions, we found that the main cause is due to similar motions of actions in the same view direction (i.e front representation). Besides, since depth data is textureless, it makes recognizing more difficult. That is reason why we need compensate information from other intensity representations.
-\begin{table}[H]
-	\begin{center}
-		% Table generated by Excel2LaTeX from sheet 'VIEWS_LateFusion'
-		\begin{tabular}{ccc}
-		
-		       \multicolumn{ 3}{c}{{\bf Action Subsets}} \\
-		\hline
-		     {\bf AS1} &      {\bf AS2} &      {\bf AS3} \\
-		\hline
-		        92.45  &         92.04  &         99.11  \\
-		
-		\end{tabular}
-	\end{center}
-	\caption{\label{lbl:MBHandAS123}Accuracy of our method on three action subsets.}
-\end{table}
 
-\begin{table}
+\begin{table}[h]
 	\begin{center}
 		\subfloat[Action Subset 1 \label{lbl:ConfMatAS1}]{ %
-		\resizebox{0.9\textwidth}{!}{ %
+		\resizebox{0.8\textwidth}{!}{ %
 			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
 			\begin{tabularx}{\textwidth}{c|c|c|c|c|c|c|c|c|}
 					\multicolumn{1}{c}{~}& \multicolumn{1}{c}{\bf a02} & \multicolumn{1}{c}{\bf a03} & \multicolumn{1}{c}{\bf a05} & \multicolumn{1}{c}{\bf a06} & \multicolumn{1}{c}{\bf a10} & \multicolumn{1}{c}{\bf a13} & \multicolumn{1}{c}{\bf a18} & \multicolumn{1}{c}{\bf a20} \\
@@ -464,11 +470,11 @@ Consider the accuracy results on action subsets reported in Table \ref{lbl:MBHan
 					{\bf a20} & 0 & 0 & 0 & 0 & 0 & {\bf 0.07}\cellcolor[gray]{.9} & 0 & \color{white}{\bf 0.93}\cellcolor[gray]{.1} \\
 				\hhline{~--------}
 			\end{tabularx} %
-		} %
+		}
 		}
 		
 		\subfloat[Action Subset 2 \label{lbl:ConfMatAS2}]{
-		\resizebox{0.9\textwidth}{!}{ %
+		\resizebox{0.8\textwidth}{!}{ %
 			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
 			\begin{tabularx}{\textwidth}{c|c|c|c|c|c|c|c|c|}
 					\multicolumn{1}{c}{~}& \multicolumn{1}{c}{\bf a01} & \multicolumn{1}{c}{\bf a04} & \multicolumn{1}{c}{\bf a07} & \multicolumn{1}{c}{\bf a08} & \multicolumn{1}{c}{\bf a09} & \multicolumn{1}{c}{\bf a11} & \multicolumn{1}{c}{\bf a12} & \multicolumn{1}{c}{\bf a14} \\
@@ -494,7 +500,7 @@ Consider the accuracy results on action subsets reported in Table \ref{lbl:MBHan
 		}
 		
 		\subfloat[Action Subset 3 \label{lbl:ConfMatAS3}]{
-		\resizebox{0.9\textwidth}{!}{ %
+		\resizebox{0.8\textwidth}{!}{ %
 			% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
 			\begin{tabularx}{\textwidth}{c|c|c|c|c|c|c|c|c|}
 					\multicolumn{1}{c}{~}& \multicolumn{1}{c}{\bf a06} & \multicolumn{1}{c}{\bf a14} & \multicolumn{1}{c}{\bf a15} & \multicolumn{1}{c}{\bf a16} & \multicolumn{1}{c}{\bf a17} & \multicolumn{1}{c}{\bf a18} & \multicolumn{1}{c}{\bf a19} & \multicolumn{1}{c}{\bf a20} \\
@@ -528,9 +534,9 @@ In this part, we conduct experiments based on compensating information from othe
  
 Besides, based on experimental results in figure \ref{lbl:Figure_EarlyFusion_AS123_MBH}, compensating information indicates two interesting points. The first one confirms that recognition result from front representation is better than the others (i.e. side and top). The second one shows that compensated information from other representations for front representation supports final predictions effectively. Thus, our proposed approach can be applied for any intensity-based techniques, in general.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.55]{Chart_EarlyFusion_AS123_MBH.eps}
+		\includegraphics[width=0.47\textwidth]{Chart_EarlyFusion_AS123_MBH.eps}
 	\end{center}
 	\caption{\label{lbl:Figure_EarlyFusion_AS123_MBH}Comparison of recognition accuracy by using the early fusion scheme on intensity representations.}
 \end{figure}
@@ -542,9 +548,9 @@ Besides, based on experimental results in figure \ref{lbl:Figure_EarlyFusion_AS1
 
 For intensity data, according to \cite{wang2011densetraj} MBH is the best feature descriptor for dense trajectories. Therefore, in previous experiments, we only use MBH descriptor to represent motion information. Due to the difference between depth data and intensity data, how our approach has influenced other trajectory-aligned descriptors (i.e. HOG, HOF). In this section, we conduct similar experiments on these descriptors to answer this issue.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.55]{Chart_ImpactOfDescriptors.eps}
+		\includegraphics[width=0.47\textwidth]{Chart_ImpactOfDescriptors.eps}
 	\end{center}
 	\caption{\label{lbl:Figure_MBHHOGHOF}Comparison of recognition accuracy on trajectory-aligned descriptors.}
 \end{figure}
@@ -555,9 +561,9 @@ In this part, we report the average recognition accuracies on the three descript
 
 In this section, we consider the role of representations to our proposed method. Figure \ref{lbl:Figure_EarlyFusion_AS123_MBH} confirms that front representation achieves the best result. Obviously, it is an indispensable component to merge information. For the rest, we perform experiments on representation combinations with front representation. Experimental results are reported in figure \ref{lbl:Figure_CombinationsFRONTSIDETOP}. In this experiment, the recognition accuracies of combinations are calculated on each intensity representations and the fusion.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.55]{Chart_RoleOfRepresentations.eps}
+		\includegraphics[width=0.47\textwidth]{Chart_RoleOfRepresentations.eps}
 	\end{center}
 	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Comparison of recognition accuracy on combinations of intensity representations.}
 \end{figure}
@@ -568,7 +574,7 @@ In order to conduct the experiments, we create combinations: front and side, fro
 
  The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which includes 16 daily activities  (Fig. \ref{lbl:Figure_MSRDaily3D}) such as talking on the phone, reading a book, playing game, ... etc. In this dataset, background objects and subjects appear at different distances to the camera. Table \ref{lbl:Table_Daily3D} shows a comparison of recognition accuracies between the state-of-the-art methods on MSR Daily Activity 3D dataset. In this experiment, we conduct our trajectory-based approach only on front representation and use MBH descriptor to describe motion feature. In addition, we follow the experimental settings as described in \cite{wang2012mining}. In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance. In \cite{xia2013spatio}, they modified this dataset to do evaluation. It is not fair to compare. Therefore, to ensure a fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on original MSR Daily Activity 3D dataset.
  
-\begin{table}[H]
+\begin{table}[h]
  	\begin{center}
  		% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
  		\begin{tabular}{c|c}
@@ -588,7 +594,7 @@ In order to conduct the experiments, we create combinations: front and side, fro
  	\caption{\label{lbl:Table_Daily3D}Comparison of recognition accuracy on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
 \end{table}
  
-\begin{figure}
+\begin{figure*}
 %    \centering
     \subfloat[Reading book]{
         \includegraphics[width=0.45\textwidth]{ReadingBook.png}        
@@ -614,7 +620,7 @@ In order to conduct the experiments, we create combinations: front and side, fro
         \includegraphics[width=0.45\textwidth]{UsingALaptop.png}        
         }
 	\caption{\label{lbl:Figure_MSRDaily3D}Some sample actions on MSR Daily Activity 3D dataset.}
-\end{figure}
+\end{figure*}
 
 Although our method outperforms all the state-of-the-art methods, it is not our aim. It is important to note that why in condition of only using depth data, most of methods are failed. When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}. For \textit{playing a game}, main action focus on motion of fingers, it is very difficult to discriminate from depth noise. For \textit{writing on a paper} and \textit{using a laptop}, hand gestures are major actions to present motion information. But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop). That is one reason to explain for the failure. The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}. In these cases, objects are small and textureless, so, it is very difficult to identify them.  Therefore, if only depending on depth data, it it very challenging to recognize these actions exactly. Due to these reasons, in order to improve the performance of recognition systems in terms of interaction, adding more information related to interactive objects must be necessary.
 
@@ -622,9 +628,9 @@ Although our method outperforms all the state-of-the-art methods, it is not our 
 
 In terms of the fusion, \cite{snoek2005early} provided an interesting work. In this work, authors evaluated semantic concepts on two fusion schemes: early fusion and late fusion. They conducted experiments on the 2004 TRECVID benchmark dataset for visual modality and textual modality. Results indicated that the performance of the late fusion scheme is better than the performance of the early fusion scheme for most concepts. This evaluation are also applied for several multimodal-based analysis systems. However, the conclusion is reasonable or not for our approach, when considering each intensity representation as a modality. In order to answer this issue, we perform similar experiments on the late fusion scheme. In the experimental settings, we use the MBH descriptor to represent motion features and work on representation combinations: (front and side), (front and top) and (front, side and top). Experimental results in comparison between the early fusion scheme and the late fusion scheme are showed in figure \ref{lbl:Figure_EarlyLateFusion}.
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{Chart_EarlyLateFusion.eps}
+    \includegraphics[width=0.47\textwidth]{Chart_EarlyLateFusion.eps}
 	\caption{\label{lbl:Figure_EarlyLateFusion}Comparison of recognition accuracy on the early and late fusion schemes.}
 \end{figure}
 
