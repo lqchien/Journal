@@ -8,7 +8,7 @@
 \BOOKMARK [2][-]{subsection.4.1}{Dataset}{section.4}% 8
 \BOOKMARK [2][-]{subsection.4.2}{Evaluation Framework}{section.4}% 9
 \BOOKMARK [1][-]{section.5}{Experimental Results}{}% 10
-\BOOKMARK [2][-]{subsection.5.1}{Recognize Actions from An Intensity Representation}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.1}{Recognize Actions from Single-View}{section.5}% 11
 \BOOKMARK [2][-]{subsection.5.2}{Compensate Motion Information from Other Representations}{section.5}% 12
 \BOOKMARK [1][-]{section.6}{Discussions}{}% 13
 \BOOKMARK [2][-]{subsection.6.1}{The Impact of Our Method on Descriptors}{section.6}% 14
