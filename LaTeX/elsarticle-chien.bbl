@@ -104,6 +104,16 @@ P.~Natarajan, P.~Natarajan, S.~Wu, X.~Zhuang, A.~Vazquez-reina, S.~N.
   trecvid 2012 multimedia event detection and multimedia event recounting
   systems.
 
+\bibitem{jain2013better}
+M.~Jain, H.~J{\'e}gou, P.~Bouthemy, Better exploiting motion for better action
+  recognition, in: Computer Vision and Pattern Recognition (CVPR), 2013 IEEE
+  Conference on, IEEE, 2013, pp. 2555--2562.
+
+\bibitem{wang2013action}
+H.~Wang, C.~Schmid, Action recognition with improved trajectories, in: Computer
+  Vision (ICCV), 2013 IEEE International Conference on, IEEE, 2013, pp.
+  3551--3558.
+
 \bibitem{li2010action}
 W.~Li, Z.~Zhang, Z.~Liu, Action recognition based on a bag of 3d points, in:
   Computer Vision and Pattern Recognition Workshops (CVPRW), 2010 IEEE Computer
