@@ -139,6 +139,21 @@ Due to these advantages, recent research trend concentrates on exploiting depth 
 However, with our best knowledge, none success with combining dense trajectories, the state-of-the-art approach on 2D video, and depth video.
 In this paper, we investigate to exploit the dense trajectory-based approach on depth video.
 
+\begin{figure*}[t]
+	\centering
+	\subfloat[Action \textit{Hammer}]{
+		\includegraphics[width=0.4\textwidth]{Hammer3D.pdf}
+		\label{subfig_Hammer3D}
+	}
+	\hspace{2cm}
+	\subfloat[Action \textit{Forward Punch}]{
+		\includegraphics[width=0.4\textwidth]{ForwardPunch3D.pdf}
+		\label{subfig_ForwardPunch3D}
+	}
+	\caption{Illustration of our dense trajectory-based approach. The original sequence of depth maps is projected onto three planes, corresponding to three views: \textit{front}, \textit{side} and \textit{top}, to form 2D videos. After that, the dense trajectory motion features are calculated for each 2D video.}
+	\label{lbl:Figure_ProposedMethod}
+\end{figure*}
+
 %\paragraph{Proposal, Idea and Steps}
 The key idea of the dense trajectory-based approach is to capture most discriminative trajectories in video.
 Therefore, in order to effectively exploit this approach on depth video, it is necessary to extract the trajectories in depth video.
@@ -151,12 +166,12 @@ For example, \textit{forward punch} and \textit{hammer} may be confused actions,
 Obviously, it is difficult to distinguish such actions with data contains less discriminative information as depth data.
 This is major reason to require additional information for effectively recognizing actions.
 
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=0.47\textwidth]{Projections.pdf}
-	\end{center}
-	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
-\end{figure}
+%\begin{figure}
+%	\begin{center}
+%		\includegraphics[width=0.47\textwidth]{Projections.pdf}
+%	\end{center}
+%	\caption{\label{lbl:Figure_ProposedMethod}Illustration of our trajectory-based approach. The original sequence of depth maps is projected onto three orthogonal planes to form intensity videos. After that, the dense trajectory motion features are calculated for each representation.}
+%\end{figure}
 
 The basis idea to deal with such cases is to observe actions from various directions.
 Information achieved from the view directions can provide clearer cues to discriminate such actions.
