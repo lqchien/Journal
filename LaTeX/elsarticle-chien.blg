@@ -1,16 +1,16 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: elsarticle-chien.aux
 The style file: elsarticle-num.bst
-Illegal, another \bibstyle command---line 172 of file elsarticle-chien.aux
+Illegal, another \bibstyle command---line 175 of file elsarticle-chien.aux
  : \bibstyle
  :          {splncs}
 I'm skipping whatever remains of this command
 Database file #1: JournalPaper_Ref.bib
-You're missing a field name---line 116 of file JournalPaper_Ref.bib
+You're missing a field name---line 125 of file JournalPaper_Ref.bib
  : 
  : %  title={View invariant human action recognition using histograms of 3d joints},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Repeated entry---line 378 of file JournalPaper_Ref.bib
+Repeated entry---line 387 of file JournalPaper_Ref.bib
  : @inproceedings{dalal2005histograms
  :                                   ,
 I'm skipping whatever remains of this entry

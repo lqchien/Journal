@@ -156,10 +156,6 @@ O.~Oreifej, Z.~Liu, Hon4d: Histogram of oriented 4d normals for activity
   recognition from depth sequences, in: Computer Vision and Pattern Recognition
   (CVPR), 2013 IEEE Conference on, IEEE, 2013, pp. 716--723.
 
-\bibitem{foix2011lock}
-S.~Foix, G.~Alenya, C.~Torras, Lock-in time-of-flight (tof) cameras: a survey,
-  Sensors Journal, IEEE 11~(9) (2011) 1917--1926.
-
 \bibitem{dalal2005histograms}
 N.~Dalal, B.~Triggs, Histograms of oriented gradients for human detection, in:
   Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer
@@ -174,6 +170,11 @@ J.~Shotton, T.~Sharp, A.~Kipman, A.~Fitzgibbon, M.~Finocchio, A.~Blake,
 L.~Xia, C.-C. Chen, J.~Aggarwal, Human detection using depth information by
   kinect, in: Computer Vision and Pattern Recognition Workshops (CVPRW), 2011
   IEEE Computer Society Conference on, IEEE, 2011, pp. 15--22.
+
+\bibitem{luo2013group}
+J.~Luo, W.~Wang, H.~Qi, Group sparsity and geometry constrained dictionary
+  learning for action recognition from depth maps, in: Computer Vision (ICCV),
+  2013 IEEE International Conference on, IEEE, 2013, pp. 1809--1816.
 
 \bibitem{lucas1981iterative}
 B.~D. Lucas, T.~Kanade, et~al., An iterative image registration technique with

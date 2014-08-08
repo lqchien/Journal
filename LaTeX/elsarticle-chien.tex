@@ -210,7 +210,12 @@ Vieira et al. \cite{vieira2012stop} proposed a new feature descriptor, called Sp
 
 Recently, Oreifej and Liu \cite{oreifej2013hon4d} presented a new descriptor for depth maps, named Histogram of Oriented 4D Surface Normals (HON4D). To construct the HON4D, firstly, the 4D normal vectors are computed from the depth sequence. At the next step, the 4D normal vectors is distributed into spatio-temporal cells. To quantize the 4D normal vectors, the 4D space is quantized by using vertices of a regular polychoron. The quantization, then, is refined by additional projectors to make the 4D normal vectors in each cell denser and more discriminative. Afterwards, the HON4D features in cells are concatenated to represent a depth action video.
 
-Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, the work by Yang et al. \cite{yang2012eigenjoints} developed the EigenJoints features based on skeleton information from RGBD sequences. The features contain three feature channels: posture, motion and offset. The posture and motion features represent spatial and temporal information, respectively. The offset features encode the difference between a pose with the initial pose in assumption that the initial pose is neutral. The three channels, then, are normalized and reduced by applying PCA method to obtain the EigenJoints descriptor.
+Inspired by results of Shotton et al. \cite{shotton2013real} and Xia.L et al. \cite{xia2011human}, the work by Yang et al. \cite{yang2012eigenjoints, luo2013group} developed skeleton-based methods from sequence of depth maps.
+\cite{yang2012eigenjoints} proposed an EigenJoints-based action recognition system using a Naive-Bayes-Nearest-Neighbor classifier.
+The system is able to capture the characteristics of posture, motion and offset information of frames.
+In addition, non-quantization of descriptors and \textit{Video-to-Class} distance computation in this work are showed effective for action recognition.
+In work of J.Luo \cite{luo2013group}, a new discriminative dictionary learning algorithm (DL-GSGC) was proposed to incorporate both group sparsity and geometry constraints.
+Besides, to keep temporal information, a temporal pyramid matching method was used on each sequence of depth maps.
 
 Different from the previous approaches, we use a dense trajectory-based approach for action recognition.
 We do not require to segment human body like \cite{li2010action,yang2012recognizing}.
@@ -332,9 +337,22 @@ Our proposed trajectory-based approach is compared with the state-of-the-art met
 \section{Experimental Settings}
 \label{lbl:ExperimentalSettings}
 
-\subsection{Dataset}
-\label{lbl:ExperimentalSettings_Dataset}
-We test our method on MSR Action 3D dataset. This dataset contains 20 actions, as showed in Table \ref{lbl:20actions}. Actions are performed by ten subjects for two or three times in the context of game console interaction. In total, there are 567 sequences of depth maps. The depth maps are shot at frame rate of 15 fps. The size of the depth map is $640 \times 480$, we resize into $320 \times 240$ to ensure processing efficiency.
+In this section, we present a brief description about datasets used in our experiments.
+Some example frames in the datasets are shown in figure \ref{Figure_ExampleFrames}.
+In addition, we show how our framework works in step by step.
+And parameters used in this framework are mentioned in detail.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.47\textwidth]{Figure_ExampleFrames.pdf}
+	\caption{Example frames from different actions from MSR Action 3D dataset \cite{li2010action}, MSR Gesture 3D datset \cite{wang2012robust}, 3D Action Pairs dataset \cite{oreifej2013hon4d} and MSR Daily Activity 3D dataset \cite{wang2012mining}}
+	\label{Figure_ExampleFrames}
+\end{figure}
+
+\subsection{Datasets}
+
+\paragraph{\textbf{MSR Action 3D}}
+This dataset \cite{li2010action} contains 20 actions, as showed in Table \ref{lbl:20actions}. Actions are performed by ten subjects for two or three times in the context of game console interaction. In total, there are 567 sequences of depth maps. The depth maps are shot at frame rate of 15 fps. The size of the depth map is $640 \times 480$, we resize into $320 \times 240$ to ensure processing efficiency.
 
 \begin{table}[H]
 	\begin{center}
@@ -403,13 +421,44 @@ In order to conduct a fair comparison, we use the same experimental settings as 
 	\caption{\label{lbl:3ActionSubsets}The three action subsets used in the experiments}
 \end{table}
 
+\paragraph{\textbf{MSR Gesture 3D}}
+The Gesture3D dataset \cite{wang2012robust} is a hand gesture dataset of depth sequences captured by a depth camera. This dataset contains a set of gesture defined by American Sign Language (ASL). In the dataset, there are 12 gestures as described in table \ref{tableGesture3D}. There are ten subjects, each performs each gesture two or three times. In total, the dataset contains 333 depth sequences. The main challenge in the dataset is self-occlusion issues. We follow the experimental settings in \cite{wang2012robust} to do evaluation on our approach.
+
+\begin{table}[H]
+	\begin{center}
+		\resizebox{0.4\textwidth}{!}{%
+		% Table generated by Excel2LaTeX from sheet 'MSRAction3D names'
+		\begin{tabular}{c|c|c|c}
+		
+		  {\bf   ID  } & {\bf Gesture Name} &   {\bf   ID  } & {\bf Gesture Name} \\
+		\hline
+		             1 &      bathroom      &              7 &      past 	\\
+		
+		             2 &          blue      &              8 &      pig 		\\
+		
+		             3 &        finish      &              9 &      store 	\\
+		
+		             4 &         green      &             10 &      where 	\\
+		
+		             5 &        hungry      &             11 &      j 		\\
+		
+		             6 &          milk      &             12 &      z 		\\
+		
+		\end{tabular} %
+		}
+	\end{center}
+	\caption{\label{tableGesture3D}12 ASL gestures in MSR Gesture 3D dataset}
+\end{table}
+
+\paragraph{\textbf{3D Action Pairs}}
+
 \subsection{Evaluation Framework}
 
 Figure \ref{lbl:Figure_Framework} shows our evaluation framework for the trajectory-based features. We perform experiments using the proposed approach and compare with the state-of-the-art methods on depth data. We use the application available online\footnote{http://lear.inrialpes.fr/$\sim$wang/dense\_trajectories} to extract dense trajectories and aligned-descriptors. Experimental results reported in section \ref{lbl:ExperimentalResults} attach to the MBH descriptor. The HOG, HOF descriptors will be mentioned in the section \ref{lbl:Discussions}. To quantize a large number of features obtained by densely sampling, the BoW model is applied. At first, in each intensity representation, we randomly get about 80,000 extracted trajectories for clustering with K-mean algorithm. Then, a codebook of 2000 visual codewords is formed for each.
 
 In order to classify actions, in our implementation, we use the libSVM library published online by author\footnote{http://www.csie.ntu.edu.tw/$\sim$cjlin/libsvm/}. We adopt the format requirements of the library to synchronize the annotation and the data. For testing, predicted value of each action is defined as the maximum score obtained from all the classifiers. This score shows that a human action is confused with another or not.
 
-\section{Experimental Results}
+\section{Experiments}
 \label{lbl:ExperimentalResults}
 This section presents the experimental results for applying our proposed approach on MSR Action 3D dataset. All experimental results are reported under the settings mentioned in section \ref{lbl:ExperimentalSettings_Dataset}. In comparison with the state-of-the-art methods, our reported result is calculated on fusing feature representations from three views: front, side and top. In addition, an evaluation related to selecting compensation information from the three views will be also mentioned. All the results are compared in terms of recognition accuracy. The best performance is highlighted in bold.
 
@@ -417,10 +466,12 @@ This section presents the experimental results for applying our proposed approac
 	\begin{center}
 		\includegraphics[width=0.47\textwidth]{Chart_EarlyFusion_AS123_MBH.eps}
 	\end{center}
-	\caption{\label{lbl:Figure_EarlyFusion_AS123_MBH}Comparison of recognition accuracy by using the early fusion scheme on intensity representations.}
+	\caption{\label{lbl:Figure_EarlyFusion_AS123_MBH}Comparison of recognition accuracy by using the early fusion scheme from different views.}
 \end{figure}
 
-\subsection{Recognize Actions from Single-View}
+\subsection{MSR Action 3D Dataset}
+
+\subsubsection{Recognize Actions from Single-View}
 
 In this part, we evaluate the dense trajectory-based approach for action recognition under observing actions from single-view.
 A straightforward view is front view.
@@ -511,10 +562,10 @@ That is reason why we need compensate motion information from other views (e.g. 
 			} %
 		} %
 	\end{center}
-	\caption{\label{lbl:AS123ConfusionMatrix}Confusion matrices on three action subsets. Notice that action names are identified by indices of actions in table \ref{lbl:20actions}}
+	\caption{\label{lbl:AS123ConfusionMatrix}Confusion matrices on three action subsets of MSR Action 3D dataset. Notice that action names are identified by indices of actions in table \ref{lbl:20actions}}
 \end{table}
 
-\subsection{Compensate Motion Information from Other Representations}
+\subsubsection{Compensate Motion Information from Other Representations}
 
 In this part, we conduct experiments based on compensating information from other views, such as side and top, for the front representation.
 We report the experimental results on three action subsets and the average of the three subsets.
@@ -547,9 +598,13 @@ Besides, based on experimental results in figure \ref{lbl:Figure_EarlyFusion_AS1
 		Histogram of Oriented 4D Normals \cite{oreifej2013hon4d} &         88.89  \\
 		
 		Depth Cuboid Similarity Feature \cite{xia2013spatio} &         89.30  \\
-		\hline
-		    {\bf Ours} &   {\bf 96.67 } \\
 		
+		Group Sparsity and Geometry Constraints \cite{luo2013group} &         96.70  \\
+		\hline
+		    {\it FRONT + SIDE} &   {\it 93.94 } \\
+		    {\it \textbf{FRONT + TOP}} &   {\bf \textit{96.95} } \\
+		    {\it FRONT + SIDE + TOP} &   {\it 96.67 } \\
+		    		
 		\end{tabular}%
 		}
 	\end{center}
@@ -557,6 +612,12 @@ Besides, based on experimental results in figure \ref{lbl:Figure_EarlyFusion_AS1
 \end{table}
 
 In other comparison, table \ref{lbl:Table_MBHvsSoAonFront} shows evaluation results of our proposed approach and the state-of-the-art methods in terms of average accuracy on three action subsets of MSR Action 3D dataset (seeing table \ref{lbl:3ActionSubsets}). The compared methods are based on various feature representations, such as silhouette features \cite{li2010action, yang2012recognizing}, skeletal joint features like \cite{yang2012eigenjoints, wang2012mining}, local occupancy patterns \cite{wang2012robust, vieira2012stop}, normal orientation features \cite{oreifej2013hon4d} and cuboid similarity features \cite{xia2013spatio}. Under the same setting (i.e cross subject test), the result table indicates that our approach beats all of them. Besides, the results also show that there is significant difference of the performance between our method and the rest.
+
+\subsection{MSR Gesture 3D Dataset}
+
+
+\subsection{3D Action Pairs Dataset}
+
 
 \section{Discussions}
 \label{lbl:Discussions}
@@ -569,7 +630,7 @@ For intensity data, according to \cite{wang2011densetraj} MBH is the best featur
 	\begin{center}
 		\includegraphics[width=0.47\textwidth]{Chart_ImpactOfDescriptors.eps}
 	\end{center}
-	\caption{\label{lbl:Figure_MBHHOGHOF}Comparison of recognition accuracy on trajectory-aligned descriptors.}
+	\caption{\label{lbl:Figure_MBHHOGHOF}Comparison of recognition accuracy on trajectory-aligned descriptors on MSR Action 3D dataset.}
 \end{figure}
 
 In this part, we report the average recognition accuracies on the three descriptors and on the separate representations (i.e. front, side and top) as well as the fusion of the three representations. Figure \ref{lbl:Figure_MBHHOGHOF} shows interesting results. Although, recognition results on descriptors HOG, HOF are not good for each intensity representation, the final results after fusing have been significantly improved. The results indicate that the performances of HOG and HOF, respectively 94.53\% and 92.42\%, also outperform the state-of-the-art methods, as mentioned in table \ref{lbl:Table_MBHvsSoAonFront}. In addition, lower-cost descriptors like HOG, HOF have more benefits for decreasing computational cost in processes, such as feature extraction and video representation (using the BoW model). These advantages provide a promising way for building effective and efficient systems.
@@ -582,7 +643,7 @@ In this section, we consider the role of representations to our proposed method.
 	\begin{center}
 		\includegraphics[width=0.47\textwidth]{Chart_RoleOfRepresentations.eps}
 	\end{center}
-	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Comparison of recognition accuracy on combinations of intensity representations.}
+	\caption{\label{lbl:Figure_CombinationsFRONTSIDETOP}Comparison of recognition accuracy on combinations of intensity representations on MSR Action 3D dataset.}
 \end{figure}
 
 In order to conduct the experiments, we create combinations: front and side, front and top. Figure \ref{lbl:Figure_CombinationsFRONTSIDETOP} indicates that the combination of front and top is better than the combination of front and side. More interestingly, the achieved performance, which is 96.95\% accuracy, from the combination of front and top beats the performance based on combining all the representations, in terms of average. Actually, the discovery provides a good choice to decrease computational cost but still ensures a convincing performance.
@@ -648,7 +709,7 @@ In terms of the fusion, \cite{snoek2005early} provided an interesting work. In t
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.47\textwidth]{Chart_EarlyLateFusion.eps}
-	\caption{\label{lbl:Figure_EarlyLateFusion}Comparison of recognition accuracy on the early and late fusion schemes.}
+	\caption{\label{lbl:Figure_EarlyLateFusion}Comparison of recognition accuracy on the early and late fusion schemes on MSR Action 3D dataset.}
 \end{figure}
 
 Figure \ref{lbl:Figure_EarlyLateFusion} indicates that both of the fusion schemes obtain significant improvements. However, the early fusion scheme gets better performances. Actually, we know that disadvantage of the early fusion approach is the difficulty to create a good feature representation, due to the semantic difference of modalities. To deal with this challenge, the late fusion approach is used to convert the representations into the same type of semantics (i.e. probability score). In our approach, due to the similarity of semantics between modalities (i.e. features to represent motion information), the performance of the early fusion approach will tend to be better than the one of the late fusion approach. Besides, the achieved results from combinations confirm again that selecting representations to merge motion information is not a trivial task.
