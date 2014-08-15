@@ -10,9 +10,6 @@
 %\usepackage[pdftex]{graphicx}
 %\usepackage[font=footnotesize]{caption}
 
-%\usepackage{caption}
-%\usepackage{subcaption}
-
 \usepackage{mwe}    % loads »blindtext« and »graphicx«
 \usepackage{subfig}
 \usepackage{array}
@@ -103,7 +100,6 @@ Dense trajectory-based approaches on 2D video have been demonstrated state-of-th
 However, there are not many studies related to exploiting the discriminative motions in depth video.
 In this work, we extend the approach on depth video and show its effectiveness for action recognition.
 We extract dense trajectories from 2D videos transformed from depth video and apply trajectory-aligned descriptors to calculate motion features.
-%To obtain the 2D transformed videos, we build pseudo-views, which can capture the discriminative motions similar to observing actions under different directions.
 To obtain the 2D transformed videos, we build views, which can capture the discriminative motions similar to observing actions from different directions.
 We evaluate this approach on framework of action recognition using the benchmark MSR Action 3D, MSR Gesture 3D and 3D Action Pairs datasets.
 Evaluation results show that our proposed approach is effective for action recognition on depth video and outperforms the state-of-the-art approaches.
@@ -318,8 +314,9 @@ And the corresponding intensity values in the three projections are, respectivel
 
 \begin{figure*}[ht]
 	\centering
-		\includegraphics[width=0.75\textwidth]{Framework3D.pdf} %
-	\caption{\label{Figure_FrameworkOverview}Our Framework Overview}
+		\includegraphics[width=0.75\textwidth]{Figures/Framework3D.pdf} %
+	\caption{Our Framework Overview}
+	\label{Figure_FrameworkOverview}
 \end{figure*}
 
 \subsection{Our framework overview}
@@ -414,17 +411,16 @@ All the results are compared in terms of recognition accuracy.
 The best performance is highlighted in bold.
 
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.47\textwidth]{Chart_EarlyFusion_AS123_MBH.eps}
-	\end{center}
-	\caption{\label{lbl:Figure_EarlyFusion_AS123_MBH}Comparison of recognition accuracy by using the early fusion scheme from different views.}
+	\centering
+	\includegraphics[width=\columnwidth]{Figures/Chart_EarlyFusion_AS123_MBH.pdf}
+	\caption{Comparison of recognition accuracy by using the early fusion scheme from different views.}
+	\label{lbl:Figure_EarlyFusion_AS123_MBH}
 \end{figure}
 
 \subsection{MSR Action 3D Dataset}
 
 \subsubsection{A Brief Introduction}
 This dataset \cite{li2010action} contains 20 actions, as showed in figure \ref{Figure_ExampleFrames_MSRAction3D}. Actions are performed by ten subjects for two or three times in the context of game console interaction. In total, there are 567 sequences of depth maps. The depth maps are shot at frame rate of 15 fps. The size of the depth map is $640 \times 480$, we resize into $320 \times 240$ to ensure processing efficiency.
-
 
 \begin{table}[h]
 %	\resizebox{\textwidth}{!}{
@@ -558,6 +554,12 @@ Consider results reported in table \ref{lbl:AS123ConfusionMatrix}, we found that
 When analyzing such actions, we found that the main cause is due to similar movements of actions in the same view direction.
 That is reason why we need compensate motion information from other views (e.g. side view and top view).
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth]{Figures/Chart_RoleOfRepresentations.pdf}
+	\caption{\label{Figure_CombinationsFRONTSIDETOP}Comparison of recognition accuracy on combinations of intensity representations on MSR Action 3D dataset.}
+\end{figure}
+
 \subsubsection{Compensate Motion Information from Other Representations}
 
 To compensate more discriminative motion information, we conducted experiments based on compensating information from other views, such as side and top, for the action representation from front view.
@@ -575,13 +577,6 @@ Experimental results confirm that action representations from front achieve the 
 For the rest, we perform experiments on view combinations with front view.
 %The performance of combinations is reported in figure \ref{lbl:Figure_CombinationsFRONTSIDETOP}. 
 %In this experiment, the recognition accuracies of combinations are calculated on each intensity representations and the fusion.
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=0.47\textwidth]{Chart_RoleOfRepresentations.eps}
-	\end{center}
-	\caption{\label{Figure_CombinationsFRONTSIDETOP}Comparison of recognition accuracy on combinations of intensity representations on MSR Action 3D dataset.}
-\end{figure}
 
 In order to conduct the experiments, we create additional combinations: front and side, front and top.
 Figure \ref{Figure_CombinationsFRONTSIDETOP} shows the performance of the view combinations.
@@ -664,8 +659,8 @@ This dataset contains a set of gesture defined by American Sign Language (ASL).
 In the dataset, there are 12 gestures as described in figure \ref{Figure_ExampleFrames_MSRGesture3D}.
 There are ten subjects, each performs each gesture two or three times.
 In total, the dataset contains 333 depth sequences.
-The main challenge in the dataset is self-occlusion issues.
-We follow the experimental settings in \cite{wang2012robust} to do evaluation on our approach.
+The main challenge in the dataset is self-occlusion issue.
+We follow the experimental settings in \cite{wang2012robust} (i.e. the leave-one-subject-out cross-validation) to evaluate our approach.
 We obtain the accuracies described in table \ref{Table_MSRGesture3D_SoA}, where our approach outperforms all previous approaches.
 
 \begin{figure}[H]
@@ -708,7 +703,7 @@ We obtain the accuracies described in table \ref{Table_MSRGesture3D_SoA}, where 
 	
 	\end{tabular}
 	}
-	\caption{Example frames for six pairs from 3D Action Pairs dataset \cite{oreifej2013hon4d}. Each column shows two frames from a pair of actions.}
+	\caption{Example frames for six pairs from 3D Action Pairs dataset \cite{oreifej2013hon4d}. Each column shows two frames from a pair of actions. Note that, for example in the first column, both actions: \textit{Pick up a box} and \textit{Put down a box} have similar motion information and shape cues; however, they are performed in different spatio-temporal order.}
 	\label{Figure_ExampleFrames_3DActionPairs}
 \end{figure*}
 
@@ -821,17 +816,25 @@ It is clear that our approach significantly outperforms the state-of-the-art app
 \section{Discussions}
 \label{lbl:Discussions}
 
-\subsection{The Impact of Our Method on Descriptors}
+%\subsection{The Impact of Our Method on Descriptors}
+\paragraph{The Impact of Our Method on Descriptors}
 
 For intensity data, according to \cite{wang2011densetraj} MBH is the best feature descriptor for dense trajectories. Therefore, in previous experiments, we only use MBH descriptor to represent motion information. Due to the difference between depth data and intensity data, how our approach has influenced other trajectory-aligned descriptors (i.e. HOG, HOF). In this part, we conduct similar experiments on these descriptors to answer this issue.
 
-\begin{table*}[ht]
+We report the average recognition accuracies on the three descriptors and on the combinations of the three views: front, side, and top. Table \ref{Table_MBHHOGHOF} shows interesting results.
+Firstly, experimental results verify that the MBH descriptor is still the best trajectory-aligned descriptor in comparison with the HOG, HOF descriptors on the experimental datasets.
+Secondly, although the HOG, HOF descriptors are not the best, their performance is comparable to the state-of-the-art approaches, as mentioned in section \ref{Section_Experiments}.
+In addition, lower-cost descriptors like HOG, HOF have more benefits for decreasing computational cost in processes, such as feature extraction and video representation (using the BoW model).
+These advantages provide a promising way for building effective and efficient systems.
+
+\begin{table*}[t]
 	\centering
 	\resizebox{\textwidth}{!}{
 		% Table generated by Excel2LaTeX from sheet 'MBHHOGHOF'
 		\begin{tabular}{c|c|c|c|c|c|c|c|c|c|}
 			\hhline{~---------}
 		           & \multicolumn{3}{c|}{MSR Action 3D} & \multicolumn{3}{c|}{MSR Gesture 3D} & \multicolumn{3}{c|}{3D Action Pairs} \\
+		           
 			\hhline{----------}
 		\multicolumn{1}{|c|}{Combination} &  {\bf MBH} &  {\bf HOG} &  {\bf HOF} &  {\bf MBH} &  {\bf HOG} &  {\bf HOF} &  {\bf MBH} &  {\bf HOG} &  {\bf HOF} \\
 		\hline
@@ -842,91 +845,88 @@ For intensity data, according to \cite{wang2011densetraj} MBH is the best featur
 		\multicolumn{1}{|c|}{\bf FRONT+SIDE+TOP} &     96.67  &     {\bf 94.53}  &     92.42  &     {\bf 94.35}  &     91.53  &     {\bf 92.09}  &     92.78  &     88.89  &     91.67  \\
 		\hline
 		\end{tabular}  
-		
 	}
 	\caption{The performance of descriptors (MBH, HOG, and HOF) on MSR Action 3D dataset, MSR Gesture 3D datset, and 3D Action Pairs dataset.}
 	\label{Table_MBHHOGHOF}
 \end{table*}
 
-We report the average recognition accuracies on the three descriptors and on the combinations of the three views: front, side, and top. Table \ref{Table_MBHHOGHOF} shows interesting results.
-Firstly, experimental results verify that the MBH descriptor is still the best trajectory-aligned descriptor in comparison with the HOG, HOF descriptors on the experimental datasets.
-Secondly, although the HOG, HOF descriptors are not the best, their performance is comparable to the state-of-the-art approaches, as mentioned in section \ref{Section_Experiments}.
-In addition, lower-cost descriptors like HOG, HOF have more benefits for decreasing computational cost in processes, such as feature extraction and video representation (using the BoW model).
-These advantages provide a promising way for building effective and efficient systems.
+%\subsection{title}
 
-\subsection{MSR Daily Activity 3D Dataset}
+%\subsection{MSR Daily Activity 3D Dataset}
 
-The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which includes 16 daily activities, as described in figure \ref{Figure_ExampleFrames_MSRDaily3D}.
-In this dataset, background objects and subjects appear at different distances to the camera.
-In order to evaluate our approach to this dataset, we follow the experimental settings mentioned in \cite{wang2012mining}.
-In this experiment, we conduct the dense trajectory-based approach on view combinations only use MBH descriptor to describe motion feature.
-In comparison with the state-of-the-art approach, we evaluate recognition accuracy on depth data only.
-Constraint means that skeleton information-based approaches are not considered.
-Since, in real environment, skeleton extraction must suffer from complex backgrounds, skeleton information captured from depth camera is often unstable.
-Table \ref{lbl:Table_Daily3D} shows a comparison of recognition accuracy with the state-of-the-art approaches on MSR Daily Activity 3D dataset.
-In \cite{xia2013spatio}, since they modified this dataset to do evaluation, it is not fair to compare.
-Therefore, to ensure the fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on the original MSR Daily Activity 3D dataset.
-In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance.
- 
-\begin{table}[h]
- 	\begin{center}
- 		% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
- 		\begin{tabular}{c|c}
- 		
- 		{\bf Method} & {\bf Accuracy} \\
- 		\hline
-       LOP \cite{wang2012mining} &       42.5 \\
- 		
-     HON4D \cite{oreifej2013hon4d} &         52 \\
- 		
- 		DSTIP\&DCSF \cite{xia2013spatio} &      56.88 \\
- 		\hline
- 		\bf Ours (FRONT+SIDE) & \bf 65.63 \\
- 		Ours (FRONT+TOP) & 59.38 \\
- 		\bf Ours (FRONT+SIDE+TOP) & \bf 65.63 \\
- 		\end{tabular}
- 	\end{center}
- 	\caption{\label{lbl:Table_Daily3D}The performance of our approach on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
-\end{table}
- 
-\begin{figure*}[t]
-    \centering
-    \resizebox{0.8\textwidth}{!}{
-    	\begin{tabular}{cccc}
-		     \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_drink.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_eat.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_readbook.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_callcellphone.pdf} \\
-		  			
-		     1. Drink &          2. Eat &          3. Read book &          4. Call cellphone \\
-	  			
-			 \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_writeonapaper.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_uselaptop.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_usevacuumcleaner.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_cheerup.pdf} \\
-	  			
-	        5. Write on a paper &          6. Use laptop &          7. Use vacuum cleaner &           8. Cheer up \\
-	  			
-	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_still.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_tosspaper.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_playgame.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_laydownonsofa.pdf} \\
-	  			
-	        9. Still &          10. Toss paper &         11. Play game &          12. Lay down on sofa \\
-	  			
-	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_walk.pdf} &		
-	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_playguitar.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_standup.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_sitdown.pdf} \\
-	  			
-	        13. Walk &         14. Play guitar &          15. Stand up &          16. Sit down \\
-	  			
-	  	\end{tabular}
-    }
-	\caption{Example frames for sixteen activities from MSR Daily Activity 3D dataset \cite{wang2012mining}.}
-	\label{Figure_ExampleFrames_MSRDaily3D}
-\end{figure*}
+%\subsection{title}
 
-Although our approach outperforms the previous approaches, it is clear that the effectiveness is not well.
-It is important to note that why in condition of only using depth data, most of methods are failed.
-When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}.
-For \textit{playing a game}, main motion focuses on motion of fingers, it is very difficult to discriminate from depth noise.
-For \textit{writing on a paper} and \textit{using a laptop}, hand gestures are major motions to present motion information.
-But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop).
-That is one reason to explain for the failure.
-The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}.
-In these cases, objects are small and textureless, so, it is not easy to identify them.
-Therefore, if only depending on depth data, it is very challenging to recognize these actions exactly.
-Due to these reasons, in order to improve the performance of recognition systems in terms of interaction, adding more information related to motion, such as interactive objects, is necessary.
+%The  MSR Daily Activity 3D dataset is proposed by \cite{wang2012mining}, which includes 16 daily activities, as described in figure \ref{Figure_ExampleFrames_MSRDaily3D}.
+%In this dataset, background objects and subjects appear at different distances to the camera.
+%In order to evaluate our approach to this dataset, we follow the experimental settings mentioned in \cite{wang2012mining}.
+%In this experiment, we conduct the dense trajectory-based approach on view combinations only use MBH descriptor to describe motion feature.
+%In comparison with the state-of-the-art approach, we evaluate recognition accuracy on depth data only.
+%Constraint means that skeleton information-based approaches are not considered.
+%Since, in real environment, skeleton extraction must suffer from complex backgrounds, skeleton information captured from depth camera is often unstable.
+%Table \ref{lbl:Table_Daily3D} shows a comparison of recognition accuracy with the state-of-the-art approaches on MSR Daily Activity 3D dataset.
+%In \cite{xia2013spatio}, since they modified this dataset to do evaluation, it is not fair to compare.
+%Therefore, to ensure the fair comparison, we follow a framework similar to \cite{xia2013spatio} and evaluate on the original MSR Daily Activity 3D dataset.
+%In condition of only using depth data, \cite{wang2012mining, oreifej2013hon4d, xia2013spatio} report a unexpected performance.
+% 
+%\begin{table}[h]
+% 	\begin{center}
+% 		% Table generated by Excel2LaTeX from sheet 'Experiment-MSRDaily3D'
+% 		\begin{tabular}{c|c}
+% 		
+% 		{\bf Method} & {\bf Accuracy} \\
+% 		\hline
+%       LOP \cite{wang2012mining} &       42.5 \\
+% 		
+%     HON4D \cite{oreifej2013hon4d} &         52 \\
+% 		
+% 		DSTIP\&DCSF \cite{xia2013spatio} &      56.88 \\
+% 		\hline
+% 		\bf Ours (FRONT+SIDE) & \bf 76.88 \\
+% 		Ours (FRONT+TOP) & 62.5 \\
+% 		\bf Ours (FRONT+SIDE+TOP) & \bf 70.63 \\
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{\label{lbl:Table_Daily3D}The performance of our approach on MSR Daily Activity 3D Dataset. Notice that results are reported in terms of only using depth data.}
+%\end{table}
+% 
+%\begin{figure*}[t]
+%    \centering
+%    \resizebox{0.8\textwidth}{!}{
+%    	\begin{tabular}{cccc}
+%		     \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_drink.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_eat.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_readbook.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_callcellphone.pdf} \\
+%		  			
+%		     1. Drink &          2. Eat &          3. Read book &          4. Call cellphone \\
+%	  			
+%			 \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_writeonapaper.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_uselaptop.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_usevacuumcleaner.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_cheerup.pdf} \\
+%	  			
+%	        5. Write on a paper &          6. Use laptop &          7. Use vacuum cleaner &           8. Cheer up \\
+%	  			
+%	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_still.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_tosspaper.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_playgame.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_laydownonsofa.pdf} \\
+%	  			
+%	        9. Still &          10. Toss paper &         11. Play game &          12. Lay down on sofa \\
+%	  			
+%	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_walk.pdf} &		
+%	        \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_playguitar.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_standup.pdf} &          \includegraphics[width=0.4\columnwidth]{Figures/MSRDaily3D_sitdown.pdf} \\
+%	  			
+%	        13. Walk &         14. Play guitar &          15. Stand up &          16. Sit down \\
+%	  			
+%	  	\end{tabular}
+%    }
+%	\caption{Example frames for sixteen activities from MSR Daily Activity 3D dataset \cite{wang2012mining}.}
+%	\label{Figure_ExampleFrames_MSRDaily3D}
+%\end{figure*}
+%
+%Although our approach outperforms the previous approaches, it is clear that the effectiveness is not well.
+%It is important to note that why in condition of only using depth data, most of methods are failed.
+%When considering failed samples, such as \textit{playing a game}, \textit{writing on a paper}, and \textit{using a laptop}, we found that most of them are confused with action \textit{still}.
+%For \textit{playing a game}, main motion focuses on motion of fingers, it is very difficult to discriminate from depth noise.
+%For \textit{writing on a paper} and \textit{using a laptop}, hand gestures are major motions to present motion information.
+%But it is not fortunately, most of the movements are hidden by interactive objects (i.e. book, laptop).
+%That is one reason to explain for the failure.
+%The second one is performing similar movements with different objects, such as \textit{talking on the phone} and \textit{drinking water}.
+%In these cases, objects are small and textureless, so, it is not easy to identify them.
+%Therefore, if only depending on depth data, it is very challenging to recognize these actions exactly.
+%Due to these reasons, in order to improve the performance of recognition systems in terms of interaction, adding more information related to motion, such as interactive objects, is necessary.
 
 %\subsection{Early versus Late Fusion in Our Approach}
 %
@@ -943,17 +943,9 @@ Due to these reasons, in order to improve the performance of recognition systems
 \section{Conclusions}
 \label{lbl:Conclusions}
 
-We proposed the Pseudo-3D Trajectories, a 2D trajectory-based approach, for human action recognition using depth data in this work.
-We evaluated our approach by using the dense trajectory motion feature on the challenging datasets.
-More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data.
-Besides, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed.
-Therefore, the effectiveness of our approach on depth datasets like MSR Action 3D, MSR Gesture 3D and 3D Action Pairs is confirmed.
+We proposed the Pseudo-3D Trajectories, a 2D trajectory-based approach, for human action recognition using depth data in this work. We evaluated our approach by using the dense trajectory motion feature on the challenging datasets. More interestingly, our proposed trajectory-based approach only applied for one representation beats all the recent state-of-the-art approaches in terms of depth data. Besides, in order to deal with confused actions due to similar movements, compensating information from other representations is proposed. Therefore, the effectiveness of our approach on depth datasets like MSR Action 3D, MSR Gesture 3D and 3D Action Pairs is confirmed.
 
-A trajectory-based approach with compensating information from separate representations shows promising results.
-This opens a general approach to leverage intensity-based techniques for depth data.
-This also suggests the importance of trajectory-based motion information on human action recognition using depth data.
-Therefore, exploiting depth-based motion trajectories can be beneficial for action recognition systems using depth cameras.
-This is also an interesting idea for our future work.
+A trajectory-based approach with compensating information from separate representations shows promising results. This opens a general approach to leverage intensity-based techniques for depth data. This also suggests the importance of trajectory-based motion information on human action recognition using depth data. Therefore, exploiting depth-based motion trajectories can be beneficial for action recognition systems using depth cameras. This is also an interesting idea for our future work.
 
 \section*{References}
 
